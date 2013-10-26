@@ -94,14 +94,13 @@ local menubar = require("menubar")
 --	end
 -- }}}
 
--- {{{ Tags
 -- Define a tag table which hold all screen tags.
 	tags = { }
 	tags = {
-	    names = { "∞", "sys",  "www", "irc", "ftp", "⌥",  "ℵ", "⌤", "∴" },
+	    names = { "ॐ", "∞",  "இ", "ห",   "ت", "⌥", "ℵ", "⌤", "∴" },
 	    -- ∀  φ ‡ இ  ∞ ت ξ گ ห ⚡   "⌥",  "ℵ", "⌤", "∴"  
 	    -- layout 10-fenster ; 
-	    layout = { layouts[6], layouts[6], layouts[11], layouts[6], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
+	    layout = { layouts[6], layouts[6], layouts[12], layouts[6], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
 	}
 
 	for s = 1, screen.count() do
@@ -114,16 +113,17 @@ local menubar = require("menubar")
 -- Create a laucher widget and a main menu
 	mytools = {
 	   { "calculator", "galculator", },
+	   { "browser", internet },
 	   { "editor", editor },
-	   { "internet", internet },
 	   { "files", files },
 	   { "ftp", ftp },
-	   { "irc", irc },
-	   { "Letters", "abiword" },
 	   { "gimp", "gimp" },
+	   { "irc", irc },
+	   { "letters", "abiword" },
 	   { "mtPaint", "mtpaint" },
 	   { "music", "rhythmbox", },
-	   { "Spreadsheets", "gnumeric" },
+	   { "recordMyDesktop", "gtk-recordMyDesktop", },
+	   { "sheets", "gnumeric" },
 	   { "torrents", "transmission-gtk" },
 	   { "video", "totem", },
 	   { "volume", terminal .. " -e alsamixer", },
@@ -148,6 +148,9 @@ local menubar = require("menubar")
 	    { "dl Fedora iso", terminal .. " -e st net dl-fed" },
 	    { "Grub2 themes", terminal .. " -e sudo st tweak grub2 theme change" },
 	    { "Plymouth", terminal .. " -e sudo st tweak plymouth" },
+	    { "Change PS1", terminal .. " -e st tweak ps1" },
+	    { "------",},
+	    { "open projects", files .. "$XDG_PROJECT_DIR" },
 	}
 	mnuPower = {
 		{ 'suspend',   'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Suspend' },
@@ -159,6 +162,7 @@ local menubar = require("menubar")
 	myawesomemenu = {
 	   { "system", menusystem, },
 	   { "edit config", editor .. " " .. awesome.conffile },
+	   { "edit tui cfg", editor .. " .config/tui/apps.conf .config/tui/user.conf" },
 	   { "manual", terminal .. " -e man awesome" },
 	   { "BG: NASA iotd", "sh " .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
 	   { "BG: change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
