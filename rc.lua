@@ -54,7 +54,7 @@ local menubar = require("menubar")
 	editor = os.getenv("EDITOR") or "gedit"
 	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
-	wifi = "wlp6s0"
+	wifi = "wlp3s0"
 -- Apps
 	internet = "firefox"
 	irc = "xchat"
@@ -274,15 +274,16 @@ for s = 1, screen.count() do
 	empty = wibox.widget.textbox()
 	empty:set_text(' ')
 	txt_mem = wibox.widget.textbox()
-	txt_mem:set_text('mem ')
+	txt_mem:set_text('ram ')
 	txt_mail = wibox.widget.textbox()
 	txt_mail:set_text('mail ')
 -- bat
 	batt = wibox.widget.textbox()
-	vicious.register(batt, vicious.widgets.bat, "⚡ $2% $1$3", 61, "BAT1")
+	vicious.register(batt, vicious.widgets.bat, "⚡ $2% $1$3", 61, "BAT0")
 -- mem	
-	--memwidget = wibox.widget.textbox()
-	--vicious.register(memwidget, vicious.widgets.mem, "ram $2 / $3 mb ($1%)")
+	memvalue = wibox.widget.textbox()
+	--vicious.register(memvalue, vicious.widgets.mem, "$1% - $2 / $3mb ")
+	vicious.register(memvalue, vicious.widgets.mem, " $2 / $3mb ($1%)")
 	memwidget = awful.widget.progressbar()
 	memwidget:set_width(8)
 	memwidget:set_height(10)
@@ -295,10 +296,26 @@ for s = 1, screen.count() do
 	wifiwidget = wibox.widget.textbox()
 	vicious.register(wifiwidget, vicious.widgets.wifi, '${ssid}' , 123, wifi)
 	wifistr = wibox.widget.textbox()
-	vicious.register(wifistr, vicious.widgets.wifi, ' ${mode}' , 124, wifi)	
+	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
-	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1°C", 30, { "coretemp.0", "core"}) -- {core} ${proc}
+	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0", "core"}) -- ${core} ${proc} | FALLBACK
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
+	
+	-- Author example ?!?
+	-- vicious.register(tempwidget, vicious.widgets.thermal, "Temp: <span color='" .. hlcolor .. "'>$1°С</span> | ",37,"thermal_zone0")
+	
+	-- Future try?	-- thermal_zone0 fails :(
+	-- vicious.register(tempwidget, vicious.widgets.thermal, "cpu $1°С",37,"thermal_zone0")
+	-- sensors|grep "Core 0" |awk '{print $3}'
+-- cpu	usage
+	--cputext = wibox.widget.textbox()						-- Increases average load usage by +10-20%, with peeks of up to 90% 
+	--vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	-- Increases average load usage by +10-20%, with peeks of up to 90% 
+	cpuwidget = awful.widget.graph()
+	cpuwidget:set_width(50)
+	cpuwidget:set_background_color("#494B4F")
+	cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96" }}})
+	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")
 -- uptime
 	uptime = wibox.widget.textbox()
 	vicious.register( uptime, vicious.widgets.uptime, "up $1d $2h $3min")
@@ -306,16 +323,9 @@ for s = 1, screen.count() do
 	oswidget = wibox.widget.textbox()
 	vicious.register(oswidget, vicious.widgets.os, "$2")
 -- hdd C°
-	--hddtempwidget = wibox.widget.textbox()
-	--vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda}°C', 19)
--- cpu	
-	--cpuwidget = wibox.widget.textbox()
-	--vicious.register(cpuwidget, vicious.widgets.cpu, "cpu $1%, $2%, $3%") 
-	cpuwidget = awful.widget.graph()
-	cpuwidget:set_width(50)
-	cpuwidget:set_background_color("#494B4F")
-	cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96" }}})
-	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")
+	hddtempwidget = wibox.widget.textbox()
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 67)
+
 -- Disk usage widget
 	diskwidget = wibox.widget.imagebox()
 	diskwidget:set_image(awful.util.getdir("config") .. "/img/du.png")
@@ -337,29 +347,15 @@ for s = 1, screen.count() do
 		    return args["{Artist}"]..' - '.. args["{Title}"]
 		end
 	    end, 10)
--- volume bar
-	--volume = wibox.widget.textbox()
-	--vicious.register(volume, vicious.widgets.volume, "$1 $2 $3 ")
- -- {{{ Volume level
-volicon = wibox.widget.imagebox()
-volicon.image = beautiful.widget_vol   --- volicon.image = image(beautiful.widget_vol)
--- Initialize widgets
-volbar    = awful.widget.progressbar()
-volwidget = wibox.widget.textbox()
--- Progressbar properties
-volbar:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#AECF96"}, {0.5, "#88A175"}, {1, "#FF5656"}}})
- -- Enable caching
-vicious.cache(vicious.widgets.volume)
--- Register widgets
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "PCM")
-vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
--- Register buttons
-volbar.buttons(awful.util.table.join(
-   awful.button({ }, 1, function () exec("alsamixer") end),
-   awful.button({ }, 4, function () exec("amixer -q set PCM 2dB+", false) vicious.force({volbar, volwidget}) end),
-   awful.button({ }, 5, function () exec("amixer -q set PCM 2dB-", false) vicious.force({volbar, volwidget}) end)
-)) -- Register assigned buttons
---volwidget.widget:buttons(volbar.buttons())
+-- Volume widget
+	hlcolor = "#d7e0ea"
+	volumewidget = wibox.widget.textbox()
+	volumewidget:buttons({
+	   button({  }, 4, function () volume("up", volumewidget) end),
+	   button({  }, 5, function () volume("down", volumewidget) end),
+	   button({  }, 1, function () volume("mute", volumewidget) end)
+	})
+	vicious.register(volumewidget, vicious.widgets.volume, " Vol: <span color='" .. hlcolor .. "'>$1$2</span> | ",61, "Master")
 -- }}}
 -- TOP BAR
 	-- Widgets that are aligned to the left
@@ -370,14 +366,12 @@ volbar.buttons(awful.util.table.join(
 	    local right_layout = wibox.layout.fixed.horizontal()
 	    if s == 1 then right_layout:add(wibox.widget.systray()) end
 	    right_layout:add(empty)
-	    right_layout:add(spacer)
-	    right_layout:add(diskwidget)
 	    --right_layout:add(empty)
 	    --right_layout:add(txt_mail)
 	    right_layout:add(empty)
-	    --right_layout:add(volwidget)
+	    right_layout:add(volumewidget)
 	    --right_layout:add(empty)
-	    right_layout:add(batt)
+	    right_layout:add(mytextclock)
 	    right_layout:add(empty)
 	    right_layout:add(mylauncher)
 	-- Now bring it all together (with the tasklist in the middle)
@@ -393,7 +387,6 @@ volbar.buttons(awful.util.table.join(
 	    bottom_left_layout:add(uptime)
 	    bottom_left_layout:add(spacer)
 	    bottom_left_layout:add(oswidget)
-	   -- bottom_left_layout:add(hddtempwidget)
 	    bottom_left_layout:add(spacer)
 	    bottom_left_layout:add(wifiwidget)
 	    bottom_left_layout:add(wifistr)
@@ -404,12 +397,20 @@ volbar.buttons(awful.util.table.join(
 	    bottom_right_layout:add(thermwidget)
 	    bottom_right_layout:add(empty)
 	    bottom_right_layout:add(cpuwidget)
+	    --bottom_right_layout:add(empty)
+	    --bottom_right_layout:add(cputext)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(txt_mem)
 	    bottom_right_layout:add(memwidget)
-	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(mytextclock)
 	    bottom_right_layout:add(empty)
+	    bottom_right_layout:add(memvalue)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(hddtempwidget)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(batt)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(diskwidget)
+	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(mylayoutbox[s])
 	-- Now bring it all together
 	    local layout_bottom = wibox.layout.align.horizontal()
@@ -459,6 +460,12 @@ globalkeys = awful.util.table.join(
                 client.focus:raise()
             end
         end),
+
+    -- Volume controls | Multimedia keys: Volume Up/Down Mute
+    awful.key({ }, "XF86AudioRaiseVolume", function () volume("up", volumewidget) end),
+    awful.key({ }, "XF86AudioLowerVolume", function () volume("down", volumewidget) end),
+    awful.key({ }, "XF86AudioMute", function () volume("mute", volumewidget) end),
+
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
