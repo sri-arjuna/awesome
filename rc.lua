@@ -125,7 +125,7 @@ local menubar = require("menubar")
 	   { "recordMyDesktop", "gtk-recordMyDesktop", },
 	   { "sheets", "gnumeric" },
 	   { "torrents", "transmission-gtk" },
-	   { "video", "totem", },
+	   { "video", "vlc", },
 	   { "volume", terminal .. " -e alsamixer", },
 	}
 	menusystem = {
@@ -299,8 +299,8 @@ for s = 1, screen.count() do
 	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
-	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0", "core"}) -- ${core} ${proc} | FALLBACK
-	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0", "core"}) -- ${core} ${proc} | FALLBACK
+	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
 	
 	-- Author example ?!?
 	-- vicious.register(tempwidget, vicious.widgets.thermal, "Temp: <span color='" .. hlcolor .. "'>$1°С</span> | ",37,"thermal_zone0")
@@ -445,7 +445,8 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    -- changed from default 'w' to 'm'
+    awful.key({ modkey,           }, "m", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -466,6 +467,11 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", function () volume("down", volumewidget) end),
     awful.key({ }, "XF86AudioMute", function () volume("mute", volumewidget) end),
 
+    -- Sea's keybindings
+    awful.key({ modkey,           }, "e", files),
+    awful.key({ modkey,           }, "t", ftp),
+    awful.key({ modkey,           }, "w", browser),
+    awful.key({ modkey,           }, "i", irc),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
