@@ -107,8 +107,8 @@ theme.layout_tiletop    = themedir .. "/layouts14/tiletopw.png"
 theme.layout_spiral     = themedir .. "/layouts14/spiralw.png"
 theme.layout_dwindle    = themedir .. "/layouts14/dwindlew.png"
 
---theme.awesome_icon = themedir .. "/awesome14-dust.png"
-theme.awesome_icon = themedir .. "/fedora_icon.png"
+theme.awesome_icon = themedir .. "/awesome14-dust.png"
+theme.fedora_icon = themedir .. "/fedora_icon.png"
 
 theme.widget_disk     = themes .. "/icons/dust/disk.png"
 theme.widget_ac       = themes .. "/icons/dust/ac.png"

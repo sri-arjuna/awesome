@@ -60,6 +60,8 @@ local menubar = require("menubar")
 	irc = "xchat"
 	files = "pcmanfm"
 	ftp = "filezilla"
+	email = "sylpheed"
+	video = "totem"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -111,22 +113,33 @@ local menubar = require("menubar")
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
+	mnuGraph = {
+		{ "gimp", "gimp" },
+		{ "mtPaint", "mtpaint" },
+	}
+	mnuMM = {
+		{ "music", "rhythmbox", },
+		{ "recordMyDesktop", "gtk-recordMyDesktop", },
+		{ "video", video, },
+		{ "volume", terminal .. " -e alsamixer", },
+	}
+	mnuOffice = {
+		{ "letters", "abiword" },
+		{ "sheets", "gnumeric" },
+	   
+	}
 	mytools = {
-	   { "calculator", "galculator", },
-	   { "browser", internet },
-	   { "editor", editor },
-	   { "files", files },
-	   { "ftp", ftp },
-	   { "gimp", "gimp" },
-	   { "irc", irc },
-	   { "letters", "abiword" },
-	   { "mtPaint", "mtpaint" },
-	   { "music", "rhythmbox", },
-	   { "recordMyDesktop", "gtk-recordMyDesktop", },
-	   { "sheets", "gnumeric" },
-	   { "torrents", "transmission-gtk" },
-	   { "video", "vlc", },
-	   { "volume", terminal .. " -e alsamixer", },
+		{ "graphics", mnuGraph, },
+		{ "multimedia", mnuMM, },
+		{ "office", mnuOffice, },
+		{ "calculator", "galculator", },
+		{ "browser", internet },
+		{ "editor", editor },
+		{ "email", email },
+		{ "files", files },
+		{ "ftp", ftp },
+		{ "irc", irc },
+		{ "torrents", "transmission-gtk" },
 	}
 	menusystem = {
 	    { "Date & Time", "system-config-date" },
@@ -160,7 +173,6 @@ local menubar = require("menubar")
 		{ "logout", awesome.quit }
 	}
 	myawesomemenu = {
-	   { "system", menusystem, },
 	   { "edit config", editor .. " " .. awesome.conffile },
 	   { "edit tui cfg", editor .. " .config/tui/apps.conf .config/tui/user.conf" },
 	   { "manual", terminal .. " -e man awesome" },
@@ -170,7 +182,8 @@ local menubar = require("menubar")
 	   { "quit", awesome.quit },
 	}
 	mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-		                            { "tools", mytools,},
+		                            { "fedora", menusystem, beautiful.fedora_icon},
+	   				    { "tools", mytools,},
 		                            { "power", mnuPower, }, --beautiful.power_icon } ,
 		                            { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
 		                            { "open terminal", terminal }
@@ -184,8 +197,9 @@ local menubar = require("menubar")
 	--fedora = image('/etc/favicon.png')
 	--beautiful:add(fedora_icon)
 	
-	mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+	--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 	--mylauncher = awful.widget.launcher({ image = image(fedora_icon),
+	mylauncher = awful.widget.launcher({ image = beautiful.fedora_icon,
 		                             menu = mymainmenu })
 
 	-- Menubar configuration
@@ -299,7 +313,7 @@ for s = 1, screen.count() do
 	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
-	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon2", "core"}) -- ${core} ${proc} | FALLBACK 
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK 
 	-- This line below is the original and should work on 'most' systems, the above one is only (i guess) for Fedora 21 (rawhide).
 	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
 	
