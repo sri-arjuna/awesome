@@ -299,15 +299,10 @@ for s = 1, screen.count() do
 	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
-	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0", "core"}) -- ${core} ${proc} | FALLBACK
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon2", "core"}) -- ${core} ${proc} | FALLBACK 
+	-- This line below is the original and should work on 'most' systems, the above one is only (i guess) for Fedora 21 (rawhide).
 	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
 	
-	-- Author example ?!?
-	-- vicious.register(tempwidget, vicious.widgets.thermal, "Temp: <span color='" .. hlcolor .. "'>$1°С</span> | ",37,"thermal_zone0")
-	
-	-- Future try?	-- thermal_zone0 fails :(
-	-- vicious.register(tempwidget, vicious.widgets.thermal, "cpu $1°С",37,"thermal_zone0")
-	-- sensors|grep "Core 0" |awk '{print $3}'
 -- cpu	usage
 	--cputext = wibox.widget.textbox()						-- Increases average load usage by +10-20%, with peeks of up to 90% 
 	--vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	-- Increases average load usage by +10-20%, with peeks of up to 90% 
@@ -324,7 +319,7 @@ for s = 1, screen.count() do
 	vicious.register(oswidget, vicious.widgets.os, "$2")
 -- hdd C°
 	hddtempwidget = wibox.widget.textbox()
-	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 67)
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 137)
 
 -- Disk usage widget
 	diskwidget = wibox.widget.imagebox()
