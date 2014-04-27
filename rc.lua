@@ -46,7 +46,7 @@ local menubar = require("menubar")
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 	--beautiful.init("/usr/share/awesome/themes/gray/theme.lua")
-	beautiful.init(awful.util.getdir("config") .. "/themes/dust/theme.lua")
+	beautiful.init(awful.util.getdir("config") .. "/themes/sea/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 	terminal = "lxterminal"
@@ -333,6 +333,7 @@ for s = 1, screen.count() do
 	calendar2.addCalendarToWidget(mytextclock)
 
 -- mpd
+-- http://codepad.org/DFYrCllQ -- maybe for later use
 	mpdwidget = wibox.widget.textbox()
 	vicious.register(mpdwidget, vicious.widgets.mpd,
 	    function (mpdwidget, args)
@@ -463,10 +464,10 @@ globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioMute", function () volume("mute", volumewidget) end),
 
     -- Sea's keybindings
-    awful.key({ modkey,           }, "e", files),
-    awful.key({ modkey,           }, "t", ftp),
-    awful.key({ modkey,           }, "w", browser),
-    awful.key({ modkey,           }, "i", irc),
+    awful.key({ modkey           }, "e", files),
+    awful.key({ modkey           }, "t", ftp),
+    awful.key({ modkey           }, "w", browser),
+    awful.key({ modkey           }, "i", irc),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),

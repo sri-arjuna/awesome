@@ -15,7 +15,7 @@ end
 sharedicons   = shared .. "/icons"
 sharedthemes  = shared .. "/themes"
 themes        = config .. "/themes"
-themename     = "/dust"
+themename     = "/sea"
 if not awful.util.file_readable(themes .. themename .. "/theme.lua") then
        themes = sharedthemes
 end
@@ -44,30 +44,22 @@ if awful.util.file_readable(config .. "/vain/init.lua") then
 end
 --}}}
 
-theme.font          = "clean 8"
+theme.font          = "anorexia 9"
 
---theme.bg_normal     = "#22222200"
-theme.bg_normal     = "#22222200"
-theme.bg_focus      = "#908884"
-theme.bg_urgent     = "#cd7171"
-theme.bg_minimize   = "#444444"
+theme.bg_normal     = "#030303"
+theme.bg_focus      = "#a3a3a3"
+theme.bg_urgent     = "#4343cd"
+theme.bg_minimize   = "#4b4b4b"
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#111111"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = "#838383"
+theme.fg_focus      = "#FFFFFF"
+theme.fg_urgent     = "#000000"
+theme.fg_minimize   = "#F0F0F0"
 
-theme.border_width  = "1"
---theme.border_normal = "#222222"
-theme.border_normal = "#002222"
-theme.border_focus  = "#908884"
-theme.border_marked = "#91231c"
-
-theme.bg_widget        = "#333333"
-theme.fg_widget        = "#908884"
-theme.fg_center_widget = "#636363"
-theme.fg_end_widget    = "#ffffff"
-theme.fg_off_widget    = "#22211f"
+theme.border_width  = "0"
+theme.border_normal = "#000000"
+theme.border_focus  = "#000000"
+theme.border_marked = "#000000"
 
 theme.taglist_squares_sel = themedir .. "/taglist14/squaref.png"
 theme.taglist_squares_unsel = themedir .. "/taglist14/square.png"
@@ -115,7 +107,8 @@ theme.layout_tiletop    = themedir .. "/layouts14/tiletopw.png"
 theme.layout_spiral     = themedir .. "/layouts14/spiralw.png"
 theme.layout_dwindle    = themedir .. "/layouts14/dwindlew.png"
 
-theme.awesome_icon = themedir .. "/awesome14-dust.png"
+--theme.awesome_icon = themedir .. "/awesome14-dust.png"
+theme.awesome_icon = themedir .. "/fedora_icon.png"
 
 theme.widget_disk     = themes .. "/icons/dust/disk.png"
 theme.widget_ac       = themes .. "/icons/dust/ac.png"
