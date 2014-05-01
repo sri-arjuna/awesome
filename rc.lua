@@ -50,7 +50,7 @@ local menubar = require("menubar")
 
 -- This is used later as the default terminal and editor to run.
 	terminal = "lxterminal"
-	term_cmd	= terminal .. " -e "
+	term_cmd = terminal .. " -e "
 	editor = os.getenv("EDITOR") or "gedit"
 	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
@@ -313,9 +313,25 @@ for s = 1, screen.count() do
 	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
-	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK 
-	-- This line below is the original and should work on 'most' systems, the above one is only (i guess) for Fedora 21 (rawhide).
-	--vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "proc", "core"})
+	-- Nah this is no overkill...
+	-- Its just a workaround for an 'unstable' 'hwmon/hwmon[12]' definition of Fedora21 - Rawhide
+	-- Function (only) from: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+	function file_exists(name)
+		local f=io.open(name,"r")
+		if f~=nil then io.close(f) return true else return false end
+	end
+	thermal_ret = ""
+	thermal_pre = "/sys/devices/platform/"
+	thermal_base = "coretemp.0/hwmon/"
+	
+	if file_exists(thermal_pre .. thermal_base .. "hwmon1/temp2_input" )  then 
+		thermal_ret = thermal_base .. "hwmon1"
+	else 
+		thermal_ret = thermal_base .. "hwmon2"
+		-- so far only had these 2 entries, so this simple 'else' is enough.
+	end
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { thermal_ret, "core"}) 
+	-- vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK
 	
 -- cpu	usage
 	--cputext = wibox.widget.textbox()						-- Increases average load usage by +10-20%, with peeks of up to 90% 
@@ -683,11 +699,13 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- {{{	Autostart applications
-	awful.util.spawn_with_shell( terminal )
-	awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( files )
-	awful.util.spawn_with_shell( internet )
+-- {{{	Autostart applications || disable during testing !
+	--awful.util.spawn_with_shell( terminal )
+	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
+	--awful.util.spawn_with_shell( files )
+	--awful.util.spawn_with_shell( internet )
 	--awful.util.spawn_with_shell( irc )
-	awful.util.spawn_with_shell( "xscreensaver &" )
+	--awful.util.spawn_with_shell( email )
+	--awful.util.spawn_with_shell( "xscreensaver &" )
 -- }}}
