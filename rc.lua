@@ -611,18 +611,22 @@ end
 	    { rule = { class = "gimp" },
 	      properties = { floating = true } },
 	    -- Set Firefox to always map on tags number 2 of screen 1.
+	    { rule = { instance = "lxterminal" },
+	      properties = { tag = tags[1][1] } },
 	    { rule = { instance = "pcmanfm" },
 	      properties = { tag = tags[1][2] } },
 	    { rule = { class = "Firefox" },
 	      properties = { tag = tags[1][3] } },
-	    { rule = { class = "Xchat" },
+	    { rule = { instance = "gedit" },
 	      properties = { tag = tags[1][4] } },
-	    { rule = { class = "Transmission" },
+	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
-	    { rule = { instance = "filezilla" },
-		properties = { tag = tags[1][5] } },
 	    { rule = { class = "Sylpheed" },
+	      properties = { tag = tags[1][6] } },
+	    { rule = { class = "Transmission" },
 	      properties = { tag = tags[1][7] } },
+	    { rule = { instance = "filezilla" },
+		properties = { tag = tags[1][7] } },
 	}
 -- }}}
 
@@ -700,12 +704,16 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{	Autostart applications || disable during testing !
-	--awful.util.spawn_with_shell( terminal )
-	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
-	--awful.util.spawn_with_shell( files )
-	--awful.util.spawn_with_shell( internet )
+	awful.util.spawn_with_shell( terminal )
+	awful.util.spawn_with_shell( files )
+	awful.util.spawn_with_shell( internet )
+	awful.util.spawn_with_shell( editor )
 	--awful.util.spawn_with_shell( irc )
 	--awful.util.spawn_with_shell( email )
-	--awful.util.spawn_with_shell( "xscreensaver &" )
+	--awful.util.spawn_with_shell( "transmission-gtk" )
+	--awful.util.spawn_with_shell( ftp )
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
+	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
+	-- Disable xscreensaver to have a simple blackout
+	awful.util.spawn_with_shell( "xscreensaver &" )
 -- }}}
