@@ -60,7 +60,7 @@ local menubar = require("menubar")
 	irc = "xchat"
 	files = "pcmanfm"
 	ftp = "filezilla"
-	email = "sylpheed"
+	email = "thunderbird"
 	video = "totem"
 
 -- Default modkey.
@@ -140,6 +140,7 @@ local menubar = require("menubar")
 		{ "ftp", ftp },
 		{ "irc", irc },
 		{ "torrents", "transmission-gtk" },
+		{ "virtualbox", "virtualbox" },
 	}
 	menusystem = {
 	    { "Date & Time", "system-config-date" },
@@ -297,7 +298,7 @@ for s = 1, screen.count() do
 -- mem	
 	memvalue = wibox.widget.textbox()
 	--vicious.register(memvalue, vicious.widgets.mem, "$1% - $2 / $3mb ")
-	vicious.register(memvalue, vicious.widgets.mem, " $2 / $3mb ($1%)")
+	vicious.register(memvalue, vicious.widgets.mem, " $4 - $2 / $3mb ($1%)")
 	memwidget = awful.widget.progressbar()
 	memwidget:set_width(8)
 	memwidget:set_height(10)
@@ -416,8 +417,8 @@ for s = 1, screen.count() do
 	    bottom_left_layout:add(spacer)
 	    bottom_left_layout:add(wifiwidget)
 	    bottom_left_layout:add(wifistr)
-	    bottom_left_layout:add(spacer)
-	    bottom_left_layout:add(mpdwidget)
+	   -- bottom_left_layout:add(spacer)
+	   -- bottom_left_layout:add(mpdwidget)
 	-- Widgets that are aligned to the bottom - right
 	    local bottom_right_layout = wibox.layout.fixed.horizontal()
 	    bottom_right_layout:add(thermwidget)
@@ -621,7 +622,7 @@ end
 	      properties = { tag = tags[1][4] } },
 	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
-	    { rule = { class = "Sylpheed" },
+	    { rule = { class = "Thunderbird" },
 	      properties = { tag = tags[1][6] } },
 	    { rule = { class = "Transmission" },
 	      properties = { tag = tags[1][7] } },
@@ -708,9 +709,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( files )
 	awful.util.spawn_with_shell( internet )
 	awful.util.spawn_with_shell( editor )
-	--awful.util.spawn_with_shell( irc )
-	--awful.util.spawn_with_shell( email )
-	--awful.util.spawn_with_shell( "transmission-gtk" )
+	awful.util.spawn_with_shell( irc )
+	awful.util.spawn_with_shell( email )
+	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
