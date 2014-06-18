@@ -51,7 +51,7 @@ local menubar = require("menubar")
 -- This is used later as the default terminal and editor to run.
 	terminal = "lxterminal"
 	term_cmd = terminal .. " -e "
-	editor = os.getenv("EDITOR") or "gedit"
+	editor = os.getenv("EDITOR") or "sublime"
 	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
 	wifi = "wlp3s0"
@@ -126,12 +126,8 @@ local menubar = require("menubar")
 	mnuOffice = {
 		{ "letters", "abiword" },
 		{ "sheets", "gnumeric" },
-	   
 	}
 	mytools = {
-		{ "graphics", mnuGraph, },
-		{ "multimedia", mnuMM, },
-		{ "office", mnuOffice, },
 		{ "calculator", "galculator", },
 		{ "browser", internet },
 		{ "editor", editor },
@@ -183,10 +179,13 @@ local menubar = require("menubar")
 	   { "quit", awesome.quit },
 	}
 	mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-		                            { "fedora", menusystem, beautiful.fedora_icon},
-	   				    { "tools", mytools,},
-		                            { "power", mnuPower, }, --beautiful.power_icon } ,
-		                            { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
+		                            { "system config", menusystem, beautiful.fedora_icon},
+	   				    { "applications", mytools,},
+	   				    { "multimedia", mnuMM, },
+					    { "graphics", mnuGraph, },
+					    { "office", mnuOffice, },
+					    { "power", mnuPower, }, --beautiful.power_icon } ,
+		                         --   { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
 		                            { "open terminal", terminal }
 		                          }
 		                })
@@ -350,7 +349,7 @@ for s = 1, screen.count() do
 	vicious.register(oswidget, vicious.widgets.os, "$2")
 -- hdd C°
 	hddtempwidget = wibox.widget.textbox()
-	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 137)
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 19)
 
 -- Disk usage widget
 	diskwidget = wibox.widget.imagebox()
@@ -620,6 +619,8 @@ end
 	      properties = { tag = tags[1][3] } },
 	    { rule = { instance = "gedit" },
 	      properties = { tag = tags[1][4] } },
+	    { rule = { instance = "sublime" },
+	      properties = { tag = tags[1][4] } },
 	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
 	    { rule = { class = "Thunderbird" },
@@ -707,11 +708,11 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- {{{	Autostart applications || disable during testing !
 	awful.util.spawn_with_shell( terminal )
 	awful.util.spawn_with_shell( files )
-	--awful.util.spawn_with_shell( internet )
-	--awful.util.spawn_with_shell( editor )
+	awful.util.spawn_with_shell( internet )
+	awful.util.spawn_with_shell( editor )
 	--awful.util.spawn_with_shell( irc )
-	--awful.util.spawn_with_shell( email )
-	--awful.util.spawn_with_shell( "transmission-gtk" )
+	awful.util.spawn_with_shell( email )
+	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
