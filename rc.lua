@@ -1,5 +1,4 @@
 -- Standard awesome library
---local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
@@ -51,7 +50,7 @@ local menubar = require("menubar")
 -- This is used later as the default terminal and editor to run.
 	terminal = "lxterminal"
 	term_cmd = terminal .. " -e "
-	editor = os.getenv("EDITOR") or "sublime"
+	editor = os.getenv("EDITOR") or "pluma"
 	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
 	wifi = "wlp3s0"
@@ -148,7 +147,8 @@ local menubar = require("menubar")
 	    { "Screensaver", "xscreensaver-demo" },
 	    { "Services", "system-config-services" },
 	    { "Task Manager", "lxtask" },
-	    { "Wireless", "wicd-curses" },
+	    --{ "Wireless", "wicd-curses" },
+	    { "Wireless", "nm-connection-editor" },
 	    { "Yum Extender", "yumex" }
 	}
 	menuscripttools = {
@@ -173,8 +173,8 @@ local menubar = require("menubar")
 	   { "edit config", editor .. " " .. awesome.conffile },
 	   { "edit tui cfg", editor .. " .config/tui/apps.conf .config/tui/user.conf" },
 	   { "manual", terminal .. " -e man awesome" },
-	   { "BG: NASA iotd", "sh " .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
-	   { "BG: change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
+	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
+	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
 	   { "restart cfg", awesome.restart },
 	   { "quit", awesome.quit },
 	}
@@ -714,8 +714,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( email )
 	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
 -- }}}
