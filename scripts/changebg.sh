@@ -27,7 +27,7 @@
 #	Outout
 #	
 	printf "\r\t\r" #;echo
-	sleep 0.01
+	sleep 0.04
 	tui-header "sea's Awesome WM" "Change BG"
 	tui-title "$str_kind"
 	select style in Back NASA-Random NASA Defaults Distro Custom

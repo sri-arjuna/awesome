@@ -7,7 +7,9 @@
 
 #EDITED FOR feh
 
-rss=`wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss`
+#rss=`wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss`
+rss=`wget -q -O - http://www.nasa.gov/rss/dyn/image_of_the_day.rss`
+
  
 img_url=`echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*'`
  

@@ -619,7 +619,7 @@ end
 	      properties = { tag = tags[1][3] } },
 	    { rule = { instance = "gedit" },
 	      properties = { tag = tags[1][4] } },
-	    { rule = { instance = "sublime" },
+	    { rule = { instance = "pluma" },
 	      properties = { tag = tags[1][4] } },
 	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
@@ -715,7 +715,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh &")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
 -- }}}
