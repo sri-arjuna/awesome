@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
  
 # grabs the nasa image of the day by RSS feed and updates the gnome
 # background. add this to your cron jobs to have this happen daily.  this is,
