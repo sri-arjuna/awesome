@@ -60,7 +60,7 @@ local menubar = require("menubar")
 	files = "pcmanfm"
 	ftp = "filezilla"
 	email = "thunderbird"
-	video = "totem"
+	video = "vlc"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -117,8 +117,12 @@ local menubar = require("menubar")
 		{ "mtPaint", "mtpaint" },
 	}
 	mnuMM = {
+		{ "DeVeDe", "devede", },
 		{ "music", "rhythmbox", },
-		{ "recordMyDesktop", "gtk-recordMyDesktop", },
+		{ "Record-Desktop", terminal .. " -e vhs -S", },
+		{ "Record-Guide", terminal .. " -e vhs -G", },
+		{ "Record-Webcam", terminal .. " -e vhs -W", },
+		{ "Stop-Recording", terminal .. " -e pkill $(ps -ha|grep bgjob|grep -v grep|awk '{print $1}')", },
 		{ "video", video, },
 		{ "volume", terminal .. " -e alsamixer", },
 	}
@@ -716,6 +720,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
 	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh")
+	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
 -- }}}

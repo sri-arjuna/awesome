@@ -21,8 +21,8 @@
 	tui-printf "Retreiving RSS Feed..." "$TUI_WORK"
 	sleep 0.2
 	$DEBUG && set +x
-	rss=`wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss`
-	#rss=`wget -q -O - http://www.nasa.gov/rss/dyn/image_of_the_day.rss`
+	#rss=`wget -q -O - http://www.nasa.gov/rss/lg_image_of_the_day.rss`
+	rss=`wget -q -O - http://www.nasa.gov/rss/dyn/image_of_the_day.rss`
 	tui-status $? "Retrieved RSS Feed" || exit 1
 	$DEBUG && set -x
 	# Save for analyze
