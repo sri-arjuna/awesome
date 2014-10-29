@@ -122,7 +122,8 @@ local menubar = require("menubar")
 		{ "Record-Desktop", terminal .. " -e vhs -S", },
 		{ "Record-Guide", terminal .. " -e vhs -G", },
 		{ "Record-Webcam", terminal .. " -e vhs -W", },
-		{ "Stop-Recording", terminal .. " -e pkill $(ps -ha|grep bgjob|grep -v grep|awk '{print $1}')", },
+		{ "Stop-Recording", terminal .. " -e vhs -K", },
+	--	{ "Stop-Recording2", terminal .. " -e pkill $(ps -ha|grep bgjob|grep -v grep|awk '{print $1}')", },
 		{ "video", video, },
 		{ "volume", terminal .. " -e alsamixer", },
 	}
@@ -141,6 +142,16 @@ local menubar = require("menubar")
 		{ "torrents", "transmission-gtk" },
 		{ "virtualbox", "virtualbox" },
 	}
+	mnuRecovery = {
+		{ "efi-helper", terminal .. " -e sudo efi-helper" },
+		{ "Rebuild dracut", terminal .. " -e sudo dracut-rebuild" },
+		{ "mount partitions", terminal .. " -e sudo moalpa" },
+		
+	--	{ "", "" },
+	--	{ "", "" },
+	--	{ "", "" },
+	}
+	
 	menusystem = {
 	    { "Date & Time", "system-config-date" },
 	    { "Firewall", "system-config-firewall" },
@@ -177,7 +188,7 @@ local menubar = require("menubar")
 	   { "edit config", editor .. " " .. awesome.conffile },
 	   { "edit tui cfg", editor .. " .config/tui/apps.conf .config/tui/user.conf" },
 	   { "manual", terminal .. " -e man awesome" },
-	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
+	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new.sh",  },
 	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
 	   { "restart cfg", awesome.restart },
 	   { "quit", awesome.quit },
@@ -188,6 +199,7 @@ local menubar = require("menubar")
 	   				    { "multimedia", mnuMM, },
 					    { "graphics", mnuGraph, },
 					    { "office", mnuOffice, },
+					    { "recovery", mnuRecovery, },
 					    { "power", mnuPower, }, --beautiful.power_icon } ,
 		                         --   { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
 		                            { "open terminal", terminal }
@@ -338,8 +350,9 @@ for s = 1, screen.count() do
 	-- vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK
 	
 -- cpu	usage
-	--cputext = wibox.widget.textbox()						-- Increases average load usage by +10-20%, with peeks of up to 90% 
-	--vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	-- Increases average load usage by +10-20%, with peeks of up to 90% 
+	cputext = wibox.widget.textbox()				-- Increases average load usage by +10-20%, with peeks of up to 90% 		
+	vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	
+	-- above is deprecated
 	cpuwidget = awful.widget.graph()
 	cpuwidget:set_width(50)
 	cpuwidget:set_background_color("#494B4F")
@@ -353,7 +366,7 @@ for s = 1, screen.count() do
 	vicious.register(oswidget, vicious.widgets.os, "$2")
 -- hdd C°
 	hddtempwidget = wibox.widget.textbox()
-	vicious.register(hddtempwidget, vicious.widgets.hddtemp, 'hdd ${/dev/sda} °C', 19)
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, "${/dev/sda} °C", 19)
 
 -- Disk usage widget
 	diskwidget = wibox.widget.imagebox()
@@ -427,16 +440,18 @@ for s = 1, screen.count() do
 	    bottom_right_layout:add(thermwidget)
 	    bottom_right_layout:add(empty)
 	    bottom_right_layout:add(cpuwidget)
-	    --bottom_right_layout:add(empty)
-	    --bottom_right_layout:add(cputext)
+	    bottom_right_layout:add(empty)
+	    -- Increases average load usage by +10-20%, with peeks of up to 90% 
+	    bottom_right_layout:add(cputext)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(txt_mem)
 	    bottom_right_layout:add(memwidget)
 	    bottom_right_layout:add(empty)
 	    bottom_right_layout:add(memvalue)
 	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(hddtempwidget)
-	    bottom_right_layout:add(spacer)
+	    -- SEEMS BUGGY.. TODO WHY?
+	    -- bottom_right_layout:add(hddtempwidget)
+	    --bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(batt)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(diskwidget)
@@ -719,7 +734,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new.sh")
 	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )

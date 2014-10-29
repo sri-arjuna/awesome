@@ -67,8 +67,8 @@ theme.taglist_squares_unsel = themedir .. "/taglist14/square.png"
 theme.tasklist_floating_icon = sharedthemes .. "/default/tasklist/floatingw.png"
 
 theme.menu_submenu_icon = sharedthemes .. "/default/submenu.png"
-theme.menu_height   = "15"
-theme.menu_width    = "100"
+theme.menu_height   = "19"
+theme.menu_width    = "135"
 
 -- Define the image to load
 theme.titlebar_close_button_normal = sharedthemes .. "/default/titlebar/close_normal.png"

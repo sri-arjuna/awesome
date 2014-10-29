@@ -14,7 +14,7 @@
 #EDITED FOR feh
 
 	$DEBUG && set -x
-	sleep 0.01
+	sleep 0.1
 	tui-title "NASA Image of the Day" ; printf "$TUI_RESET"
 # Get Feed
 	sleep 0.01
