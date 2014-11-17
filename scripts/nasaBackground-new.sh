@@ -59,7 +59,7 @@ EOF
 
 		# Download the image
 		#cd "$FOLDER"
-		[ -f "${target:0:(-3)}jpg" ] 	|| tui-download $img_url
+		[ -f "${target:0:(-3)}jpg" ] 	|| (cd "$FOLDER";tui-download $img_url;cd "$OLDPWD")
 	
 		# Converting to fixed size jpeg to save storage space
 		tui-printf "Converting $img_name..." "$TUI_WORK"

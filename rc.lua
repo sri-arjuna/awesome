@@ -50,7 +50,7 @@ local menubar = require("menubar")
 -- This is used later as the default terminal and editor to run.
 	terminal = "lxterminal"
 	term_cmd = terminal .. " -e "
-	editor = os.getenv("EDITOR") or "pluma"
+	editor = os.getenv("EDITOR") or "notepadqq"
 	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
 	wifi = "wlp3s0"
@@ -102,7 +102,7 @@ local menubar = require("menubar")
 	    names = { "ॐ", "∞",  "இ", "ห",   "ت", "⌥", "ℵ", "⌤", "∴" },
 	    -- ∀  φ ‡ இ  ∞ ت ξ گ ห ⚡   "⌥",  "ℵ", "⌤", "∴"  
 	    -- layout 10-fenster ; 
-	    layout = { layouts[6], layouts[6], layouts[12], layouts[6], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
+	    layout = { layouts[6], layouts[6], layouts[6], layouts[8], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
 	}
 
 	for s = 1, screen.count() do
@@ -115,6 +115,7 @@ local menubar = require("menubar")
 -- Create a laucher widget and a main menu
 	mnuGraph = {
 		{ "gimp", "gimp" },
+		{ "gpicview", "gpicview" },
 		{ "mtPaint", "mtpaint" },
 	}
 	mnuMM = {
@@ -631,24 +632,48 @@ end
 	    { rule = { class = "gimp" },
 	      properties = { floating = true } },
 	    -- Set Firefox to always map on tags number 2 of screen 1.
-	    { rule = { instance = "lxterminal" },
-	      properties = { tag = tags[1][1] } },
+	--    { rule = { instance = "lxterminal" },
+	--      properties = { tag = tags[1][1] } },
 	    { rule = { instance = "pcmanfm" },
 	      properties = { tag = tags[1][2] } },
+	-- Surfing
 	    { rule = { class = "Firefox" },
 	      properties = { tag = tags[1][3] } },
+	    { rule = { class = "Midori" },
+	      properties = { tag = tags[1][3] } },
+	    { rule = { class = "Chrom*" },
+	      properties = { tag = tags[1][3] } },
+	-- EDITORS = 4
+	    { rule = { instance = "notepadqq" },
+	      properties = { tag = tags[1][4] } },
 	    { rule = { instance = "gedit" },
 	      properties = { tag = tags[1][4] } },
 	    { rule = { instance = "pluma" },
 	      properties = { tag = tags[1][4] } },
+	-- Internet Communication
 	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
 	    { rule = { class = "Thunderbird" },
 	      properties = { tag = tags[1][6] } },
+	-- Internet Transfer
 	    { rule = { class = "Transmission" },
 	      properties = { tag = tags[1][7] } },
 	    { rule = { instance = "filezilla" },
 		properties = { tag = tags[1][7] } },
+	-- Virtual Machines
+	    { rule = { instance = "VirtualBox" },
+		properties = { tag = tags[1][8] } },
+	    { rule = { instance = "VirtualMachine" },
+		properties = { tag = tags[1][8] } },
+	-- Multimedia
+	    { rule = { class = "Rhythmbox" },
+		properties = { tag = tags[1][9] } },
+	    { rule = { class = "vlc" },
+		properties = { tag = tags[1][9] } },
+	    { rule = { name = "VLC media player" },
+		properties = { tag = tags[1][9] } },
+	    { rule = { instance = "vlc" },
+		properties = { tag = tags[1][9] } },
 	}
 -- }}}
 
