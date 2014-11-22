@@ -30,13 +30,13 @@
 
 	# Get Raw data
 	tui-printf "Retrieving raw data (RSS)..." "$TUI_WAIT"
-	rss=$(wget -q -O - "$RSS1")
+	rss=$(wget -q -O - "$RSS2")
 	if tui-status $? "Retrieved raw data"
 	then	echo "do nothing" > /dev/zero
 	else	sh $(dirname $0)/changebg.sh << EOF
 2
 EOF
-		fi
+	fi
 
 	# Prepare download
 	img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
@@ -58,16 +58,19 @@ EOF
 		target="$FOLDER/$img_name"
 
 		# Download the image
-		#cd "$FOLDER"
-		[ -f "${target:0:(-3)}jpg" ] 	|| (cd "$FOLDER";tui-download $img_url;cd "$OLDPWD")
-	
-		# Converting to fixed size jpeg to save storage space
-		tui-printf "Converting $img_name..." "$TUI_WORK"
-		convert "$target" -resize 1920x1080 "${target:0:(-3)}jpg"
-		tui-status $? "Converted ${target##*/}"
+		cd "$FOLDER"
+		if [ ! -f "${target:0:(-3)}jpg" ]
+		then	tui-download "$img_url"
+			# Converting to fixed size jpeg to save storage space
+			tui-printf "Converting $img_name..." "$TUI_WORK"
+			convert "$target" -resize 1920x1080 "${target:0:(-3)}jpg"
+			tui-status $? "Converted ${target##*/}"
+		fi
 		target="${target:0:(-3)}jpg"
 	
 		# Set it as bg
 		feh --bg-scale "$target"
+		tui-status $? "Changed background to $target"
+		cd "$OLDPWD"
 		tui-wait 10s
 	fi
