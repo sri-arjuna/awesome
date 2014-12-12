@@ -136,9 +136,10 @@ local menubar = require("menubar")
 	mytools = {
 		{ "calculator", "galculator", },
 		{ "browser", internet },
+		{ "dosbox", "dosbox" },
 		{ "editor", editor },
-		{ "email", email },
 		{ "files", files },
+		{ "email", email },
 		{ "ftp", ftp },
 		{ "irc", irc },
 		{ "torrents", "transmission-gtk" },
@@ -148,6 +149,7 @@ local menubar = require("menubar")
 		{ "efi-helper", terminal .. " -e sudo efi-helper" },
 		{ "Rebuild dracut", terminal .. " -e sudo dracut-rebuild" },
 		{ "mount partitions", terminal .. " -e sudo moalpa" },
+		{ "rebuild grub2 (efi)", terminal .. " -e sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg" },
 		
 	--	{ "", "" },
 	--	{ "", "" },
@@ -165,7 +167,7 @@ local menubar = require("menubar")
 	    { "Services", "system-config-services" },
 	    { "Task Manager", "lxtask" },
 	    --{ "Wireless", "wicd-curses" },
-	    { "Wireless", "nm-connection-editor" },
+	    { "Networks", "nm-connection-editor" },
 	    { "Yum Extender", "yumex" }
 	}
 	menuscripttools = {
@@ -176,8 +178,15 @@ local menubar = require("menubar")
 	    { "Grub2 themes", terminal .. " -e sudo st tweak grub2 theme change" },
 	    { "Plymouth", terminal .. " -e sudo st tweak plymouth" },
 	    { "Change PS1", terminal .. " -e st tweak ps1" },
-	    { "------",},
+	    { "-----------",},
 	    { "open projects", files .. "$XDG_PROJECT_DIR" },
+	}
+	menudevscripts = {
+	    { "Main Menu", terminal .. " -e ds" },
+	    { "Make", terminal .. " -e ds make" },
+	    { "Add new Project", terminal .. " -e ds add" },
+	    { "Setup DevScripts", terminal .. " -e ds setup" },
+	    
 	}
 	mnuPower = {
 		{ 'suspend',   'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Suspend' },
@@ -187,16 +196,24 @@ local menubar = require("menubar")
 		{ "logout", awesome.quit }
 	}
 	myawesomemenu = {
-	   { "edit config", editor .. " " .. awesome.conffile },
-	   { "edit tui cfg", editor .. " .config/tui/apps.conf .config/tui/user.conf" },
+	   { "edit awesome", editor .. " " .. awesome.conffile },
+	   { "restart cfg", awesome.restart },
 	   { "manual", terminal .. " -e man awesome" },
+	   { "-----------",},
+	   { "edit dosbox cfg", editor .. " .dosbox/dosbox-0.74.conf" },
+	   { "config fas", term_cmd .. " fas setup" },
+	   { "config dev-scripts", term_cmd .. " ds setup" },
+	   { "config tui", term_cmd .. " tui config" },
+	   { "-----------",},
+	
 	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new.sh",  },
 	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
-	   { "restart cfg", awesome.restart },
+	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
 	mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
 		                            { "system config", menusystem, beautiful.fedora_icon},
+					    { "-----------",},
 	   				    { "applications", mytools,},
 	   				    { "multimedia", mnuMM, },
 					    { "graphics", mnuGraph, },
@@ -204,7 +221,11 @@ local menubar = require("menubar")
 					    { "recovery", mnuRecovery, },
 					    { "power", mnuPower, }, --beautiful.power_icon } ,
 		                         --   { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
-		                            { "open terminal", terminal }
+		                            { "Dev-Scripts", menudevscripts, }, --beautiful.fedora_icon },
+			   		    { "-----------",},
+		                            { "files", files },
+		                            { "open terminal", terminal },
+			                    { "volume", terminal .. " -e alsamixer", },
 		                          }
 		                })
 
@@ -760,7 +781,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new.sh")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh")
 	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
