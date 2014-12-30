@@ -24,23 +24,27 @@
 #
 
 	# TITLE
-	sleep 0.3
+	#sleep 0.5
+	#echo "Loading?"
+	#sleep 5
 	tui-title "NASA - Image of the Day"
 	tui-echo " " "This script is not related with NASA"
 	
 	RET=-1
 	
-	for R in $RSS1 $RSS2;do
+	for R in "$RSS1" "$RSS2";do
 		# Get Raw data
-		tui-progress "Retrieving raw data ($R)..." #"$TUI_WAIT"
+		tui-printf -rS 2 "Retrieving raw data ($R)..." #"$TUI_WAIT"
 		rss=$(wget -q -O - "$R")
+		[[ ! -z "$rss" ]]
 		tui-status $? "Retrieved raw data" && \
 			RET=$? && \
 			break
 	done
 	
 	if [[ ! 0 -eq $RET ]]
-	then 	sh $(dirname $0)/changebg.sh << EOF
+	then 	tui-wait 5s "Changing to random wallpaper"
+		sh $(dirname $0)/changebg.sh << EOF
 2
 EOF
 		exit 1
@@ -52,6 +56,7 @@ EOF
 	# change existing bg if no url was found
 	if [[ -z "$img_url" ]]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
+		tui-wait 5s "Changing to random wallpaper"
 		sh $(dirname $0)/changebg.sh << EOF
 2
 EOF
@@ -59,7 +64,7 @@ EOF
 	else	[[ -d "$FOLDER" ]] || mkdir -p "$FOLDER"
 		img_url=$(echo $img_url|awk '{print $1}')
 		tui-status $? "Found URL:" "$img_url"
-		
+	set -x	
 		img_name=$(echo "$img_url" | grep -o [^/]*\.\w*$)
 		tui-status $? "Selected image:" "$img_name"
 		
@@ -75,7 +80,7 @@ EOF
 			tui-status $? "Converted ${target##*/}"
 		fi
 		target="${target:0:(-3)}jpg"
-	
+	set +x
 		# Set it as bg
 		feh --bg-scale "$target"
 		tui-status $? "Changed background to $target"
