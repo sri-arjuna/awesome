@@ -38,7 +38,9 @@
 		rss=$(wget -q -O - "$R")
 		[[ ! -z "$rss" ]]
 		tui-status $? "Retrieved raw data" && \
-			RET=$? && \
+			img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*') && \
+			[[ ! -z "$img_url" ]] && \
+			RET=0 && \
 			break
 	done
 	
@@ -51,7 +53,7 @@ EOF
 	fi
 	
 	# Prepare download
-	img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
+	#img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
 	
 	# change existing bg if no url was found
 	if [[ -z "$img_url" ]]
@@ -64,7 +66,7 @@ EOF
 	else	[[ -d "$FOLDER" ]] || mkdir -p "$FOLDER"
 		img_url=$(echo $img_url|awk '{print $1}')
 		tui-status $? "Found URL:" "$img_url"
-	set -x	
+	#set -x	
 		img_name=$(echo "$img_url" | grep -o [^/]*\.\w*$)
 		tui-status $? "Selected image:" "$img_name"
 		
@@ -80,7 +82,7 @@ EOF
 			tui-status $? "Converted ${target##*/}"
 		fi
 		target="${target:0:(-3)}jpg"
-	set +x
+	#set +x
 		# Set it as bg
 		feh --bg-scale "$target"
 		tui-status $? "Changed background to $target"
