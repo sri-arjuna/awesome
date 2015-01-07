@@ -11,7 +11,7 @@
 #
 #	Variables
 #
-	#. tui
+	DEBUG=false
 	img_url=""
 	img_name=""
 	rss=""
@@ -24,9 +24,7 @@
 #
 
 	# TITLE
-	#sleep 0.5
-	#echo "Loading?"
-	#sleep 5
+	sleep 0.5
 	tui-title "NASA - Image of the Day"
 	tui-echo " " "This script is not related with NASA"
 	
@@ -37,26 +35,21 @@
 		tui-printf -rS 2 "Retrieving raw data ($R)..." #"$TUI_WAIT"
 		rss=$(wget -q -O - "$R")
 		[[ ! -z "$rss" ]]
-		tui-status $? "Retrieved raw data" && \
-			img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*') && \
+		if tui-status $? "Retrieved raw data"
+		then	# It has data, but can it find a recent image?
+			img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
 			[[ ! -z "$img_url" ]] && \
-			RET=0 && \
-			break
+				RET=0 && \
+				break
+		fi
 	done
 	
-	if [[ ! 0 -eq $RET ]]
-	then 	tui-wait 5s "Changing to random wallpaper"
-		sh $(dirname $0)/changebg.sh << EOF
-2
-EOF
-		exit 1
-	fi
 	
 	# Prepare download
 	#img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
 	
 	# change existing bg if no url was found
-	if [[ -z "$img_url" ]]
+	if [[ -z "$img_url" ]] || [[ 0 -ne $RET ]]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
 		tui-wait 5s "Changing to random wallpaper"
 		sh $(dirname $0)/changebg.sh << EOF
@@ -66,7 +59,9 @@ EOF
 	else	[[ -d "$FOLDER" ]] || mkdir -p "$FOLDER"
 		img_url=$(echo $img_url|awk '{print $1}')
 		tui-status $? "Found URL:" "$img_url"
-	#set -x	
+	
+	$DEBUG && set -x	
+	
 		img_name=$(echo "$img_url" | grep -o [^/]*\.\w*$)
 		tui-status $? "Selected image:" "$img_name"
 		
@@ -82,7 +77,7 @@ EOF
 			tui-status $? "Converted ${target##*/}"
 		fi
 		target="${target:0:(-3)}jpg"
-	#set +x
+	$DEBUG && set +x
 		# Set it as bg
 		feh --bg-scale "$target"
 		tui-status $? "Changed background to $target"
