@@ -8,6 +8,8 @@
 #EDITED FOR feh
 #EDITED FOR tui
 
+#set -x
+
 #
 #	Variables
 #
@@ -32,8 +34,10 @@
 	
 	for R in "$RSS1" "$RSS2";do
 		# Get Raw data
-		tui-printf -rS 2 "Retrieving raw data ($R)..." #"$TUI_WAIT"
+		#tui-printf -rS 2 "Retrieving raw data ($R)..." #"$TUI_WAIT"
+		tui-status -r 2 "Retrieving raw data ($R)..."
 		rss=$(wget -q -O - "$R")
+	$DEBUG && set -x
 		[[ ! -z "$rss" ]]
 		if tui-status $? "Retrieved raw data"
 		then	# It has data, but can it find a recent image?
@@ -57,10 +61,10 @@
 EOF
 		exit 1
 	else	[[ -d "$FOLDER" ]] || mkdir -p "$FOLDER"
+	
+		$DEBUG && set -x
 		img_url=$(echo $img_url|awk '{print $1}')
 		tui-status $? "Found URL:" "$img_url"
-	
-	$DEBUG && set -x	
 	
 		img_name=$(echo "$img_url" | grep -o [^/]*\.\w*$)
 		tui-status $? "Selected image:" "$img_name"
