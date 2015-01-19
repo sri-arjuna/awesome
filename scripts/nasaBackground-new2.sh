@@ -8,8 +8,6 @@
 #EDITED FOR feh
 #EDITED FOR tui
 
-#set -x
-
 #
 #	Variables
 #
@@ -31,13 +29,16 @@
 	tui-echo " " "This script is not related with NASA"
 	
 	RET=-1
-	
+	$DEBUG && set -x
 	for R in "$RSS1" "$RSS2";do
 		# Get Raw data
-		#tui-printf -rS 2 "Retrieving raw data ($R)..." #"$TUI_WAIT"
+		#sh -x tui-printf -rS 2 "Retrieving raw data ($R)..."
+		
+		$DEBUG && set -x
 		tui-status -r 2 "Retrieving raw data ($R)..."
+		set +x
 		rss=$(wget -q -O - "$R")
-	$DEBUG && set -x
+		$DEBUG && set -x
 		[[ ! -z "$rss" ]]
 		if tui-status $? "Retrieved raw data"
 		then	# It has data, but can it find a recent image?
@@ -47,7 +48,6 @@
 				break
 		fi
 	done
-	
 	
 	# Prepare download
 	#img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
@@ -59,6 +59,8 @@
 		sh $(dirname $0)/changebg.sh << EOF
 2
 EOF
+		tui-status $? "Changed wallpaper"
+		sleep 3
 		exit 1
 	else	[[ -d "$FOLDER" ]] || mkdir -p "$FOLDER"
 	
@@ -88,3 +90,4 @@ EOF
 		cd "$OLDPWD"
 		tui-wait 10s
 	fi
+	sleep 1
