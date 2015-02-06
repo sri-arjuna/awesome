@@ -36,7 +36,7 @@
 		
 		$DEBUG && set -x
 		tui-status -r 2 "Retrieving raw data ($R)..."
-		set +x
+		$DEBUG && set -x
 		rss=$(wget -q -O - "$R")
 		$DEBUG && set -x
 		[[ ! -z "$rss" ]]

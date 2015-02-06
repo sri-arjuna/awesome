@@ -55,8 +55,8 @@ local menubar = require("menubar")
 -- Wifi
 	wifi = "wlp3s0"
 -- Apps
-	internet = "firefox"
-	--internet = "chromium-browser"
+	--internet = "firefox"
+	internet = "chromium-browser"
 	irc = "xchat"
 	files = "pcmanfm"
 	ftp = "filezilla"
