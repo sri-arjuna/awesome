@@ -99,7 +99,10 @@ local menubar = require("menubar")
 -- Define a tag table which hold all screen tags.
 	tags = { }
 	tags = {
-	    names = { "ॐ", "∞",  "இ", "ห",   "ت", "⌥", "ℵ", "⌤", "∴" },
+	    names = { "∞", "⌤",  "ت", "⚡", "‡", "⌥", "ℵ", "گ", "∴" },
+	    -- ∀  φ ‡ இ  ∞ ت ξ گ ห ⚡   "⌥",  "ℵ", "⌤", "∴", "ॐ", "இ", "ห", "", 
+	-- ORG --v--
+	    --names = { "ॐ", "∞",  "இ", "ห",   "ت", "⌥", "ℵ", "⌤", "∴" },
 	    -- ∀  φ ‡ இ  ∞ ت ξ گ ห ⚡   "⌥",  "ℵ", "⌤", "∴"  
 	    -- layout 10-fenster ; 
 	    layout = { layouts[6], layouts[6], layouts[6], layouts[8], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
@@ -655,30 +658,31 @@ end
 	    -- Set Firefox to always map on tags number 2 of screen 1.
 	--    { rule = { instance = "lxterminal" },
 	--      properties = { tag = tags[1][1] } },
-	    { rule = { instance = "pcmanfm" },
-	      properties = { tag = tags[1][2] } },
 	-- Surfing
 	    { rule = { class = "Firefox" },
-	      properties = { tag = tags[1][3] } },
+	      properties = { tag = tags[1][1] } },
 	    { rule = { class = "Midori" },
-	      properties = { tag = tags[1][3] } },
+	      properties = { tag = tags[1][1] } },
 	    { rule = { class = "Chrom*" },
-	      properties = { tag = tags[1][3] } },
+	      properties = { tag = tags[1][1] } },
+	-- Filebrowser
+	    { rule = { instance = "pcmanfm" },
+	      properties = { tag = tags[1][2] } },
 	-- EDITORS = 4
 	    { rule = { instance = "notepadqq" },
-	      properties = { tag = tags[1][4] } },
+	      properties = { tag = tags[1][3] } },
 	    { rule = { instance = "gedit" },
-	      properties = { tag = tags[1][4] } },
+	      properties = { tag = tags[1][3] } },
 	    { rule = { instance = "pluma" },
-	      properties = { tag = tags[1][4] } },
+	      properties = { tag = tags[1][3] } },
 	-- Internet Communication
 	    { rule = { class = "Xchat" },
 	      properties = { tag = tags[1][5] } },
 	    { rule = { class = "Thunderbird" },
-	      properties = { tag = tags[1][6] } },
+	      properties = { tag = tags[1][4] } },
 	-- Internet Transfer
 	    { rule = { class = "Transmission" },
-	      properties = { tag = tags[1][7] } },
+	      properties = { tag = tags[1][6] } },
 	    { rule = { instance = "filezilla" },
 		properties = { tag = tags[1][7] } },
 	-- Virtual Machines
@@ -686,15 +690,17 @@ end
 		properties = { tag = tags[1][8] } },
 	    { rule = { instance = "VirtualMachine" },
 		properties = { tag = tags[1][8] } },
+	    { rule = { instance = "QEMU" },
+		properties = { tag = tags[1][8] } },
 	-- Multimedia
 	    { rule = { class = "Rhythmbox" },
 		properties = { tag = tags[1][9] } },
-	    { rule = { class = "vlc" },
-		properties = { tag = tags[1][9] } },
-	    { rule = { name = "VLC media player" },
-		properties = { tag = tags[1][9] } },
-	    { rule = { instance = "vlc" },
-		properties = { tag = tags[1][9] } },
+--	    { rule = { class = "vlc" },
+--		properties = { tag = tags[1][9] } },
+--	    { rule = { name = "VLC media player" },
+--		properties = { tag = tags[1][9] } },
+--	    { rule = { instance = "vlc" },
+--		properties = { tag = tags[1][9] } },
 	}
 -- }}}
 
@@ -772,13 +778,13 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{	Autostart applications || disable during testing !
-	awful.util.spawn_with_shell( terminal )
+	--awful.util.spawn_with_shell( terminal )
 	awful.util.spawn_with_shell( files )
 	awful.util.spawn_with_shell( internet )
 	awful.util.spawn_with_shell( editor )
 	--awful.util.spawn_with_shell( irc )
 	awful.util.spawn_with_shell( email )
-	awful.util.spawn_with_shell( "transmission-gtk" )
+	--awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
 	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh")
