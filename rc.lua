@@ -55,10 +55,11 @@ local menubar = require("menubar")
 -- Wifi
 	wifi = "wlp3s0"
 -- Apps
-	--internet = "firefox"
-	internet = "chromium-browser"
+	internet = "firefox"
+	--internet = "chromium-browser"
 	irc = "xchat"
 	files = "pcmanfm"
+	--files = "pcmanfm-qt5"
 	ftp = "filezilla"
 	email = "thunderbird"
 	video = "vlc"
@@ -105,7 +106,7 @@ local menubar = require("menubar")
 	    --names = { "ॐ", "∞",  "இ", "ห",   "ت", "⌥", "ℵ", "⌤", "∴" },
 	    -- ∀  φ ‡ இ  ∞ ت ξ گ ห ⚡   "⌥",  "ℵ", "⌤", "∴"  
 	    -- layout 10-fenster ; 
-	    layout = { layouts[6], layouts[6], layouts[6], layouts[8], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
+	    layout = { layouts[6], layouts[6], layouts[8], layouts[8], layouts[6], layouts[2], layouts[2], layouts[2], layouts[2] }
 	}
 
 	for s = 1, screen.count() do
@@ -143,7 +144,7 @@ local menubar = require("menubar")
 		{ "editor", editor },
 		{ "files", files },
 		{ "email", email },
-		{ "ftp", ftp },
+	--	{ "ftp", ftp },
 		{ "irc", irc },
 		{ "torrents", "transmission-gtk" },
 		{ "virtualbox", "virtualbox" },
@@ -692,6 +693,8 @@ end
 		properties = { tag = tags[1][8] } },
 	    { rule = { instance = "QEMU" },
 		properties = { tag = tags[1][8] } },
+	    { rule = { name = "QEMU" },
+		properties = { tag = tags[1][8] } },
 	-- Multimedia
 	    { rule = { class = "Rhythmbox" },
 		properties = { tag = tags[1][9] } },
@@ -778,6 +781,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- {{{	Autostart applications || disable during testing !
+	-- default background
+	awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
 	--awful.util.spawn_with_shell( terminal )
 	awful.util.spawn_with_shell( files )
 	awful.util.spawn_with_shell( internet )
@@ -786,9 +791,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( email )
 	--awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
-	--awful.util.spawn_with_shell( "feh --bg-fill " .. awful.util.getdir("config") .. "/img/flower-002-dark-blue-16.png &")
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh")
 	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
+-- Setting to nasa image of the day
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh")
+	
 -- }}}
