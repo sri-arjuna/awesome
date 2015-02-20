@@ -117,28 +117,35 @@ local menubar = require("menubar")
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-	mnuGraph = {
-		{ "gimp", "gimp" },
-		{ "gpicview", "gpicview" },
-		{ "mtPaint", "mtpaint" },
-	}
 	mnuMM = {
-		{ "DeVeDe", "devede", },
-		{ "music", "rhythmbox", },
+		--{ "DeVeDe", "devede", },
+		{ "Play Media", video, },
 		{ "Record-Desktop", terminal .. " -e vhs -S", },
 		{ "Record-Guide", terminal .. " -e vhs -G", },
 		{ "Record-Webcam", terminal .. " -e vhs -W", },
 		{ "Stop-Recording", terminal .. " -e vhs -K", },
-	--	{ "Stop-Recording2", terminal .. " -e pkill $(ps -ha|grep bgjob|grep -v grep|awk '{print $1}')", },
-		{ "video", video, },
 		{ "volume", terminal .. " -e alsamixer", },
+		{ "gimp", "gimp" },
+		{ "gpicview", "gpicview" },
+		{ "mtPaint", "mtpaint" },
 	}
-	mnuOffice = {
-		{ "letters", "abiword" },
-		{ "sheets", "gnumeric" },
+	mnuServices = {
+		{"---Start---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start"},
+		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start bluetooth"},
+		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start cups"},
+		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start httpd"},
+		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start sendmail"},
+		{"---Stop---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop"},
+		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop bluetooth"},
+		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop cups"},
+		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop httpd"},
+		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop sendmail"},
+		{"---Status---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh status"},
 	}
 	mytools = {
 		{ "calculator", "galculator", },
+		{ "letters", "abiword" },
+		{ "sheets", "gnumeric" },
 		{ "browser", internet },
 		{ "dosbox", "dosbox" },
 		{ "editor", editor },
@@ -161,18 +168,18 @@ local menubar = require("menubar")
 	}
 	
 	menusystem = {
-	    { "Date & Time", "system-config-date" },
-	    { "Firewall", "system-config-firewall" },
-	    { "Keyboard", "system-config-keyboard" },
-	    { "Language", "system-config-language" },
-	    { "Partitions", "gnome-disk-utility" },
-	    { "Users", "system-config-users" },
-	    { "Screensaver", "xscreensaver-demo" },
-	    { "Services", "system-config-services" },
-	    { "Task Manager", "lxtask" },
-	    --{ "Wireless", "wicd-curses" },
-	    { "Networks", "nm-connection-editor" },
-	    { "Yum Extender", "yumex" }
+	    { "Date & Time", 	"system-config-date" },
+	--    { "Firewall", 	"system-config-firewall" },
+	    { "Keyboard", 	"system-config-keyboard" },
+	    { "Language", 	"system-config-language" },
+	    { "Partitions", 	"gnome-disk-utility" },
+	--    { "Users", 		"system-config-users" },
+	    { "Screensaver", 	"xscreensaver-demo" },
+	 --   { "services-config", 	"system-config-services" },
+	    { "Task Manager", 	"lxtask" },
+	    --{ "Wireless", 	"wicd-curses" },
+	    { "Networks", 	"nm-connection-editor" },
+	    { "Yum Extender", 	"yumex" }
 	}
 	menuscripttools = {
 	    { "Main Menu", terminal .. " -e st" },
@@ -193,6 +200,8 @@ local menubar = require("menubar")
 	    
 	}
 	mnuPower = {
+		{ "Dialog", term_cmd .. awful.util.getdir("config") .. "/scripts/shutdown_dialog.sh"},
+		{ "-----------",},
 		{ 'suspend',   'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Suspend' },
 		{ 'hibernate', 'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Hibernate' },
 		{ 'reboot',    'dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart', }, --beautiful.reload_icon },
@@ -215,21 +224,22 @@ local menubar = require("menubar")
 	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
-	mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-		                            { "system config", menusystem, beautiful.fedora_icon},
-					    { "-----------",},
-	   				    { "applications", mytools,},
-	   				    { "multimedia", mnuMM, },
-					    { "graphics", mnuGraph, },
-					    { "office", mnuOffice, },
-					    { "recovery", mnuRecovery, },
-					    { "power", mnuPower, }, --beautiful.power_icon } ,
-		                         --   { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
-		                            { "Dev-Scripts", menudevscripts, }, --beautiful.fedora_icon },
-			   		    { "-----------",},
-		                            { "files", files },
-		                            { "open terminal", terminal },
-			                    { "volume", terminal .. " -e alsamixer", },
+	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.awesome_icon },
+		                            	{ "system config", menusystem, beautiful.fedora_icon},
+						{ "Services", 	mnuServices, },
+	   					{ "-----------",},
+						{ "applications", mytools,},
+						{ "multimedia", mnuMM, },
+						--    { "office", mnuOffice, },
+						{ "recovery", mnuRecovery, },
+						{ "power", mnuPower, }, --beautiful.power_icon } ,
+						--   { "Script-Tools", menuscripttools, }, --beautiful.fedora_icon },
+						{ "Dev-Scripts", menudevscripts, }, --beautiful.fedora_icon },
+						{ "-----------",},
+						{ "browser", internet },
+						{ "files", files },
+						{ "open terminal", terminal },
+						{ "volume", terminal .. " -e alsamixer", },
 		                          }
 		                })
 
@@ -795,6 +805,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	-- Disable xscreensaver to have a simple blackout
 	awful.util.spawn_with_shell( "xscreensaver &" )
 -- Setting to nasa image of the day
-	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh")
+	awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh")
 	
 -- }}}
