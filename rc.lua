@@ -219,7 +219,7 @@ local menubar = require("menubar")
 	   { "config tui", term_cmd .. " tui config" },
 	   { "-----------",},
 	
-	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-new2.sh",  },
+	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
 	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
 	   { "-----------",},
 	   { "quit", awesome.quit },

@@ -14,7 +14,7 @@
 	stop)	mode=stop	;;
 	status)	mode=status	;;
 	*)	tui-status 1 "Unkown mode: $mode"
-		tui-wait 3 "Closing in..."
+		tui-wait 4 "Closing in..."
 		exit $?
 		;;
 	esac
@@ -27,13 +27,17 @@
 		service="${service/.service/}.service"
 	elif [ ! status = $mode ]
 	then	service="${2/.service/}.service"
-	else 	sudo systemctl $mode
+	else 	# Just show the status
+		sudo systemctl $mode
 		exit
 	fi
 	echo "sudo systemctl $mode ${service}" > $TMP
 # Execute the command / Display
 	tui-title "${mode^} : ${service^}"
-	tui-bgjob "$TMP" "${mode^}ing $service..." "${mode^}ed $service..."
+	tui-bgjob "$TMP" "${mode^}ing $service..." "${mode^}ed $service..." && \
+			tui-yesno "Disable the service of \"$service\" as well?" && \
+			sudo systemctl disable $service 2>/dev/zero
+	
 	case "${mode:2:2}" in
 	ar|op)	tui-wait 3 "Closing in..."
 		;;
