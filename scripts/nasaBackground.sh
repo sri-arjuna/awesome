@@ -18,6 +18,7 @@
 	RSS2="http://www.nasa.gov/rss/dyn/image_of_the_day.rss"
 	target=""
 	FOLDER="$HOME/.backgrounds"
+	WAIT=3
 #
 #	Display & Action
 #
@@ -48,9 +49,10 @@
 	# change existing bg if no url was found
 	if [ -z "$img_url" ] || [ 0 -ne $RET ]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
-		tui-wait 5s "Changing to random wallpaper"
+		tui-wait $WAIT "Changing to random wallpaper"
 		sh $(dirname $0)/changebg.sh << EOF
 2
+1
 EOF
 		tui-status $? "Changed wallpaper"
 		sleep 3 ; exit 1
@@ -86,7 +88,7 @@ EOF
 		feh --bg-scale "$target"
 		tui-status $? "Changed background to $target"
 		cd "$OLDPWD"
-		tui-wait 10s
+		tui-wait $(( 2 * $WAIT ))
 		exit 0
 	fi
 	sleep 1
