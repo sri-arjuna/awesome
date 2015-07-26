@@ -39,7 +39,7 @@
 		NASA-Random)	path=$nasabg
 				cd "$path"
 				max=$(ls -l|wc -l)
-				num=$(rnd $max)
+				num=$(tui-rnd $max)
 				files=( * )
 				img="${files[$num]}"
 				tui-echo "Selected random:" "$img"

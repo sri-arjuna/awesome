@@ -25,22 +25,23 @@
 
 	# TITLE
 	sleep 0.5
-	tui-title "NASA - Image of the Day"
-	tui-echo " " "This script is not related with NASA"
+	tui-title "NASA iotd" "Image of the Day" "(This script is not related with NASA)"
 	
 	RET=-1
+	C=1
 	for R in "$RSS1" "$RSS2";do
 		# Get Raw data
-		tui-status -r 2 "Retrieving raw data ($R)..."
-		rss=$(wget -q -O - "$R")
+		tui-status -r 2 "Retrieving raw data ($C :: $R)..."
+		rss=$(curl -s -o - "$R")
 		[ ! -z "$rss" ]
-		if tui-status $? "Retrieved raw data"
+		if tui-status $? "Retrieved raw data ($C/2)"
 		then	# It has data, but can it find a recent image?
-			img_url=$(echo $rss | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
+			img_url=$(echo "$rss" | grep -o '<enclosure [^>]*>' | grep -o 'http://[^\"]*')
 			[ ! -z "$img_url" ] && \
 				RET=0 && \
 				break
 		fi
+		C=$(($C+1))
 	done
 	
 	# Prepare download
@@ -50,7 +51,7 @@
 	if [ -z "$img_url" ] || [ 0 -ne $RET ]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
 		tui-wait $WAIT "Changing to random wallpaper"
-		sh $(dirname $0)/changebg.sh << EOF
+		bash ${0/${0##*}}/changebg.sh << EOF
 2
 1
 EOF
@@ -74,12 +75,13 @@ EOF
 			tui-download "$img_url"
 			
 			# Rename to list in date order
-			mv "$img_name" "$target"
+			tui-vmv "$img_name" "$target"
 			tui-status $? "Renamed to" "$target"
 			
 			# Converting to fixed size jpeg to save storage space
-			tui-printf "Converting $img_name..." "$TUI_WORK"
-			convert "$target" -resize $(xrandr | awk '/\*/ {print $1}') "$target"
+			screen_size=$(xrandr | awk '/\*/ {print $1}')
+			tui-printf "Converting $img_name to $screen_size..." "$TUI_WORK"
+			convert "$target" -resize "$screen_size" "$target"
 			tui-status $? "Converted ${target##*/}"
 		fi
 		target="${target:0:(-3)}jpg"

@@ -40,7 +40,7 @@ else
 end
 
 if awful.util.file_readable(config .. "/vain/init.lua") then
-    theme.useless_gap_width  = "3"
+    theme.useless_gap_width  = "1"
 end
 --}}}
 
@@ -109,6 +109,7 @@ theme.layout_dwindle    = themedir .. "/layouts14/dwindlew.png"
 
 theme.awesome_icon = themedir .. "/awesome14-dust.png"
 theme.fedora_icon = themedir .. "/fedora_icon.png"
+theme.arch_icon = themedir .. "/arch_icon_14.png"
 
 theme.widget_disk     = themes .. "/icons/dust/disk.png"
 theme.widget_ac       = themes .. "/icons/dust/ac.png"

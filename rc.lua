@@ -42,19 +42,23 @@ local menubar = require("menubar")
 	end
 -- }}}
 
+-- Functions
+	-- Its just a workaround for an 'unstable' 'hwmon/hwmon[12]' definition of Fedora21 - Rawhide
+	-- Function (only) from: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+	function file_exists(name)
+		local f=io.open(name,"r")
+		if f~=nil then io.close(f) return true else return false end
+	end
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 	--beautiful.init("/usr/share/awesome/themes/gray/theme.lua")
 	beautiful.init(awful.util.getdir("config") .. "/themes/sea/theme.lua")
-
--- This is used later as the default terminal and editor to run.
-	terminal = "lxterminal"
-	term_cmd = terminal .. " -e "
-	editor = os.getenv("EDITOR") or "notepadqq"
-	editor_cmd = terminal .. " -e " .. editor
 -- Wifi
 	wifi = "wlp3s0"
--- Apps
+-- Apps - common
+	terminal = "lxterminal"
+	term_cmd = terminal .. " -e "
 	internet = "firefox"
 	--internet = "chromium-browser"
 	irc = "xchat"
@@ -63,6 +67,23 @@ local menubar = require("menubar")
 	ftp = "filezilla"
 	email = "thunderbird"
 	video = "vlc"
+-- Apps - system specific
+	editor = os.getenv("EDITOR") or "notepadqq"
+	editor_cmd = terminal .. " -e " .. editor
+	
+	if file_exists("/etc/favicon.png")
+	then	-- Its fedora / I have my rpm repo
+		os_icon = wibox.widget.imagebox()
+		os_icon:set_image("/etc/favicon.png")
+	else	-- Probably Arch
+		os_icon = wibox.widget.imagebox()
+		--os_icon:set_image(awful.util.getdir("config") .. "themes/icons/arch-blue-transparent_small.png")
+		--ARCH_IMG = awful.util.getdir("config") .. "themes/icons/arch-blue-transparent_smaller.png"
+	--	ARCH_IMG = awful.util.getdir("config") .. "themes/sea/arch_icon_16.png"
+	--	os_icon:set_image( ARCH_IMG )
+		os_icon:set_image( awful.util.getdir("config") .. "themes/sea/arch_icon_16.png" )
+	end
+
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -114,6 +135,8 @@ local menubar = require("menubar")
 	    tags[s] = awful.tag(tags.names, s, tags.layout)
 	end
 -- }}}
+
+	
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -225,8 +248,8 @@ local menubar = require("menubar")
 	   { "quit", awesome.quit },
 	}
 	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.awesome_icon },
-		                            	{ "system config", menusystem, beautiful.fedora_icon},
-						{ "Services", 	mnuServices, },
+		                            	{ "system config", menusystem, beautiful.os_icon},
+						{ "Services", 	mnuServices, beautiful.os_icon},
 	   					{ "-----------",},
 						{ "applications", mytools,},
 						{ "multimedia", mnuMM, },
@@ -243,8 +266,7 @@ local menubar = require("menubar")
 		                          }
 		                })
 
-	fedora_icon = wibox.widget.imagebox()
-	fedora_icon:set_image("/etc/favicon.png")
+
 	
 	--fedora = wibox.widget.imagebox()
 	--fedora = image('/etc/favicon.png')
@@ -252,7 +274,7 @@ local menubar = require("menubar")
 	
 	--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 	--mylauncher = awful.widget.launcher({ image = image(fedora_icon),
-	mylauncher = awful.widget.launcher({ image = beautiful.fedora_icon,
+	mylauncher = awful.widget.launcher({ image = beautiful.os_icon,
 		                             menu = mymainmenu })
 
 	-- Menubar configuration
@@ -367,12 +389,6 @@ for s = 1, screen.count() do
 -- cpu C°
 	thermwidget = wibox.widget.textbox()
 	-- Nah this is no overkill...
-	-- Its just a workaround for an 'unstable' 'hwmon/hwmon[12]' definition of Fedora21 - Rawhide
-	-- Function (only) from: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
-	function file_exists(name)
-		local f=io.open(name,"r")
-		if f~=nil then io.close(f) return true else return false end
-	end
 	thermal_ret = ""
 	thermal_pre = "/sys/devices/platform/"
 	thermal_base = "coretemp.0/hwmon/"
@@ -491,9 +507,9 @@ for s = 1, screen.count() do
 	    --bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(batt)
 	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(diskwidget)
-	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(mylayoutbox[s])
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(diskwidget)
 	-- Now bring it all together
 	    local layout_bottom = wibox.layout.align.horizontal()
 	    layout_bottom:set_left(bottom_left_layout)
@@ -516,7 +532,17 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-
+    awful.key({ modkey,           }, "up", 
+	term_cmd .. awful.util.getdir("config") .. "/scripts/volume.sh up"
+	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/volume.sh Master up 3")
+	--term_cmd .. awful.util.getdir("config") .. " amixer -c 1 set Master 3db+"
+    ),
+    awful.key({ modkey,           }, "Down", 
+	term_cmd .. awful.util.getdir("config") .. "/scripts/volume.sh down" 
+    ),
+    awful.key({modkey}, "#122", function () exec("amixer -q sset Master 5%- &") end),
+    awful.key({}, "#123", function () exec("amixer -q sset Master 5%+ &") end),
+	
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
@@ -545,15 +571,15 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Volume controls | Multimedia keys: Volume Up/Down Mute
-    awful.key({ }, "XF86AudioRaiseVolume", function () volume("up", volumewidget) end),
-    awful.key({ }, "XF86AudioLowerVolume", function () volume("down", volumewidget) end),
+  --  awful.key({ }, "XF86AudioRaiseVolume", function () volume("up", volumewidget) end),
+  --  awful.key({ }, "XF86AudioLowerVolume", function () volume("down", volumewidget) end),
     awful.key({ }, "XF86AudioMute", function () volume("mute", volumewidget) end),
 
     -- Sea's keybindings
-    awful.key({ modkey           }, "e", files),
-    awful.key({ modkey           }, "t", ftp),
-    awful.key({ modkey           }, "w", browser),
-    awful.key({ modkey           }, "i", irc),
+    awful.key({ modkey, "Control" }, "e", function () awful.util.spawn(files) end),
+    awful.key({ modkey, "Control" }, "t", function () awful.util.spawn(ftp) end),
+    awful.key({ modkey, "Control" }, "w", function () awful.util.spawn(browser) end),
+    awful.key({ modkey, "Control" }, "i", function () awful.util.spawn(irc) end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
@@ -799,6 +825,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 	awful.util.spawn_with_shell( editor )
 	--awful.util.spawn_with_shell( irc )
 	awful.util.spawn_with_shell( email )
+	--awful.util.spawn_with_shell( "osmo -cd 3" )
 	--awful.util.spawn_with_shell( "transmission-gtk" )
 	--awful.util.spawn_with_shell( ftp )
 	--awful.util.spawn_with_shell( term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground-org.sh")
