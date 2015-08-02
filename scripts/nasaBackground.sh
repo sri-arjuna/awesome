@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+# set -x
 # grabs the nasa image of the day by RSS feed and updates the gnome
 # background. add this to your cron jobs to have this happen daily.  this is,
 # obviously, a hack, that is likely to break at the slightest change of NASA's
@@ -14,7 +14,7 @@
 	img_url=""
 	img_name=""
 	rss=""
-	RSS1="http://www.nasa.gov/rss/lg_image_of_the_day.rss"
+	RSS1="http://www.nasa.gov/rss/lg_image_rof_the_day.rss"
 	RSS2="http://www.nasa.gov/rss/dyn/image_of_the_day.rss"
 	target=""
 	FOLDER="$HOME/.backgrounds"
@@ -51,7 +51,8 @@
 	if [ -z "$img_url" ] || [ 0 -ne $RET ]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
 		tui-wait $WAIT "Changing to random wallpaper"
-		bash ${0/${0##*}}/changebg.sh << EOF
+		F="${0/${0##*}}/changebg.sh"
+		bash "$F" << EOF
 2
 1
 EOF
@@ -65,7 +66,7 @@ EOF
 		
 		img_name=$(echo "$img_url" | grep -o [^/]*\.\w*$ )
 		target="$(date +'%F')_${img_name/\?*/}"
-		target="${target:0:(-3)}jpg"
+		target="${target:0:(-4)}.jpg"
 		tui-status $? "Selected image:" "$img_name"
 		
 		# Download the image
@@ -75,7 +76,7 @@ EOF
 			tui-download "$img_url"
 			
 			# Rename to list in date order
-			tui-vmv "$img_name" "$target"
+			tui-mv "$img_name" "$target"
 			tui-status $? "Renamed to" "$target"
 			
 			# Converting to fixed size jpeg to save storage space
