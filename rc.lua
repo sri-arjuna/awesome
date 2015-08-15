@@ -71,18 +71,19 @@ local menubar = require("menubar")
 	editor = os.getenv("EDITOR") or "notepadqq"
 	editor_cmd = terminal .. " -e " .. editor
 	
-	if file_exists("/etc/favicon.png")
-	then	-- Its fedora / I have my rpm repo
-		os_icon = wibox.widget.imagebox()
-		os_icon:set_image("/etc/favicon.png")
-	else	-- Probably Arch
-		os_icon = wibox.widget.imagebox()
-		--os_icon:set_image(awful.util.getdir("config") .. "themes/icons/arch-blue-transparent_small.png")
-		--ARCH_IMG = awful.util.getdir("config") .. "themes/icons/arch-blue-transparent_smaller.png"
-	--	ARCH_IMG = awful.util.getdir("config") .. "themes/sea/arch_icon_16.png"
-	--	os_icon:set_image( ARCH_IMG )
-		os_icon:set_image( awful.util.getdir("config") .. "themes/sea/arch_icon_16.png" )
-	end
+	os_icon = wibox.widget.imagebox()
+--	if file_exists("/etc/favicon.png")
+--	then	-- Its either fedora or provides same functionality
+		--os_icon:set_image(beautiful.icon_fedora)
+--		os_icon:set_image("/etc/favicon.png")
+--		naughty.notify({ preset = naughty.config.presets.info, title = "Its fedora", text = err })
+--	else	-- Probably Arch
+--		os_icon:set_image( beautiful.icon_arch )
+		--naughty.notify({ preset = naughty.config.presets.info, title = "Its arch", text = err })
+--	end
+	
+	os_icon:set_image( beautiful.icon_os ) 
+	
 
 
 -- Default modkey.
@@ -247,7 +248,7 @@ local menubar = require("menubar")
 	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
-	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.awesome_icon },
+	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.icon_awesome },
 		                            	{ "system config", menusystem, beautiful.os_icon},
 						{ "Services", 	mnuServices, beautiful.os_icon},
 	   					{ "-----------",},
@@ -274,7 +275,7 @@ local menubar = require("menubar")
 	
 	--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 	--mylauncher = awful.widget.launcher({ image = image(fedora_icon),
-	mylauncher = awful.widget.launcher({ image = beautiful.os_icon,
+	mylauncher = awful.widget.launcher({ image = beautiful.icon_os,
 		                             menu = mymainmenu })
 
 	-- Menubar configuration

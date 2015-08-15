@@ -107,9 +107,6 @@ theme.layout_tiletop    = themedir .. "/layouts14/tiletopw.png"
 theme.layout_spiral     = themedir .. "/layouts14/spiralw.png"
 theme.layout_dwindle    = themedir .. "/layouts14/dwindlew.png"
 
-theme.awesome_icon = themedir .. "/awesome14-dust.png"
-theme.fedora_icon = themedir .. "/fedora_icon.png"
-theme.arch_icon = themedir .. "/arch_icon_14.png"
 
 theme.widget_disk     = themes .. "/icons/dust/disk.png"
 theme.widget_ac       = themes .. "/icons/dust/ac.png"
@@ -141,6 +138,33 @@ theme.widget_fs       = themes .. "/icons/dust12/fs_01.png"
 theme.widget_fs2      = themes .. "/icons/dust12/fs_02.png"
 theme.widget_up       = themes .. "/icons/dust12/up.png"
 theme.widget_down     = themes .. "/icons/dust12/down.png"
+
+
+theme.awesome_icon = themedir .. "/awesome14-dust.png"
+theme.fedora_icon = themedir .. "/fedora_icon.png"
+theme.arch_icon = themedir .. "/arch_icon_14.png"
+
+
+theme.icon_awesome	= themedir .. "/awesome14-dust.png"
+theme.icon_fedora 	= "/etc/favicon.png"
+theme.icon_arch 	= themedir .. "/arch_icon_14.png"
+
+
+	function file_exists(name)
+		local f=io.open(name,"r")
+		if f~=nil then io.close(f) return true else return false end
+	end
+
+	if file_exists("/etc/favicon.png")
+	then	-- Its either fedora or provides same functionality
+		--os_icon:set_image(beautiful.icon_fedora)
+		theme.icon_os = "/etc/favicon.png"
+		--naughty.notify({ preset = naughty.config.presets.info, title = "Its fedora", text = err })
+	else	-- Probably Arch
+		theme.icon_os =  themedir .. "/arch_icon_14.png"
+		--naughty.notify({ preset = naughty.config.presets.info, title = "Its arch", text = err })
+	end
+--theme.icon_arch 	= "/home/sea/.config/awesome/themes/sea/arch_icon_14_2.png"
 
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

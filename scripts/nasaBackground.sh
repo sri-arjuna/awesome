@@ -51,7 +51,7 @@
 	if [ -z "$img_url" ] || [ 0 -ne $RET ]
 	then	tui-status 1 "No URL could be identified, changing background to random image"
 		tui-wait $WAIT "Changing to random wallpaper"
-		F="${0/${0##*}}/changebg.sh"
+		F="${0/${0##*/}}/changebg.sh"
 		bash "$F" << EOF
 2
 1
