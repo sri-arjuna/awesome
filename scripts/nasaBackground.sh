@@ -18,7 +18,7 @@
 	RSS2="http://www.nasa.gov/rss/dyn/image_of_the_day.rss"
 	target=""
 	FOLDER="$HOME/.backgrounds"
-	WAIT=3
+	WAIT=2
 #
 #	Display & Action
 #
@@ -57,7 +57,7 @@
 1
 EOF
 		tui-status $? "Changed wallpaper"
-		sleep 3 ; exit 1
+		sleep $WAIT ; exit 1
 	else	[ -d "$FOLDER" ] || mkdir -p "$FOLDER"
 	
 		img_url=$(echo $img_url|awk '{print $1}')
