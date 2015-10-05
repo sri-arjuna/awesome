@@ -157,11 +157,13 @@ local menubar = require("menubar")
 		{"---Start---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start"},
 		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start bluetooth"},
 		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start cups"},
+		{ "dkms", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start dkms"},
 		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start httpd"},
 		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start sendmail"},
 		{"---Stop---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop"},
 		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop bluetooth"},
 		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop cups"},
+		{ "dkms", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop dkms"},
 		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop httpd"},
 		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop sendmail"},
 		{"---Status---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh status"},
@@ -228,7 +230,8 @@ local menubar = require("menubar")
 		{ "-----------",},
 		{ 'suspend',   'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Suspend' },
 		{ 'hibernate', 'dbus-send --system --print-reply --dest="org.freedesktop.UPower"     /org/freedesktop/UPower org.freedesktop.UPower.Hibernate' },
-		{ 'reboot',    'dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart', }, --beautiful.reload_icon },
+		{ 'reboot',	term_cmd .. " reboot"},
+		--{ 'reboot',    'dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Restart', }, --beautiful.reload_icon },
 		{ 'halt',      'dbus-send --system --print-reply --dest="org.freedesktop.ConsoleKit" /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop' },
 		{ "logout", awesome.quit }
 	}
