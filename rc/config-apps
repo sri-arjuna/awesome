@@ -1,0 +1,15 @@
+-- Apps - common
+	terminal = "lxterminal"
+	term_cmd = terminal .. " -e "
+	internet = "firefox"
+	--internet = "chromium-browser"
+	--internet = "chromium"	-- Arch
+	irc = "xchat"
+	files = "pcmanfm"
+	--files = "pcmanfm-qt5"
+	ftp = "filezilla"
+	email = "thunderbird"
+	video = "vlc"
+-- Apps - system specific
+	editor = os.getenv("EDITOR") or "gedit"
+	editor_cmd = terminal .. " -e " .. editor

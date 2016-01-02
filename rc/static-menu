@@ -1,0 +1,132 @@
+-- {{{ Menu
+-- Create a laucher widget and a main menu
+	mnuMM = {
+		--{ "DeVeDe", "devede", },
+		{ "Play Media", video, },
+		{ "Record-Desktop", terminal .. " -e vhs -S", },
+		{ "Record-Guide", terminal .. " -e vhs -G", },
+		{ "Record-Webcam", terminal .. " -e vhs -W", },
+		{ "Stop-Recording", terminal .. " -e vhs -K", },
+		{ "volume", terminal .. " -e alsamixer", },
+		{ "gimp", "gimp" },
+		{ "gpicview", "gpicview" },
+		{ "mtPaint", "mtpaint" },
+	}
+	mnuServices = {
+		{"---Start---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start"},
+		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start bluetooth"},
+		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start cups"},
+		{ "dkms", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start dkms"},
+		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start httpd"},
+		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start sendmail"},
+		{"---Stop---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop"},
+		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop bluetooth"},
+		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop cups"},
+		{ "dkms", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop dkms"},
+		{ "httpD", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop httpd"},
+		{ "Sendmail", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh stop sendmail"},
+		{"---Status---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh status"},
+	}
+	mytools = {
+		{ "calculator", "galculator", },
+		{ "letters", "abiword" },
+		{ "sheets", "gnumeric" },
+		{ "browser", internet },
+		{ "dosbox", "dosbox" },
+		{ "editor", editor },
+		{ "files", files },
+		{ "email", email },
+	--	{ "ftp", ftp },
+		{ "irc", irc },
+		{ "torrents", "transmission-gtk" },
+		{ "virtualbox", "virtualbox" },
+	}
+	mnuRecovery = {
+		{ "efi-helper", terminal .. " -e sudo efi-helper" },
+		{ "Rebuild dracut", terminal .. " -e sudo dracut-rebuild" },
+		{ "mount partitions", terminal .. " -e sudo moalpa" },
+		{ "rebuild grub2 (efi)", terminal .. " -e sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg" },
+		
+	--	{ "", "" },
+	--	{ "", "" },
+	--	{ "", "" },
+	}
+	menusystem = {
+	    { "Date & Time", 	"system-config-date" },
+	--    { "Firewall", 	"system-config-firewall" },
+	    { "Keyboard", 	"system-config-keyboard" },
+	    { "Language", 	"system-config-language" },
+	    { "Partitions", 	"gnome-disk-utility" },
+	--    { "Users", 		"system-config-users" },
+	    { "Screensaver", 	"xscreensaver-demo" },
+	 --   { "services-config", 	"system-config-services" },
+	    { "Task Manager", 	"lxtask" },
+	    --{ "Wireless", 	"wicd-curses" },
+	    { "Networks", 	"nm-connection-editor" },
+	    { "Yum Extender", 	"yumex" }
+	}
+	menuscripttools = {
+	    { "Main Menu", terminal .. " -e st" },
+	    { "iso to usb", terminal .. " -e st iso usb" },
+	    { "dl YT vids", terminal .. " -e st net yt" },
+	    { "dl Fedora iso", terminal .. " -e st net dl-fed" },
+	    { "Grub2 themes", terminal .. " -e sudo st tweak grub2 theme change" },
+	    { "Plymouth", terminal .. " -e sudo st tweak plymouth" },
+	    { "Change PS1", terminal .. " -e st tweak ps1" },
+	    { "-----------",},
+	    { "open projects", files .. "$XDG_PROJECT_DIR" },
+	}
+	menudevscripts = {
+	    { "Main Menu", terminal .. " -e ds" },
+	    { "Make", terminal .. " -e ds make" },
+	    { "Add new Project", terminal .. " -e ds add" },
+	    { "Setup DevScripts", terminal .. " -e ds setup" },
+	}
+	mnuPower = {
+		{ "Dialog", term_cmd .. awful.util.getdir("config") .. "/scripts/shutdown_dialog.sh"},
+		{ "-----------",},
+		{ 'suspend',  	term_cmd .. DIR_SCRIPTS .. "/dbus.sh suspend"},
+		{ 'hibernate',  term_cmd .. DIR_SCRIPTS .. "/dbus.sh hibernate" },
+		{ 'halt',   	term_cmd .. DIR_SCRIPTS .. "/dbus.sh halt"}, 
+		{ 'reboot',	term_cmd .. DIR_SCRIPTS .. "/dbus.sh restart" },
+		{ 'reboot',	term_cmd .. " reboot"},
+		{ "logout", awesome.quit },
+	}
+	myawesomemenu = {
+	   { "edit awesome", editor .. " " .. awesome.conffile },
+	   { "restart cfg", awesome.restart },
+	   { "manual", terminal .. " -e man awesome" },
+	   { "-----------",},
+	   { "config dosbox", editor .. " .dosbox/dosbox-0.74.conf" },
+	   { "config fas", term_cmd .. " fas setup" },
+	   { "config dev-scripts", term_cmd .. " ds setup" },
+	   { "config tui", term_cmd .. " tuirc config" },
+	   { "-----------",},
+	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
+	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
+	   { "-----------",},
+	   { "quit", awesome.quit },
+	}
+	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.icon_os },
+		                            	{ "system config", menusystem, beautiful.icon_os},
+						{ "Services", 	mnuServices, beautiful.icon_os},
+	   					{ "-----------",},
+						{ "applications", mytools,},
+						{ "multimedia", mnuMM, },
+						--    { "office", mnuOffice, },
+						{ "recovery", mnuRecovery, },
+						{ "power", mnuPower, },
+						--   { "Script-Tools", menuscripttools, },
+						{ "Dev-Scripts", menudevscripts, },
+						{ "-----------",},
+						{ "browser", internet },
+						{ "files", files },
+						{ "open terminal", terminal },
+						{ "volume", terminal .. " -e alsamixer", },
+		                          }
+		                })
+	mylauncher = awful.widget.launcher({ image = beautiful.icon_os,
+		                             menu = mymainmenu })
+	-- Menubar configuration
+	menubar.utils.terminal = terminal -- Set the terminal for applications that require it
+-- }}}

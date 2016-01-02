@@ -1,0 +1,238 @@
+-- {{{ Wibox
+-- Create a textclock widget
+	mytextclock = awful.widget.textclock()
+
+-- Create a wibox for each screen and add it
+mywibox = {}
+myinfobox = {}
+mypromptbox = {}
+mylayoutbox = {}
+mytaglist = {}
+mytaglist.buttons = awful.util.table.join(
+                    awful.button({ }, 1, awful.tag.viewonly),
+                    awful.button({ modkey }, 1, awful.client.movetotag),
+                    awful.button({ }, 3, awful.tag.viewtoggle),
+                    awful.button({ modkey }, 3, awful.client.toggletag),
+                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+                    )
+mytasklist = {}
+mytasklist.buttons = awful.util.table.join(
+                     awful.button({ }, 1, function (c)
+                                              if c == client.focus then
+                                                  c.minimized = true
+                                              else
+                                                  -- Without this, the following
+                                                  -- :isvisible() makes no sense
+                                                  c.minimized = false
+                                                  if not c:isvisible() then
+                                                      awful.tag.viewonly(c:tags()[1])
+                                                  end
+                                                  -- This will also un-minimize
+                                                  -- the client, if needed
+                                                  client.focus = c
+                                                  c:raise()
+                                              end
+                                          end),
+                     awful.button({ }, 3, function ()
+                                              if instance then
+                                                  instance:hide()
+                                                  instance = nil
+                                              else
+                                                  instance = awful.menu.clients({ width=250 })
+                                              end
+                                          end),
+                     awful.button({ }, 4, function ()
+                                              awful.client.focus.byidx(1)
+                                              if client.focus then client.focus:raise() end
+                                          end),
+                     awful.button({ }, 5, function ()
+                                              awful.client.focus.byidx(-1)
+                                              if client.focus then client.focus:raise() end
+                                          end))
+
+for s = 1, screen.count() do
+    -- Create a promptbox for each screen
+    mypromptbox[s] = awful.widget.prompt()
+    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
+    -- We need one layoutbox per screen.
+    mylayoutbox[s] = awful.widget.layoutbox(s)
+    mylayoutbox[s]:buttons(awful.util.table.join(
+                           awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+                           awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+    -- Create a taglist widget
+	   mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+
+    -- Create a tasklist widget
+	   mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+
+    -- Create the wibox
+	   mywibox[s] = awful.wibox({ position = "top", screen = s })
+	   myinfobox[s] = awful.wibox({ position = "bottom", screen = s })
+    
+-- 
+-- DEFINE MY WIDGETS
+--
+	spacer = wibox.widget.textbox()
+	spacer:set_text(' | ')
+	empty = wibox.widget.textbox()
+	empty:set_text(' ')
+	txt_mem = wibox.widget.textbox()
+	txt_mem:set_text('ram ')
+	txt_mail = wibox.widget.textbox()
+	txt_mail:set_text('mail ')
+-- bat
+	batt = wibox.widget.textbox()
+	vicious.register(batt, vicious.widgets.bat, "⚡ $2% $1$3", 61, "BAT0")
+-- mem	
+	memvalue = wibox.widget.textbox()
+	--vicious.register(memvalue, vicious.widgets.mem, "$1% - $2 / $3mb ")
+	vicious.register(memvalue, vicious.widgets.mem, " used $2 / $3mb ($1%)")
+	memwidget = awful.widget.progressbar()
+	memwidget:set_width(8)
+	memwidget:set_height(10)
+	memwidget:set_vertical(true)
+	memwidget:set_background_color("#494B4F")
+	memwidget:set_border_color(nil)
+	memwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#AECF96"}, {0.5, "#88A175"}, {1, "#FF5656"}}})
+	vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
+-- wifi name & rate
+	wifiwidget = wibox.widget.textbox()
+	vicious.register(wifiwidget, vicious.widgets.wifi, '${ssid}' , 123, wifi)
+	wifistr = wibox.widget.textbox()
+	vicious.register(wifistr, vicious.widgets.wifi, ' (${link}%) ' , 124, wifi)		-- mode // sign // link
+-- cpu C°
+	thermwidget = wibox.widget.textbox()
+	-- Nah this is no overkill...
+	thermal_ret = ""
+	thermal_pre = "/sys/devices/platform/"
+	thermal_base = "coretemp.0/hwmon/"
+	
+	if file_exists(thermal_pre .. thermal_base .. "hwmon1/temp2_input" )  then 
+		thermal_ret = thermal_base .. "hwmon1"
+	else 
+		thermal_ret = thermal_base .. "hwmon2"
+		-- so far only had these 2 entries, so this simple 'else' is enough.
+	end
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { thermal_ret, "core"}) 
+	-- vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK
+	
+-- cpu	usage
+	cputext = wibox.widget.textbox()				-- Increases average load usage by +10-20%, with peeks of up to 90% 		
+	vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	
+	-- above is deprecated
+	cpuwidget = awful.widget.graph()
+	cpuwidget:set_width(50)
+	cpuwidget:set_background_color("#494B4F")
+	cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96" }}})
+	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")
+-- uptime
+	uptime = wibox.widget.textbox()
+	vicious.register( uptime, vicious.widgets.uptime, "up $1d $2h $3min")
+-- kernel	
+	oswidget = wibox.widget.textbox()
+	vicious.register(oswidget, vicious.widgets.os, "$2")
+-- hdd C°
+	hddtempwidget = wibox.widget.textbox()
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, "${/dev/sda} °C", 19)
+
+-- Disk usage widget
+	diskwidget = wibox.widget.imagebox()
+	diskwidget:set_image(awful.util.getdir("config") .. "/img/du.png")
+	disk = require("widgets/diskusage")
+	-- the first argument is the widget to trigger the diskusage ; -- the second/third is the percentage at which a line gets orange/red
+	-- true = show only local filesystems
+	disk.addToWidget(diskwidget, 75, 90, false)
+-- Calendar widget to attach to the textclock
+	require('widgets/calendar2')
+	calendar2.addCalendarToWidget(mytextclock)
+
+-- mpd
+-- http://codepad.org/DFYrCllQ -- maybe for later use
+	mpdwidget = wibox.widget.textbox()
+	vicious.register(mpdwidget, vicious.widgets.mpd,
+	    function (mpdwidget, args)
+		if args["{state}"] == "Stop" then 
+		    return " - "
+		else 
+		    return args["{Artist}"]..' - '.. args["{Title}"]
+		end
+	    end, 10)
+-- Volume widget
+	hlcolor = "#d7e0ea"
+	volumewidget = wibox.widget.textbox()
+	volumewidget:buttons({
+	   button({  }, 4, function () volume("up", volumewidget) end),
+	   button({  }, 5, function () volume("down", volumewidget) end),
+	   button({  }, 1, function () volume("mute", volumewidget) end)
+	})
+	vicious.register(volumewidget, vicious.widgets.volume, " Vol: <span color='" .. hlcolor .. "'>$1$2</span> | ",61, "Master")
+-- }}}
+-- TOP BAR
+	-- Widgets that are aligned to the left
+	    local left_layout = wibox.layout.fixed.horizontal()
+	    left_layout:add(mytaglist[s])
+	    left_layout:add(mypromptbox[s])
+	-- Widgets that are aligned to the right
+	    local right_layout = wibox.layout.fixed.horizontal()
+	    if s == 1 then right_layout:add(wibox.widget.systray()) end
+	    right_layout:add(empty)
+	    --right_layout:add(empty)
+	    --right_layout:add(txt_mail)
+	    right_layout:add(empty)
+	    right_layout:add(volumewidget)
+	    --right_layout:add(empty)
+	    right_layout:add(mytextclock)
+	    right_layout:add(empty)
+	    right_layout:add(mylauncher)
+	-- Now bring it all together (with the tasklist in the middle)
+	    local layout = wibox.layout.align.horizontal()
+	    layout:set_left(left_layout)
+	    layout:set_middle(mytasklist[s])
+	    layout:set_right(right_layout)
+	-- Apply layout
+	    mywibox[s]:set_widget(layout)
+-- BOTTOM BAR
+	-- Widgets that are aligned to the bottom - left
+	    local bottom_left_layout = wibox.layout.fixed.horizontal()
+	    bottom_left_layout:add(uptime)
+	    bottom_left_layout:add(spacer)
+	    bottom_left_layout:add(oswidget)
+	    bottom_left_layout:add(spacer)
+	    bottom_left_layout:add(wifiwidget)
+	    bottom_left_layout:add(wifistr)
+	   -- bottom_left_layout:add(spacer)
+	   -- bottom_left_layout:add(mpdwidget)
+	-- Widgets that are aligned to the bottom - right
+	    local bottom_right_layout = wibox.layout.fixed.horizontal()
+	    bottom_right_layout:add(thermwidget)
+	    bottom_right_layout:add(empty)
+	    bottom_right_layout:add(cpuwidget)
+	    bottom_right_layout:add(empty)
+	    -- Increases average load usage by +10-20%, with peeks of up to 90% 
+	    bottom_right_layout:add(cputext)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(txt_mem)
+	    bottom_right_layout:add(memwidget)
+	    bottom_right_layout:add(empty)
+	    bottom_right_layout:add(memvalue)
+	    bottom_right_layout:add(spacer)
+	    -- SEEMS BUGGY.. TODO WHY?
+	    -- bottom_right_layout:add(hddtempwidget)
+	    --bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(batt)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(mylayoutbox[s])
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(diskwidget)
+	-- Now bring it all together
+	    local layout_bottom = wibox.layout.align.horizontal()
+	    layout_bottom:set_left(bottom_left_layout)
+	    layout_bottom:set_right(bottom_right_layout)
+	-- Apply layout
+	    myinfobox[s]:set_widget(layout_bottom)
+	end
+-- }}}
+
