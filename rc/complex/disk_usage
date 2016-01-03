@@ -1,0 +1,8 @@
+-- Disk usage widget
+	diskwidget = wibox.widget.imagebox()
+	diskwidget:set_image(DIR_ICONS .. "/du.png")
+	disk = require("widgets/diskusage")
+	-- the first argument is the widget to trigger the diskusage ; -- the second/third is the percentage at which a line gets orange/red
+	-- true = show only local filesystems
+	disk.addToWidget(diskwidget, 75, 90, false)
+

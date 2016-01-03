@@ -13,9 +13,8 @@
 	MODE=$1
 	INTERVALL=${2:-5}
 	DATA_RAW=$(LC_ALL=C amixer get $DEVICE)
-	echo "$DATA_RAW" | grep -i "\[off\]" && isMute=true || isMute=false
+	echo "$DATA_RAW" | grep -q -i "\[off\]" && isMute=true || isMute=false
 	$isMute && IMAGE=inactive || IMAGE=norm
-	dir=libraries/snd
 #
 #	Functions
 #

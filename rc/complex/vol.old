@@ -1,0 +1,8 @@
+-- Volume widget
+	hlcolor = "#d7e0ea"
+	volumewidget = wibox.widget.textbox()
+	volumewidget:buttons({
+	   button({  }, 4, function () volume("up", volumewidget) end),
+	   button({  }, 5, function () volume("down", volumewidget) end),
+	   button({  }, 1, function () volume("mute", volumewidget) end)
+	})

@@ -1,0 +1,16 @@
+-- cpu C°
+	thermwidget = wibox.widget.textbox()
+	-- Nah this is no overkill...
+	thermal_ret = ""
+	thermal_pre = "/sys/devices/platform/"
+	thermal_base = "coretemp.0/hwmon/"
+	
+	if file_exists(thermal_pre .. thermal_base .. "hwmon1/temp2_input" )  then 
+		thermal_ret = thermal_base .. "hwmon1"
+	else 
+		thermal_ret = thermal_base .. "hwmon2"
+		-- so far only had these 2 entries, so this simple 'else' is enough.
+	end
+	vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { thermal_ret, "core"}) 
+	-- vicious.register(thermwidget, vicious.widgets.thermal, "cpu $1 °C", 30, { "coretemp.0/hwmon/hwmon1", "core"}) -- ${core} ${proc} | FALLBACK
+	

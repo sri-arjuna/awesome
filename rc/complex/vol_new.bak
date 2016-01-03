@@ -1,0 +1,20 @@
+--
+-- Volume widget
+--
+	SCRIPT	= DIR_SCRIPTS .. "/snd.sh"
+	ICONS	= DIR_ICONS .. "/snd/"
+	
+	if file_exists( SCRIPT )
+	then	-- Icon
+		volume_icon 	= wibox.widget.imagebox()
+		vol_icon 	= get_bash_string( SCRIPT , "image")
+		volume_icon:set_image(ICONS .. vol_icon)
+		volume_icon:buttons({
+			button({}, 1, os.execute(SCRIPT .. " up") ),
+			button({}, 2, os.execute(SCRIPT .. " down") ),
+			button({}, 3, os.execute(SCRIPT .. " mute") ),
+		})
+	end
+	-- vicious.register(volume_icon, vicious.widgets.volume, " Vol: <span color='" .. hlcolor .. "'>$1$2</span> | ",61, "Master")
+	-- vicious.register(volume_icon, vicious.widgets.volume_icon, " Vol: ",61,"")
+	

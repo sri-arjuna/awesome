@@ -1,9 +1,10 @@
 -- Functions
 -- Its just a workaround for an 'unstable' 'hwmon/hwmon[12]' definition of Fedora21 - Rawhide
 -- Function (only) from: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+-- Read file from: -- New from: http://www.tutorialspoint.com/lua/lua_file_io.htm
 
 	function file_exists(name)
-		local f=io.open(name,"r")
+		f=io.open(name,"r")
 		if f~=nil then io.close(f) return true else return false end
 	end
 	
@@ -13,3 +14,15 @@
 		return f()
 	end
 	
+	function get_bash_string (cmd,args)
+		tmp = "/tmp/lua-" .. args
+		ret = os.execute( cmd .. " " .. args .. " > " .. tmp )
+		
+		file = io.open(tmp, "r")
+		output = file:read()
+		file:close()
+		os.remove(tmp)
+		
+		print(output)
+		return output
+	end

@@ -30,13 +30,13 @@
 	DIR_BASE 	= awful.util.getdir("config")
 	DIR_SHARED      = "/usr/share/awesome"
 	DIR_SHAREDTHEMES = DIR_SHARED .. "/themes"
-	DIR_RC 		= DIR_BASE .. "/rc"
-	DIR_SCRIPTS 	= DIR_BASE .. "/scripts"
-	DIR_ICONS	= DIR_BASE .. "/img/icons"
 	DIR_WALLPAPER	= DIR_BASE .. "/img/wallpapers"
 	DIR_THEMES	= DIR_BASE .. "/themes" 
 	DIR_THEME	= DIR_THEMES .. "/" .. theme
-	DIR_WIDGETS = DIR_RC .. "/widgets"
+	DIR_RC 		= DIR_BASE .. "/rc"
+	DIR_SCRIPTS 	= DIR_BASE .. "/scripts"
+	DIR_ICONS	= DIR_BASE .. "/img/icons"
+	DIR_WIDGETS 	= DIR_RC .. "/widgets"
 --
 --	Functions
 --
@@ -51,7 +51,8 @@
 	-- Load 'distro specific' icon
 	os_icon = wibox.widget.imagebox()
 	os_icon:set_image( beautiful.icon_os )
-	--wallpaper:set_image( beautiful.wallpaper ) 
+	--wallpaper_bg = awful.image()
+	--wallpaper_bg:set_image( beautiful.wallpaper ) 
 --
 -- 	Other designs...
 --
