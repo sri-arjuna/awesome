@@ -1,10 +1,15 @@
-Awesome Configuration of: sea / sri-arjuna
-----
-This configuration requires: [Vicious](http://git.sysphere.org/vicious/)
+Personal Awesome Configuration
+==============================
 
-Fedora users can also install it (Vicious) using this repo: http://sea.fedorapeople.org/all.repo
+This is my awesome configuration how i use it.
 
-Others please see: http://awesome.naquadah.org/wiki/Vicious#Getting_Vicious
+Requirements:
+-------------
+
+* [Vicious](http://git.sysphere.org/vicious/)
+* [TUI](../tui) (Text User Interface, framework for scripts)
+* [iotd](../iotd) (NASA its 'Image of the Day' as wallpaper)
+
 
 
 The file: img/arch_fhd.png is not made by me.
