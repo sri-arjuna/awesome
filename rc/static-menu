@@ -1,6 +1,6 @@
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-	mnuMM = {
+	mnuMM = { 
 		--{ "DeVeDe", "devede", },
 		{ "Play Media", video, },
 		{ "Record-Desktop", terminal .. " -e vhs -S", },
@@ -12,7 +12,7 @@
 		{ "gpicview", "gpicview" },
 		{ "mtPaint", "mtpaint" },
 	}
-	mnuServices = {
+	mnuServices = { 
 		{"---Start---", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start"},
 		{ "bluetooth", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start bluetooth"},
 		{ "cups", term_cmd .. awful.util.getdir("config") .. "/scripts/toggle_services.sh start cups"},
@@ -51,7 +51,7 @@
 	--	{ "", "" },
 	--	{ "", "" },
 	}
-	menusystem = {
+	menusystem = { 
 	    { "Date & Time", 	"system-config-date" },
 	--    { "Firewall", 	"system-config-firewall" },
 	    { "Keyboard", 	"system-config-keyboard" },
@@ -82,7 +82,7 @@
 	    { "Add new Project", terminal .. " -e ds add" },
 	    { "Setup DevScripts", terminal .. " -e ds setup" },
 	}
-	mnuPower = {
+	mnuPower =  {
 		{ "Dialog", term_cmd .. awful.util.getdir("config") .. "/scripts/shutdown_dialog.sh"},
 		{ "-----------",},
 		{ 'suspend',  	term_cmd .. DIR_SCRIPTS .. "/dbus.sh suspend"},
@@ -107,7 +107,7 @@
 	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
-	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.icon_os },
+	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.icon_awesome },
 		                            	{ "system config", menusystem, beautiful.icon_os},
 						{ "Services", 	mnuServices, beautiful.icon_os},
 	   					{ "-----------",},
@@ -125,8 +125,22 @@
 						{ "volume", terminal .. " -e alsamixer", },
 		                          }
 		                })
-	mylauncher = awful.widget.launcher({ image = beautiful.icon_os,
-		                             menu = mymainmenu })
+	-- Popup menus
+	mylauncher = awful.widget.launcher({ 
+				image = beautiful.icon_os,
+		                menu = mymainmenu })
+	mylauncher.system = awful.widget.launcher({ 
+				image = beautiful.icon_awesome, 
+				menu = menusystem })
+	mylauncher.power = awful.widget.launcher({ 
+				image = beautiful.widget_ac, 
+				menu = mnuPower })
+	mylauncher.service = awful.widget.launcher({ 
+				image = beautiful.menu_submenu_icon, 
+				menu = mnuServices })
+	mylauncher.mm = awful.widget.launcher({ 
+				image = beautiful.widget_mpd, 
+				menu = mnuMM })
 	-- Menubar configuration
 	menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}

@@ -27,12 +27,6 @@
 		local icon = get_bash_string( DIR_SCRIPTS .. "/snd.sh","image")
 		volume_icon:set_image( DIR_ICONS .. "/snd/" .. icon )
 	end
-	
-	function volume_change(mode)
-		os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh " .. mode .. "\""  ) 
-		msgbox("Volume " .. mode ) 
-		update_icon()
-	end
 --
 -- Signals
 --
@@ -53,29 +47,25 @@
 	-- Left button for volume up
 	volume_icon:buttons(awful.util.table.join(
 		awful.button({ }, 5, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh up" .. "\""  ) 
-			--os.execute( "amixer -c 0 set Master 5db+")
-			--msgbox("Volume up")
-			--update_icon()
-			volume_change("up")
+			os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh up" .. "\""  ) 
+			msgbox("Volume up") ,
+			update_icon()
 		end)
 	))
 	-- Right button for volume down
 	volume_icon:buttons(awful.util.table.join(
 		awful.button({ }, 4, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh down" .. "\""  ) 
-			--msgbox("Volume down") 
-			--update_icon()
-			volume_change("down")
+			os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh down" .. "\""  ) 
+			msgbox("Volume down") 
+			update_icon()
 		end)
 	))
 	-- Wheel click for volume mute toggle
 	volume_icon:buttons(awful.util.table.join(
 		awful.button({ }, 1, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh mute" .. "\""  ) 
-			--msgbox("Volume toggle (mute)") 
-			--update_icon()
-			volume_change("mute")
+			os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh mute" .. "\""  ) 
+			msgbox("Volume toggle (mute)") 
+			update_icon()
 		end)
 	))
 --

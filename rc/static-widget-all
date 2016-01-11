@@ -85,10 +85,6 @@ for s = 1, screen.count() do
 	txt_mem:set_text('ram ')
 	txt_mail = wibox.widget.textbox()
 	txt_mail:set_text('mail ')
-	txt_vol = wibox.widget.textbox()
-	txt_vol:set_text('Vol:')
-	img_vol = wibox.widget.imagebox()
-	img_vol:set_image(DIR_ICONS .. "/snd/vol.png" )
 -- Simple, leave as is
 -- uptime
 	uptime = wibox.widget.textbox()
@@ -110,29 +106,12 @@ for s = 1, screen.count() do
 	dofile ( DIR_COMPLEX .. "cpu_temp")
 	dofile ( DIR_COMPLEX .. "mem")
 	dofile ( DIR_COMPLEX .. "disk_usage")
+	dofile ( DIR_COMPLEX .. "vol")
 --	dofile ( DIR_COMPLEX .. "mpd")
 
 -- vol
-	dofile ( DIR_COMPLEX .. "vol")
-	dofile ( DIR_COMPLEX .. "vol_new.bak")
 	
-	--volumewidget = wibox.widget.imagebox()
-	--volumewidget:set_image(DIR_ICONS .. "/snd/vol.png")
-	
-	volume = wibox.widget.imagebox()
-	volume:set_image(DIR_ICONS .. "/snd/vol.png")
-	
-	require('widgets/volume')
-	vicious.register(volume, wtype, format, 19, warg)
-	--vicious.register(volume, 19)
-	
-	--hddtempwidget = wibox.widget.textbox()
-	--vicious.register(hddtempwidget, vicious.widgets.hddtemp, "${/dev/sda} °C", 19)
-	
-	-- volume.addToWidget(volumewidget, 13)
-	
-	
-	
+
 -- bat
 	batt = wibox.widget.textbox()
 	vicious.register(batt, vicious.widgets.bat, "⚡ $2% $1$3", 61, "BAT0")
@@ -159,13 +138,18 @@ for s = 1, screen.count() do
 	--    right_layout:add(volumewidget)
 	    --right_layout:add(img_vol)
 	    right_layout:add(empty)
-	    right_layout:add(volume)
+	    right_layout:add(volume_img)
 	    right_layout:add(volume_icon)
+	    
 	    
 	    right_layout:add(spacer)
 	    --right_layout:add(empty)
 	    right_layout:add(mytextclock)
 	    right_layout:add(empty)
+	--    right_layout:add(mylauncher.mm)
+	--    right_layout:add(mylauncher.service)
+	--    right_layout:add(mylauncher.power)
+	--    right_layout:add(mylauncher.system)
 	    right_layout:add(mylauncher)
 	-- Now bring it all together (with the tasklist in the middle)
 	    layout = wibox.layout.align.horizontal()

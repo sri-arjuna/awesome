@@ -1,0 +1,21 @@
+--
+-- Volume widget
+--
+	   --Create Volume Progressbar
+	-- Initialize widget
+	volwidget = awful.widget.progressbar()
+	-- Progressbar properties
+	volwidget:set_width(8)
+	volwidget:set_height(22)
+	volwidget:set_vertical(true)
+	volwidget:set_background_color("#232323")
+	volwidget:set_border_color(nil)
+	volwidget:set_color("#606060")
+	--volwidget:set_gradient_colors({ "#606060", "blue" })
+	--Register widget
+	vicious.register(volwidget, vicious.widgets.volume, "$1", 0.2, "Master")
+	--Mouse bindings
+	volwidget.widget:buttons(awful.util.table.join(
+		awful.button({ }, 4, function () awful.util.spawn_with_shell("amixer -c 0 set Master 1+ unmute") end),
+		awful.button({ }, 5, function () awful.util.spawn_with_shell("amixer -c 0 set Master 1-") end)
+	))

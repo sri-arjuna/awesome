@@ -26,3 +26,12 @@
 		print(output)
 		return output
 	end
+	
+	function msgbox(msg)
+		naughty.notify({ 
+			preset = naughty.config.presets.info, 
+			title = msg,
+			text = err
+		})
+	end
+	

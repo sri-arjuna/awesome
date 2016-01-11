@@ -81,7 +81,7 @@
 	then
 		awful.util.spawn_with_shell( "feh --bg-fill " .. beautiful.wallpaper .. " &")
 		awful.util.spawn_with_shell( "xscreensaver &" )
-		--awful.util.spawn_with_shell( term_cmd .. " iotd")
+		awful.util.spawn_with_shell( term_cmd .. " iotd")
 	end
 	-- Load 'basic workflow'
 	if false		-- set false while testing
