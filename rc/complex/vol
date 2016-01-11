@@ -50,9 +50,10 @@
 --
 -- Mouse interactions
 --
-	-- Left button for volume up
+	-- Left button for volume up 
+	-- Wheel up (btn:4 : xev)
 	volume_icon:buttons(awful.util.table.join(
-		awful.button({ }, 5, function () 
+		awful.button({ }, 4, function () 
 			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh up" .. "\""  ) 
 			--os.execute( "amixer -c 0 set Master 5db+")
 			--msgbox("Volume up")
@@ -61,8 +62,9 @@
 		end)
 	))
 	-- Right button for volume down
+	-- Wheel down (btn:5 : xev)
 	volume_icon:buttons(awful.util.table.join(
-		awful.button({ }, 4, function () 
+		awful.button({ }, 5, function () 
 			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh down" .. "\""  ) 
 			--msgbox("Volume down") 
 			--update_icon()

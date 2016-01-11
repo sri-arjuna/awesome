@@ -36,7 +36,7 @@ globalkeys = awful.util.table.join(
 	-- Volume (FN + F9/F10/F11)
 	awful.key({modkey}, "#122", 	volume_change("down"), update_icon()),
 	awful.key({modkey}, "#123", 	volume_change("up"), update_icon),
-	--awful.key({modkey}, "#124", 	volume_change("mute"), update_icon),
+	--awful.key({modkey}, "#121", 	volume_change("mute"), update_icon),
 	--awful.key({modkey, "Fn"}, "F9", 	volume_change("down"), update_icon()),
 	--awful.key({modkey, "Fn"}, "F10", 	volume_change("up"), update_icon),
 	--awful.key({modkey, "Fn"}, "F11", 	volume_change("mute"), update_icon),

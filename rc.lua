@@ -76,10 +76,10 @@
 --
 -- 	Tasks on login
 --
-	-- Load background and screensaver by default
+	awful.util.spawn_with_shell( "feh --bg-fill " .. beautiful.wallpaper .. " &")
+	-- Set IOTD and screensaver by default
 	if true
 	then
-		awful.util.spawn_with_shell( "feh --bg-fill " .. beautiful.wallpaper .. " &")
 		awful.util.spawn_with_shell( "xscreensaver &" )
 		awful.util.spawn_with_shell( term_cmd .. " iotd")
 	end
