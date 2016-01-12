@@ -3,8 +3,8 @@ Personal Awesome Configuration
 
 This is my awesome configuration how i use it.
 
-[Preview Arch](https://raw.githubusercontent.com/sri-arjuna/awesome/master/screenshots/preview-arch.jpg)
-[Preview Fedora](https://raw.githubusercontent.com/sri-arjuna/awesome/master/screenshots/preview-fedora.jpg)
+* [Preview Arch](https://raw.githubusercontent.com/sri-arjuna/awesome/master/screenshots/preview-arch.jpg)
+* [Preview Fedora](https://raw.githubusercontent.com/sri-arjuna/awesome/master/screenshots/preview-fedora.jpg)
 
 
 Requirements:
