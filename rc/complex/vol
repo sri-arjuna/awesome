@@ -10,7 +10,7 @@
 	volume_icon = wibox.widget.imagebox()
 	volume_icon:set_image(DIR_ICONS .. "/snd/norm4.png")
 	-- This internvall works fine, updating the image to current state
-	timer_vol = timer({ timeout = 3 })
+	timer_vol = timer({ timeout = 30 })
 --
 -- Enums
 --
