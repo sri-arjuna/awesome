@@ -1,18 +1,16 @@
 -- Maybe to improve performance...
 	-- See: http://awesome.naquadah.org/wiki/Widget_Layouts
-	
 --
 -- Volume widget
 --
 	-- But for now, lets use these images...
 	volume_img = wibox.widget.imagebox()
 	volume_img:set_image(DIR_ICONS .. "/snd/vol.png")
-	
+	-- This is the actual 'widget'
 	volume_icon = wibox.widget.imagebox()
-	volume_icon:set_image(DIR_ICONS .. "/snd/norm4.png")	-- This is supposed to be updated by the widget...
-	
+	volume_icon:set_image(DIR_ICONS .. "/snd/norm4.png")
 	-- This internvall works fine, updating the image to current state
-	timer_vol = timer({ timeout = 7 })
+	timer_vol = timer({ timeout = 3 })
 --
 -- Enums
 --
@@ -31,7 +29,7 @@
 	function volume_change(mode)
 		os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh " .. mode .. "\""  ) 
 		msgbox("Volume " .. mode ) 
-		update_icon()
+		-- update_icon()
 	end
 --
 -- Signals
@@ -50,36 +48,22 @@
 --
 -- Mouse interactions
 --
-	-- Left button for volume up 
-	-- Wheel up (btn:4 : xev)
+	-- Expecting "World of Warcraft gaming mouse"
+	-- xev: Left click = 1
+	-- xev: Right click = 3
+	-- xev: Wheel click = 2
+	-- xev: Wheel Up = 4
+	-- xev: Wheel Down = 5
+	-- xev: Thumb front click = 9
+	-- xev: Thumb back click = 8
+	-- xev: Buttons: 6,7,10-15 not reckognized
+	
 	volume_icon:buttons(awful.util.table.join(
-		awful.button({ }, 4, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh up" .. "\""  ) 
-			--os.execute( "amixer -c 0 set Master 5db+")
-			--msgbox("Volume up")
-			--update_icon()
-			volume_change("up")
-		end)
+		awful.button({ },4,function() volume_change("up") end),
+		awful.button({ },5,function() volume_change("down") end),
+		awful.button({ },1,function() volume_change("mute") end)
 	))
-	-- Right button for volume down
-	-- Wheel down (btn:5 : xev)
-	volume_icon:buttons(awful.util.table.join(
-		awful.button({ }, 5, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh down" .. "\""  ) 
-			--msgbox("Volume down") 
-			--update_icon()
-			volume_change("down")
-		end)
-	))
-	-- Wheel click for volume mute toggle
-	volume_icon:buttons(awful.util.table.join(
-		awful.button({ }, 1, function () 
-			--os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh mute" .. "\""  ) 
-			--msgbox("Volume toggle (mute)") 
-			--update_icon()
-			volume_change("mute")
-		end)
-	))
+	
 --
 -- Action
 --

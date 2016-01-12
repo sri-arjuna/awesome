@@ -125,12 +125,12 @@ theme.widget_play     = DIR_ICONS .. "/dust/play.png"
 theme.widget_pause    = DIR_ICONS .. "/dust/pause.png"
 theme.widget_ram      = DIR_ICONS .. "/dust/ram.png"
 
---theme.widget_mem      = DIR_ICONS .. "/dust12/ram.png"
---theme.widget_swap     = DIR_ICONS .. "/dust12/swap.png"
---theme.widget_fs       = DIR_ICONS .. "/dust12/fs_01.png"
---theme.widget_fs2      = DIR_ICONS .. "/dust12/fs_02.png"
---theme.widget_up       = DIR_ICONS .. "/dust12/up.png"
---theme.widget_down     = DIR_ICONS .. "/dust12/down.png"
+theme.widget_mem      = DIR_ICONS .. "/dust/ram.png"
+theme.widget_swap     = DIR_ICONS .. "/dust/swap.png"
+theme.widget_fs       = DIR_ICONS .. "/dust/fs_01.png"
+theme.widget_fs2      = DIR_ICONS .. "/dust/fs_02.png"
+theme.widget_up       = DIR_ICONS .. "/dust/up.png"
+theme.widget_down     = DIR_ICONS .. "/dust/down.png"
 
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

@@ -34,16 +34,13 @@ globalkeys = awful.util.table.join(
 	awful.key({modkey, "Control" }, "g", 		function () awful.util.spawn(graphic) end),
 	
 	-- Volume (FN + F9/F10/F11)
-	awful.key({modkey}, "#122", 	volume_change("down"), update_icon()),
-	awful.key({modkey}, "#123", 	volume_change("up"), update_icon),
-	--awful.key({modkey}, "#121", 	volume_change("mute"), update_icon),
-	--awful.key({modkey, "Fn"}, "F9", 	volume_change("down"), update_icon()),
-	--awful.key({modkey, "Fn"}, "F10", 	volume_change("up"), update_icon),
-	--awful.key({modkey, "Fn"}, "F11", 	volume_change("mute"), update_icon),
+	--awful.key({}, "#122", 	function() volume_change("down") end),
+	--awful.key({}, "#123", 	function() volume_change("up") end),
+	--awful.key({}, "#121", 	function() volume_change("mute") end),
 	-- Volume controls | Multimedia keys: Volume Up/Down Mute
-	--  awful.key({ }, "XF86AudioRaiseVolume", 	volume_change("up"), update_icon()),
-	--  awful.key({ }, "XF86AudioLowerVolume", 	volume_change("down"), update_icon()),
-	--  awful.key({ }, "XF86AudioMute", 		volume_change("mute"), update_icon()),
+	--awful.key({modkey }, "XF86AudioRaiseVolume", 	function() volume_change("up") end),
+	--awful.key({modkey }, "XF86AudioLowerVolume", 	function() volume_change("down") end),
+	--awful.key({ }, "XF86AudioMute", 		function() volume_change("mute") end),
 	
 	awful.key({ modkey,           }, "j",
 	function ()
