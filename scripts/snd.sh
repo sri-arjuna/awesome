@@ -11,7 +11,7 @@
 	CARDID=0
 	waychar=""	# + / -
 	MODE=$1
-	INTERVALL=${2:-5}
+	INTERVALL=${2:-3}
 	DATA_RAW=$(LC_ALL=C amixer get $DEVICE)
 	echo "$DATA_RAW" | grep -q -i "\[off\]" && isMute=true || isMute=false
 	$isMute && IMAGE=inactive || IMAGE=norm

@@ -25,11 +25,9 @@
 		local icon = get_bash_string( DIR_SCRIPTS .. "/snd.sh","image")
 		volume_icon:set_image( DIR_ICONS .. "/snd/" .. icon )
 	end
-	
 	function volume_change(mode)
-		os.execute( term_cmd .. "\"" .. DIR_SCRIPTS .. "/snd.sh " .. mode .. "\""  ) 
-		msgbox("Volume " .. mode ) 
-		-- update_icon()
+		os.execute(DIR_SCRIPTS .. "/snd.sh " .. mode )
+		update_icon()
 	end
 --
 -- Signals
@@ -61,7 +59,8 @@
 	volume_icon:buttons(awful.util.table.join(
 		awful.button({ },4,function() volume_change("up") end),
 		awful.button({ },5,function() volume_change("down") end),
-		awful.button({ },1,function() volume_change("mute") end)
+		awful.button({ },1,function() volume_change("mute") end),
+		awful.button({ },2,function() os.execute(term_cmd .. "alsamixer") end)
 	))
 	
 --
