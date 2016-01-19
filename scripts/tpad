@@ -1,0 +1,11 @@
+#!/bin/bash
+##  /usr/local/bin/toggleTouchPad
+status=$(synclient -l | grep TouchpadOff | awk '{print $3}')
+if [ $status -eq 1 ];then
+    status=0
+else
+    status=1
+fi
+synclient TouchpadOff=$status
+echo "$0 set synclient TouchpadOff=$status"
+exit

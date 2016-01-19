@@ -46,7 +46,7 @@ globalkeys = awful.util.table.join(
 	--awful.key({}, "XF86AudioLowerVolume", 	function() volume_change("down") end),
 	--awful.key({}, "XF86AudioMute", 		function() volume_change("mute") end),
 	
-	-- Play stuff
+	-- Play stuff - TODO
 	--awful.key({}, "XF86AudioPrev", 		function() msgbox("prev") end),
 	--awful.key({}, "XF86AudioPlay", 		function() msgbox("play") end),
 	--awful.key({}, "XF86AudioNext", 		function() msgbox("next") end),
@@ -55,18 +55,20 @@ globalkeys = awful.util.table.join(
 	--awful.key({}, "F8", 		function() msgbox("next") end),
 	
 	-- Brightness
-	--awful.key({}, "XF86MonBrightnessDown", 	function() msgbox("todo birght down") end),
-	--awful.key({}, "XF86MonBrightnessUp",  	function() msgbox("todo birght up") end),
+	--awful.key({}, "XF86MonBrightnessDown", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end),
+	--awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end),
+	awful.key({}, "F2", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end),
+	awful.key({}, "F3",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end),
 	
 	-- HDMI toggle?
 	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
-	awful.key({}, "F4", 		function() os.execute("lxterminal -e /home/sea/bin/hdmi") end),
+	awful.key({}, "F4", 		function() os.execute(term_cmds .. DIR_SCRIPTS .. "/hdmi") end),
 	
 	-- Toggle laptop touchpad
-	awful.key({}, "F5", 		function() os.execute("/home/sea/bin/tpad") end),
+	awful.key({}, "F5", 		function() os.execute( DIR_SCRIPTS .. "/tpad") end),
 	
 	-- Wifi / Connect
-	awful.key({}, "F12", 		function() os.execute("connect") end),
+	awful.key({}, "F12", 		function() os.execute(term_cmd ..  sDF"connect") end),
 	
 	
 	awful.key({ modkey,           }, "j",
