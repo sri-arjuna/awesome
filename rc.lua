@@ -61,7 +61,7 @@
 	-- menu
 	dofile ( DIR_RC .. "/static-menu")
 	
-	-- tasbars / wibox
+	-- taskbars / wibox
 	dofile ( DIR_RC .. "/static-widget-all")
 --
 --	Hardware interactions
@@ -92,5 +92,5 @@
 		awful.util.spawn_with_shell( editor )
 		awful.util.spawn_with_shell( email )
 		awful.util.spawn_with_shell( irc )
-		awful.util.spawn_with_shell( "transmission-gtk" )
+		awful.util.spawn_with_shell( torrent )
 	end

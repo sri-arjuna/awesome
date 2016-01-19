@@ -1,16 +1,22 @@
--- Apps - common
+-- Common
 	terminal = "lxterminal"
-	term_cmd = terminal .. " -e "
-	internet = "firefox"
-	--internet = "chromium-browser"
-	--internet = "chromium"	-- Arch
-	irc = "xchat"
 	files = "pcmanfm"
-	graphic = "gimp"
-	--files = "pcmanfm-qt5"
+	editor = os.getenv("EDITOR") or "gedit"
+	
+-- Internet
+	irc = "xchat"
+	internet = "firefox"
+	--internet = "chromium-browser" -- Fedora
+	--internet = "chromium"		-- Arch
+	torrent = "transmission-gtk"
 	ftp = "filezilla"
 	email = "thunderbird"
+	
+-- Multimedia
+	graphic = "gimp"
 	video = "vlc"
--- Apps - system specific
-	editor = os.getenv("EDITOR") or "gedit"
+	
+-- Special wrappers
+	term_cmd = terminal .. " -e "
 	editor_cmd = terminal .. " -e " .. editor
+	

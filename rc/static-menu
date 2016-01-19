@@ -7,9 +7,7 @@
 		{ "Record-Guide", terminal .. " -e vhs -G", },
 		{ "Record-Webcam", terminal .. " -e vhs -W", },
 		{ "Stop-Recording", terminal .. " -e vhs -K", },
-		{ "volume", terminal .. " -e alsamixer", },
-		{ "gimp", "gimp" },
-		{ "gpicview", "gpicview" },
+		{ "Graphic", graphic },
 		{ "mtPaint", "mtpaint" },
 	}
 	mnuServices = { 
@@ -93,9 +91,13 @@
 		{ "logout", awesome.quit },
 	}
 	myawesomemenu = {
-	   { "edit awesome", editor .. " " .. awesome.conffile },
+	   { "edit awesome rc", editor .. " " .. awesome.conffile },
+	   { "edit apps", editor .. " " .. DIR_RC .. "/config-apps"},
+	   { "edit hotkeys", editor .. " " .. DIR_RC .. "/config-hotkeys"},
+	   { "edit mouse", editor .. " " .. DIR_RC .. "/config-mouse"},
+	   { "edit menu", editor .. " " .. DIR_RC .. "/static-menu"},
 	   { "restart cfg", awesome.restart },
-	   { "manual", terminal .. " -e man awesome" },
+	   { "manual", term_cmd .. " man awesome" },
 	   { "-----------",},
 	   { "config dosbox", editor .. " .dosbox/dosbox-0.74.conf" },
 	   { "config fas", term_cmd .. " fas setup" },
@@ -122,7 +124,7 @@
 						{ "browser", internet },
 						{ "files", files },
 						{ "open terminal", terminal },
-						{ "volume", terminal .. " -e alsamixer", },
+					--	{ "volume", terminal .. " -e alsamixer", },
 		                          }
 		                })
 	-- Popup menus

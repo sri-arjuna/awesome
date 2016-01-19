@@ -101,12 +101,12 @@ for s = 1, screen.count() do
 	net_down_icon  = wibox.widget.imagebox()
 	net_down_icon:set_image(beautiful.widget_down)
 	net_down_widget = wibox.widget.textbox()
-	vicious.register(net_down_widget,vicious.widgets.net,"${wlp3s0 down_kb}kb / ${wlp3s0 up_kb}kb",1)
+	vicious.register(net_down_widget,vicious.widgets.net,"${wlp3s0 down_kb}kb / ${wlp3s0 up_kb}kb",2.5)
 	-- Up
 	net_up_icon  = wibox.widget.imagebox()
 	net_up_icon:set_image(beautiful.widget_up)
-	net_up_widget = wibox.widget.textbox()
-	vicious.register(net_up_widget,vicious.widgets.net,"${wlp3s0 up_kb}kb",1)
+	--net_up_widget = wibox.widget.textbox()
+	--vicious.register(net_up_widget,vicious.widgets.net,"${wlp3s0 up_kb}kb",2.5)
 -- bat
 	batt = wibox.widget.textbox()
 	vicious.register(batt, vicious.widgets.bat, "⚡ $2% $1$3", 61, "BAT0")

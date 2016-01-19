@@ -28,7 +28,7 @@ globalkeys = awful.util.table.join(
 	awful.key({modkey,           }, "Return",	function () awful.util.spawn(terminal) end),
 	awful.key({modkey, "Control" }, "e", 		function () awful.util.spawn(files) end),
 	awful.key({modkey, "Control" }, "m", 		function () awful.util.spawn(email) end),
-	--awful.key({modkey, "Control" }, "t", 		function () awful.util.spawn(ftp) end),
+	awful.key({modkey, "Control" }, "t", 		function () awful.util.spawn(torrent) end),
 	awful.key({modkey, "Control" }, "w", 		function () awful.util.spawn(browser) end),
 	awful.key({modkey, "Control" }, "i", 		function () awful.util.spawn(irc) end),
 	awful.key({modkey, "Control" }, "g", 		function () awful.util.spawn(graphic) end),
@@ -37,10 +37,37 @@ globalkeys = awful.util.table.join(
 	--awful.key({}, "#122", 	function() volume_change("down") end),
 	--awful.key({}, "#123", 	function() volume_change("up") end),
 	--awful.key({}, "#121", 	function() volume_change("mute") end),
+	-- Direct Function Keys
+	awful.key({}, "F9", 	function() volume_change("down") end),
+	awful.key({}, "F10", 	function() volume_change("up") end),
+	awful.key({}, "F11", 	function() volume_change("mute") end),
 	-- Volume controls | Multimedia keys: Volume Up/Down Mute
-	--awful.key({modkey }, "XF86AudioRaiseVolume", 	function() volume_change("up") end),
-	--awful.key({modkey }, "XF86AudioLowerVolume", 	function() volume_change("down") end),
-	--awful.key({ }, "XF86AudioMute", 		function() volume_change("mute") end),
+	--awful.key({}, "XF86AudioRaiseVolume", 	function() volume_change("up") end),
+	--awful.key({}, "XF86AudioLowerVolume", 	function() volume_change("down") end),
+	--awful.key({}, "XF86AudioMute", 		function() volume_change("mute") end),
+	
+	-- Play stuff
+	--awful.key({}, "XF86AudioPrev", 		function() msgbox("prev") end),
+	--awful.key({}, "XF86AudioPlay", 		function() msgbox("play") end),
+	--awful.key({}, "XF86AudioNext", 		function() msgbox("next") end),
+	--awful.key({}, "F6", 		function() msgbox("prev") end),
+	--awful.key({}, "F7", 		function() msgbox("play") end),
+	--awful.key({}, "F8", 		function() msgbox("next") end),
+	
+	-- Brightness
+	--awful.key({}, "XF86MonBrightnessDown", 	function() msgbox("todo birght down") end),
+	--awful.key({}, "XF86MonBrightnessUp",  	function() msgbox("todo birght up") end),
+	
+	-- HDMI toggle?
+	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
+	awful.key({}, "F4", 		function() os.execute("lxterminal -e /home/sea/bin/hdmi") end),
+	
+	-- Toggle laptop touchpad
+	awful.key({}, "F5", 		function() os.execute("/home/sea/bin/tpad") end),
+	
+	-- Wifi / Connect
+	awful.key({}, "F12", 		function() os.execute("connect") end),
+	
 	
 	awful.key({ modkey,           }, "j",
 	function ()
