@@ -12,7 +12,6 @@
 	DATA_RAW=$(LC_ALL=C acpi)
 	mode=$(echo "$DATA_RAW" | awk -v IFS="," '{print $3}' | tr -d ',')
 	[ -z "${mode/Charging}" ] && prefix="+" || prefix="-"
-	dir=libraries/bat
 #
 #	Time
 #
@@ -25,8 +24,8 @@
 	then	if [ ${OUT/\%} -lt 10 ]
 		then	tmp="$HOME/.cache/warning.sh"
 			echo "tui-print; printf '\r\';tui-typewriter -d 0.08 'Connect your power cable, you got only ${OUT}% power left!';tui-wait 5m" > "$tmp"
-			tui-terminal "bash $tmp"
-			cat "$tmp"
+			chmod +x "$tmp"
+			tui-bol-gui && { tui-terminal "$tmp"  || bash "$tmp" ; }
 		fi
 		echo "${prefix/-}$OUT"
 		exit 0
@@ -47,8 +46,9 @@
 	elif [ $OUT -lt 100 ]
 	then	N=5
 	elif echo "$DATA_RAW" | grep -q "discharging at zero rate"
-	then	N="_full"
-	else	echo $OUT
+	then	N="full"
+	#else	tui-bol-gui && tui-terminal "tui-header;echo $OUT;tui-press" &
 	fi
 	IMAGE+="_$N.png"
 	echo "$IMAGE"
+	exit 0

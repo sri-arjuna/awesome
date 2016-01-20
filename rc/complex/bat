@@ -1,0 +1,45 @@
+-- Maybe to improve performance...
+-- See: http://awesome.naquadah.org/wiki/Widget_Layouts
+--
+-- Battery widget
+--
+	-- But for now, lets use these images...
+	bat_img = wibox.widget.imagebox()
+	bat_img:set_image( DIR_ICONS .. "/bat/battery_missing.png" )
+	
+	-- Timer
+	timer_bat = timer({ timeout = 7 })
+--
+-- Enums
+--
+	local capi = {
+		mouse = mouse,
+		screen = screen
+	}
+--
+-- Functions
+--
+	function update_icon_bat() 
+		local icon = get_bash_string( DIR_SCRIPTS .. "/bat.sh","image")
+		bat_img:set_image( DIR_ICONS .. "/bat/" .. icon )
+	end
+--
+-- Signals
+--
+	timer_bat:connect_signal("timeout", update_icon_bat )
+	bat_img:connect_signal('mouse::leave', function () naughty.destroy(usage) end)
+	bat_img:connect_signal('mouse::enter', 
+		function() 
+			update_icon_bat()
+			usage = naughty.notify({
+				text = get_bash_string( DIR_SCRIPTS .. "/bat.sh","time") .. " " .. get_bash_string( DIR_SCRIPTS .. "/bat.sh","percent"),
+				timeout = 0,
+				hover_timeout = 0.5,
+				screen = capi.mouse.screen
+			})
+		end)
+--
+-- Action
+--
+	timer_bat:start()
+	

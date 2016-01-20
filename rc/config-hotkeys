@@ -34,43 +34,36 @@ globalkeys = awful.util.table.join(
 	awful.key({modkey, "Control" }, "g", 		function () awful.util.spawn(graphic) end),
 	
 	-- Volume (FN + F9/F10/F11)
-	--awful.key({}, "#122", 	function() volume_change("down") end),
-	--awful.key({}, "#123", 	function() volume_change("up") end),
-	--awful.key({}, "#121", 	function() volume_change("mute") end),
-	-- Direct Function Keys
-	awful.key({}, "F9", 	function() volume_change("down") end),
-	awful.key({}, "F10", 	function() volume_change("up") end),
-	awful.key({}, "F11", 	function() volume_change("mute") end),
 	-- Volume controls | Multimedia keys: Volume Up/Down Mute
-	--awful.key({}, "XF86AudioRaiseVolume", 	function() volume_change("up") end),
-	--awful.key({}, "XF86AudioLowerVolume", 	function() volume_change("down") end),
-	--awful.key({}, "XF86AudioMute", 		function() volume_change("mute") end),
+	awful.key({}, "XF86AudioRaiseVolume", 	function() volume_change("up") end),	-- #122 / F9 / XF86AudioRaiseVolume
+	awful.key({}, "XF86AudioLowerVolume", 	function() volume_change("down") end),	-- #123 / F10 / XF86AudioLowerVolume
+	awful.key({}, "XF86AudioMute", 		function() volume_change("mute") end),	-- #121 / F11 / XF86AudioMute
 	
-	-- Play stuff - TODO
-	--awful.key({}, "XF86AudioPrev", 		function() msgbox("prev") end),
-	--awful.key({}, "XF86AudioPlay", 		function() msgbox("play") end),
-	--awful.key({}, "XF86AudioNext", 		function() msgbox("next") end),
-	--awful.key({}, "F6", 		function() msgbox("prev") end),
-	--awful.key({}, "F7", 		function() msgbox("play") end),
-	--awful.key({}, "F8", 		function() msgbox("next") end),
+	-- Play stuff, mpc & mpd
+	awful.key({}, "XF86AudioPrev", 		function() os.execute("mpc prev") end),	-- F6 / XF86AudioPrev
+	awful.key({}, "XF86AudioPlay", 		function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end), -- F7 / XF86AudioPlay
+	awful.key({}, "XF86AudioNext", 		function() os.execute("mpc next") end), -- F8 / XF86AudioNext
 	
 	-- Brightness
-	--awful.key({}, "XF86MonBrightnessDown", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end),
-	--awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end),
-	awful.key({}, "F2", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end),
-	awful.key({}, "F3",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end),
+	-- (if xorg-xbacklight is not installed, the script requires passwordless sudo! :(
+	awful.key({}, "XF86MonBrightnessDown", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end), 	-- F2 / XF86MonBrightnessDown
+	awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end), 	-- F3 / XF86MonBrightnessUp
 	
 	-- HDMI toggle?
 	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
-	awful.key({}, "F4", 		function() os.execute(term_cmds .. DIR_SCRIPTS .. "/hdmi") end),
+	awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/hdmi") end),
 	
 	-- Toggle laptop touchpad
-	awful.key({}, "F5", 		function() os.execute( DIR_SCRIPTS .. "/tpad") end),
+	awful.key({"Control"}, "F5", 		function() os.execute(DIR_SCRIPTS .. "/tpad") end),
 	
-	-- Wifi / Connect
-	awful.key({}, "F12", 		function() os.execute(term_cmd ..  sDF"connect") end),
+	-- Wifi / Connect 
+	-- (actually RF toggle key)
+	awful.key({}, "F12", 			function() os.execute(term_cmd ..  " connect") end),
 	
+	-- Screenshot
+	awful.key({modkey}, "s",		function() os.execute("cd " .. DIR_SCREENSHOTS .. ";import -window root Screenshot-$(date +'%F_%T').jpg") end),
 	
+	-- Default stuff, didnt touch
 	awful.key({ modkey,           }, "j",
 	function ()
 	    awful.client.focus.byidx( 1)

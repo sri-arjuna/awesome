@@ -27,6 +27,7 @@
 --	For internal configuration use
 --
 	DIR_HOME        = os.getenv("HOME")
+	DIR_SCREENSHOTS = DIR_HOME .. "/pics/Screenshots"
 	DIR_BASE 	= awful.util.getdir("config")
 	DIR_SHARED      = "/usr/share/awesome"
 	DIR_SHAREDTHEMES = DIR_SHARED .. "/themes"

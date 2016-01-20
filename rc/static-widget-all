@@ -92,7 +92,7 @@ for s = 1, screen.count() do
 	vicious.register(oswidget, vicious.widgets.os, "$2")
 -- hdd C°
 	hddtempwidget = wibox.widget.textbox()
-	vicious.register(hddtempwidget, vicious.widgets.hddtemp, "${/dev/sda} °C", 19)
+	vicious.register(hddtempwidget, vicious.widgets.hddtemp, "${/dev/sda}°C ", 19)
 -- Calendar widget to attach to the textclock
 	require('widgets/calendar2')
 	calendar2.addCalendarToWidget(mytextclock)
@@ -101,7 +101,7 @@ for s = 1, screen.count() do
 	net_down_icon  = wibox.widget.imagebox()
 	net_down_icon:set_image(beautiful.widget_down)
 	net_down_widget = wibox.widget.textbox()
-	vicious.register(net_down_widget,vicious.widgets.net,"${wlp3s0 down_kb}kb / ${wlp3s0 up_kb}kb",2.5)
+	vicious.register(net_down_widget,vicious.widgets.net,"down: ${wlp3s0 down_kb}kb / up: ${wlp3s0 up_kb}kb",2.5)
 	-- Up
 	net_up_icon  = wibox.widget.imagebox()
 	net_up_icon:set_image(beautiful.widget_up)
@@ -122,14 +122,18 @@ for s = 1, screen.count() do
 	dofile ( DIR_COMPLEX .. "mem")
 	dofile ( DIR_COMPLEX .. "disk_usage")
 	dofile ( DIR_COMPLEX .. "vol")
---	dofile ( DIR_COMPLEX .. "mpd")
+	dofile ( DIR_COMPLEX .. "bat")
+	dofile ( DIR_COMPLEX .. "mpd")
 
 
 	
 -- Top and bottom taskbar.	
 	-- Widgets that are aligned to the left
 	    left_layout = wibox.layout.fixed.horizontal()
+	    left_layout:add(mylayoutbox[s])
+	    left_layout:add(empty)
 	    left_layout:add(mytaglist[s])
+	    left_layout:add(empty)
 	    left_layout:add(mypromptbox[s])
 	-- Widgets that are aligned to the right
 	    right_layout = wibox.layout.fixed.horizontal()
@@ -137,15 +141,12 @@ for s = 1, screen.count() do
 	    right_layout:add(empty)
 	    --right_layout:add(empty)
 	    --right_layout:add(txt_mail)
-	    right_layout:add(empty)
-	--    right_layout:add(volumewidget)
-	    --right_layout:add(img_vol)
-	    right_layout:add(empty)
+	    --right_layout:add(empty)
+	    --right_layout:add(bat_img)
+	    --right_layout:add(spacer)
 	    right_layout:add(volume_img)
 	    right_layout:add(volume_icon)
-	    
-	    
-	    right_layout:add(spacer)
+	     right_layout:add(spacer)
 	    --right_layout:add(empty)
 	    right_layout:add(mytextclock)
 	    right_layout:add(empty)
@@ -164,6 +165,8 @@ for s = 1, screen.count() do
 -- BOTTOM BAR
 	-- Widgets that are aligned to the bottom - left
 	    bottom_left_layout = wibox.layout.fixed.horizontal()
+	    bottom_left_layout:add(diskwidget)
+	    bottom_left_layout:add(spacer)
 	    bottom_left_layout:add(uptime)
 	    bottom_left_layout:add(spacer)
 	    bottom_left_layout:add(oswidget)
@@ -171,37 +174,32 @@ for s = 1, screen.count() do
 	    bottom_left_layout:add(wifiwidget)
 	    bottom_left_layout:add(wifistr)
 	    bottom_left_layout:add(spacer)
-	    bottom_left_layout:add(net_down_icon)
-	    --bottom_left_layout:add(net_up_widget)
 	    bottom_left_layout:add(net_down_widget)
-	   bottom_left_layout:add(net_up_icon)
-	    -- bottom_left_layout:add(spacer)
-	   -- bottom_left_layout:add(mpdwidget)
+	-- Widgets that are aligned at the bottm - center
+	    bottom_center_layout = wibox.layout.fixed.horizontal()
+	    bottom_center_layout:add(mpdwidget)
 	-- Widgets that are aligned to the bottom - right
 	    bottom_right_layout = wibox.layout.fixed.horizontal()
 	    bottom_right_layout:add(thermwidget)
 	    bottom_right_layout:add(empty)
 	    bottom_right_layout:add(cpuwidget)
 	    bottom_right_layout:add(empty)
-	    -- Increases average load usage by +10-20%, with peeks of up to 90% 
 	    bottom_right_layout:add(cputext)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(txt_mem)
 	    bottom_right_layout:add(memwidget)
 	    bottom_right_layout:add(empty)
 	    bottom_right_layout:add(memvalue)
-	    bottom_right_layout:add(spacer)
 	    -- SEEMS BUGGY.. TODO WHY?
-	    -- bottom_right_layout:add(hddtempwidget)
 	    --bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(batt)
+	    --bottom_right_layout:add(hddtempwidget)
 	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(mylayoutbox[s])
-	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(diskwidget)
+	    bottom_right_layout:add(bat_img)
+	    bottom_right_layout:add(empty)
 	-- Now bring it all together
 	    layout_bottom = wibox.layout.align.horizontal()
 	    layout_bottom:set_left(bottom_left_layout)
+	    layout_bottom:set_middle(bottom_center_layout)
 	    layout_bottom:set_right(bottom_right_layout)
 	-- Apply layout
 	    myinfobox[s]:set_widget(layout_bottom)

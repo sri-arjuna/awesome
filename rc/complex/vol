@@ -10,7 +10,7 @@
 	volume_icon = wibox.widget.imagebox()
 	volume_icon:set_image(DIR_ICONS .. "/snd/norm4.png")
 	-- This internvall works fine, updating the image to current state
-	timer_vol = timer({ timeout = 30 })
+	timer_vol = timer({ timeout = 3 })
 --
 -- Enums
 --
@@ -21,18 +21,18 @@
 --
 -- Functions
 --
-	function update_icon() 
+	function update_icon_vol() 
 		local icon = get_bash_string( DIR_SCRIPTS .. "/snd.sh","image")
 		volume_icon:set_image( DIR_ICONS .. "/snd/" .. icon )
 	end
 	function volume_change(mode)
 		os.execute(DIR_SCRIPTS .. "/snd.sh " .. mode )
-		update_icon()
+		update_icon_vol()
 	end
 --
 -- Signals
 --
-	timer_vol:connect_signal("timeout", update_icon )
+	timer_vol:connect_signal("timeout", update_icon_vol )
 	volume_icon:connect_signal('mouse::leave', function () naughty.destroy(usage) end)
 	volume_icon:connect_signal('mouse::enter', 
 		function() 
@@ -46,23 +46,12 @@
 --
 -- Mouse interactions
 --
-	-- Expecting "World of Warcraft gaming mouse"
-	-- xev: Left click = 1
-	-- xev: Right click = 3
-	-- xev: Wheel click = 2
-	-- xev: Wheel Up = 4
-	-- xev: Wheel Down = 5
-	-- xev: Thumb front click = 9
-	-- xev: Thumb back click = 8
-	-- xev: Buttons: 6,7,10-15 not reckognized
-	
 	volume_icon:buttons(awful.util.table.join(
 		awful.button({ },4,function() volume_change("up") end),
 		awful.button({ },5,function() volume_change("down") end),
 		awful.button({ },1,function() volume_change("mute") end),
 		awful.button({ },2,function() os.execute(term_cmd .. "alsamixer") end)
 	))
-	
 --
 -- Action
 --

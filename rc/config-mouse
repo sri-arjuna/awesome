@@ -1,3 +1,13 @@
+-- Expecting "World of Warcraft gaming mouse"
+-- xev: Left click = 1
+-- xev: Right click = 3
+-- xev: Wheel click = 2
+-- xev: Wheel Up = 4
+-- xev: Wheel Down = 5
+-- xev: Thumb front click = 9
+-- xev: Thumb back click = 8
+-- xev: Buttons: 6,7,10-15 not reckognized
+	
 -- {{{ Mouse bindings
 	root.buttons(awful.util.table.join(
 	    awful.button({ }, 3, function () mymainmenu:toggle() end),
