@@ -23,6 +23,7 @@
 --
 	function update_icon_vol() 
 		local icon = get_bash_string( DIR_SCRIPTS .. "/snd.sh","image")
+		--msgbox(icon)
 		volume_icon:set_image( DIR_ICONS .. "/snd/" .. icon )
 	end
 	function volume_change(mode)

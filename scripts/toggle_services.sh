@@ -2,7 +2,7 @@
 # Take a breath
 	sleep 0.5
 	WAIT=2
-	KNOWN="dkms bluetooth cups httpd sendmail"
+	KNOWN="dkms bluetooth cups mpd httpd sendmail"
 	help_text="Usage: ${0##*/} start|stop|status SERVICE[.service]"
 	TMP=$HOME/.cache/$$.tmp
 # Check first argument
@@ -21,7 +21,7 @@
 	esac
 # Get the action
 	if ! tui-bol-root # && \
-	then	tui-printf -S 1 "Requires root access." # && \
+	then	tui-print -S 1 "Requires root access." # && \
 		if tui-yesno "Start as root now?" # && \
 		then	tui-asroot "$0 $@" || systemctl status 
 			RET=$?
@@ -32,7 +32,7 @@
 	fi
 # User is root
 	[ $# -lt 1 ] && \
-		tui-printf -S 1 "$help_text" && \
+		tui-print -S 1 "$help_text" && \
 		sleep 5 && \
 		exit 1
 # Check second argument if applicable
@@ -50,11 +50,11 @@
 	fi
 	echo "systemctl $mode ${service}" > "$TMP"
 # Execute the command / Display
-set -x
+#set -x
 	tui-title "${mode^} : ${service^}"
 	tui-bgjob "$TMP" "${mode^}ing $service..." "${mode^}ed $service..." && \
-			tui-yesno "Disable the service of \"$service\" as well?" && \
-			systemctl disable $service 2>/dev/zero && \
+		#	tui-yesno "Disable the service of \"$service\" as well?" && \
+		#	systemctl disable $service 2>/dev/zero && \
 			RET=0 || RET=1
 	# As all start with 'st' lets compare letters 3+4.
 	case "${mode:2:2}" in
@@ -67,5 +67,5 @@ set -x
 		tui-wait $WAIT "Closing in..."
 		;;
 	esac
-set +x
+#set +x
 exit ${RET:-1}

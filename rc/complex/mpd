@@ -1,4 +1,10 @@
 -- mpd
+-- Basic display utility, takes volume actions
+	local capi = {
+		mouse = mouse,
+		screen = screen
+	}
+	
 	mpdwidget = wibox.widget.textbox()
 	vicious.register(mpdwidget, vicious.widgets.mpd,
 	    function (mpdwidget, args)
@@ -8,6 +14,9 @@
 		    return args["{Artist}"]..' - '.. args["{Title}"]
 		end
 	    end, 3)
+	
+	
+-- The handler for favorite playlists
 	-- Expecting "World of Warcraft gaming mouse"
 	-- xev: Left click = 1
 	-- xev: Right click = 3
@@ -17,7 +26,34 @@
 	-- xev: Thumb front click = 9
 	-- xev: Thumb back click = 8
 	-- xev: Buttons: 6,7,10-15 not reckognized
-	  
+	
+	function mpd_play(name)
+		os.execute("mpc clear")
+		os.execute("mpc load " .. name)
+		os.execute("mpc play")
+	end
+	
+	
+	mpd_menu = awful.menu({ items = { 	{ "Andrea Bocelli", function() mpd_play("AndreaBocelli") end, },
+						{ "Avici", function() mpd_play("Avici") end, },
+						{ "Bob Marley",function() mpd_play("BobMarley") end, },
+						{ "Foo Fighters", function() mpd_play("FooFighters") end, },
+						{ "Michael Jackson", function() mpd_play("MichaelJackson") end, },
+						{ "Pink Floyd", function() mpd_play("PinkFloyd") end, },
+						{ "Roxette", function() mpd_play("Roxette") end, },
+						{ "Vangelis", function() mpd_play("Vangelis") end, },
+						{ "-----------", },
+						{ "Play / Pause", function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end, },
+						{ "Stop", function() os.execute("mpc stop") end, },
+						{ "Shuffle (toggle)", function() os.execute("mpc shuffle") end, },
+						{ "Start service", function() os.execute("sudo systemctl start mpd") end, },
+		                        }
+		                })
+	
+	mpdwidget_pl = awful.widget.launcher({ 
+				image = beautiful.widget_mpd, 
+				menu = mpd_menu })
+	
 	mpdwidget:buttons(awful.util.table.join(
 		awful.button({ },1,function() os.execute("mpc volume +25") end),
 		awful.button({ },2,function() os.execute("tui-filemgr " .. DIR_HOME .. "/mm/snds" ) end),
@@ -25,3 +61,15 @@
 		awful.button({ },4,function() os.execute("mpc volume +5") end),
 		awful.button({ },5,function() os.execute("mpc volume -5") end)
 	))
+	
+--	mpdwidget_pl:connect_signal('mouse::enter', 
+--		function() 
+--			usage = naughty.notify({
+--				text=  get_bash_string( DIR_SCRIPTS .. "/snd.sh","vol"),
+--				timeout = 0,
+--				hover_timeout = 0.5,
+--				screen = capi.mouse.screen
+--			})
+--		end)
+	
+	

@@ -18,7 +18,11 @@
 #
 #	Functions
 #
-	vol.cur() { echo "$DATA_RAW" | awk  '/Playback/ {print $4}'|tr -d '[]'|grep "%" ; }
+	vol.cur() {
+		out=$(echo "$DATA_RAW" | awk  '/Playback/ {print $5}'|tr -d '[]'|grep "%")
+		[ -z "$out" ] && out=$(echo "$DATA_RAW" | awk  '/Playback/ {print $5}'|tr -d '[]'|grep "%")
+		echo ${out/\%*}%
+	}
 	vol.chg() { amixer -c $CARDID set ${DEVICE} ${INTERVALL}dB${waychar} ; }
 	vol.toggle() { (amixer get Master | grep -q off && amixer -q set $DEVICE unmute) || amixer -q set $DEVICE mute ; }
 #

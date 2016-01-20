@@ -52,8 +52,6 @@
 	-- Load 'distro specific' icon
 	os_icon = wibox.widget.imagebox()
 	os_icon:set_image( beautiful.icon_os )
-	--wallpaper_bg = awful.image()
-	--wallpaper_bg:set_image( beautiful.wallpaper ) 
 --
 -- 	Other designs...
 --
@@ -77,17 +75,18 @@
 --
 -- 	Tasks on login
 --
+	-- Start these anyway
 	awful.util.spawn_with_shell( "feh --bg-fill " .. beautiful.wallpaper .. " &")
+	awful.util.spawn_with_shell( terminal )
 	-- Set IOTD and screensaver by default
 	if true
 	then
-		awful.util.spawn_with_shell( "xscreensaver &" )
-		awful.util.spawn_with_shell( term_cmd .. " iotd")
+		awful.util.spawn_with_shell( "ps -x |grep -q [x]screensaver || xscreensaver &" )
+		awful.util.spawn_with_shell( term_cmd .. "sleep;0.02 iotd")
 	end
 	-- Load 'basic workflow'
 	if false		-- set false while testing
 	then
-		awful.util.spawn_with_shell( terminal )
 		awful.util.spawn_with_shell( files )
 		awful.util.spawn_with_shell( internet )
 		awful.util.spawn_with_shell( editor )
