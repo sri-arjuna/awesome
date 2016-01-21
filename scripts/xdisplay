@@ -1,0 +1,230 @@
+#!/usr/bin/env  bash
+# File: 	xdisplay
+# Description:	
+# GNU General Public License (GPL) 2016 by Simon Arjuna Erat (sea) (erat.simon æ gmail,com)
+# ------------------------------------------------------
+#
+#	Script Settings
+#	Since it is a wrapper, lets define that all error messages are english
+#
+	export LC_ALL=C
+	#set -x
+#
+#	Variables : Defaults
+#
+	# Get defaults
+	XDG_SOURCED=false
+	HOME="$(eval echo ~${USER})"
+	XCD="${XDG_CONFIG_DIR:-$HOME/.config}"
+	XDG_DIRS="${XCD}/user-dirs.dirs"
+	[ -f "$XDG_DIRS" ] && source "$XDG_DIRS" && XDG_SOURCED=true
+	# Repeate the leading 2 lines, since the initial variable might have changed
+	XCD="${XDG_CONFIG_DIR:-$HOME/.config}"
+	XDG_DIRS="${XCD}/user-dirs.dirs"
+	! $XDG_SOURCED && source "$XDG_DIRS"
+#
+#	Variables : Messages
+#
+	MSG_MENU_TITLE="Welcome to the main menu"
+	MSG_MENU_INTRO="What is your new setup?"
+	MSG_CONFIG_UNUSED_DISPLAYS="With these unused (but connected) displays:"
+	MSG_ORDER_FIRST="What is your first display (bottom,left):"
+	MSG_ORDER_OTHER="What is the next display?"
+	MSG_ORDER_SOURCE="What is the source display?"
+	MSG_ORDER_TARGET="Add a target?"
+	MSG_SWITCH_INVALID_COUNT='Invalid count of connected displays: !2 = $(list.screens.connected)'
+	MSG_DETECTED_SCREEN_SRC="Detected old active display:"
+	MSG_DETECTED_SCREEN_TRGT="Selected new output:"
+	MSG_DETECTED_SCREEN_MODE="Use mode/resolution autoselect?"
+	MSG_SWITCH_RES="Please select the resolution for:"
+	MSG_SELECT_RES_DISPLAY="Please select the display to change the resolution:"
+	MSG_SELECT_RES="Please select the new resolution for:"
+	MSG_MIRROR_NOTARGET="You have not selected a target for the mirror."
+	MSG_SOURCE_CORRECT="Is this selection correct?"
+	MSG_SOURCE_CORRECT_NOT="The first item you select as target, will be taken as source."
+	MSG_LINEAR_SET_PRIMARY="Set primary screen (left):"
+	MSG_LINEAR_SET_LEFT="The previous display is left, next right one:"
+	MSG_LINEAR_SET_NEWLINE="The previous display is last right, next new line starts with:"
+	MSG_SET_PRIMARY="Set as primary screen (bottom,left):"
+#
+#	Variables
+#
+	# Apps
+	declare XR=\xrandr AWK=\gawk GREP=\grep SED=\sed LS=\ls WHICH=\which
+	# Vars
+	declare CONF="$XCD/xdisplay.conf" RAW_DATA="" ORDER="" LISTLENGTH=15
+	# other stuff
+	first=true		# Menu tweak
+	first_order=true	# MSG toggle tweak when setting order
+#
+#	Functions
+#
+	# Data handling
+	data.get()  { export RAW_DATA="$(${XR}|$GREP -v Screen)" ; }
+	data.show() { echo "$RAW_DATA" ; }
+	# Info of *-marked displays
+	screen.name() { tmp=$(data.show | $GREP -B${LISTLENGTH} "*" | $GREP ^[a-zA-Z] | $AWK '{print $1}' | tail -n1);list.screens | $GREP $tmp; }
+	screen.size() { data.show | $AWK '/*/ {print $1}' ; }
+	# Lists
+	list.screens() { data.show | $GREP ^[a-zA-Z] | $AWK '/ connected/ {print $1}' ; }
+	list.screens.unused() { data.show | $GREP ^[a-zA-Z] | $GREP  $(for f in $(screen.name);do echo " -ve $f ";done)|$AWK '/ connected/ {print $1}' ; }
+	list.screens.connected() { data.show | $AWK '/ connected/ {print $1}' ;}
+	list.modes() { data.show | $GREP "$1" -A${LISTLENGTH} | $GREP -v "$1" | while read data _ ;do echo "$data" | grep -q ^[a-zA-Z] && break || echo $data;done; }
+	list.menu() { tmp=$($GREP "task.*()" "$0"|$GREP -ve "list.menu" -ve "task.quit" -ve "#" -ve ^"#"|$AWK '{print $1}');echo "${tmp//task.}"|$SED s,\(\)*,,g; }
+	# Task functions
+	task.quit() { exit 0 ; }
+	task.switch() { 
+	# Expects two connected displays
+	# Switches the the active to off, and actives the off one
+		tui-title "${FUNCNAME/task\.}"
+		cur=$(screen.name)
+		tui-print -S $? "$MSG_DETECTED_SCREEN_SRC $cur"
+		
+		new=$(list.screens);RET=$?
+		new="$(echo ${new/$cur})"
+		tui-print -S $RET "$MSG_DETECTED_SCREEN_TRGT $new"
+		
+		tui-yesno "$MSG_DETECTED_SCREEN_MODE" && \
+			MODE=$(list.modes $new | head -n1) || \
+			{ tui-print -T "$MSG_SWITCH_RES $new" ;MODE=$(tui-select $(list.modes $new));}
+		
+		(set -x;$XR --output $cur --off)
+		(set -x;$XR --output $new --mode $MODE)
+		exit $?
+	}
+	task.resolution() { 
+	# Change the resolution for the current active display
+	# Select which display if more than one is active
+		tui-title "${FUNCNAME/task\.}"
+		[ $(screen.name|grep [a-zA-Z]|wc -w) -gt 1  ] && \
+			tui-print -E "$MSG_SELECT_RES_DISPLAY" && \
+			this=$(tui-select $(screen.name)) || \
+			this=$(screen.name)
+		tui-print -E "$MSG_SELECT_RES $this"
+		res=$(tui-select $(list.modes $this))
+		
+		(set -x;$XR --output $this --mode $res)
+		exit $?
+	}
+	task.mirror() { 
+	# Take the first argument as source screen
+	# Mirror all following from that
+		tui-title "${FUNCNAME/task\.}" 
+		ar_passed=($(echo "${@}"))
+		src=${ar_passed[0]}
+		unset ar_passed[0]
+		tui-print -S $? "$MSG_DETECTED_SCREEN_SRC $src"
+		! tui-yesno "$MSG_SOURCE_CORRECT" && tui-print -E "$MSG_SOURCE_CORRECT_NOT"
+		
+		job.reset.all
+		sleep 0.5
+		$XR --output $src #--primary
+		for passed in ${ar_passed[@]}
+		do
+			$XR --output $passed --same-as $src --mode $(list.modes $passed|head -n1)
+			tui-print -S $? "$MSG_DETECTED_SCREEN_TRGT $passed"
+		
+		done
+		exit $?
+	}
+	task.linear() {
+	# Take the first argument as source screen
+	# Mirror all following from that
+		tui-title "${FUNCNAME/task\.}" 
+		ar_passed=(${@})
+		src=${ar_passed[0]}
+		unset ar_passed[0]
+		#tui-print -S $? "$MSG_SET_PRIMARY $src"
+		
+		#! tui-yesno "$MSG_SOURCE_CORRECT" && src="" && tui-print -E "$MSG_SOURCE_CORRECT_NOT"
+		job.reset.all
+		(set -x;$XR --output $src --primary)
+		tui-print -S $? "$MSG_LINEAR_SET_PRIMARY $src"
+		for passed in ${ar_passed[@]}
+		do
+			(set -x;$XR --output $passed --right-of $src --mode $(list.modes $passed|head -n1))
+			tui-print -S $? "$MSG_LINEAR_SET_LEFT $passed"
+		done
+	}
+	#task.multiline() { tui-title "TODO ${FUNCNAME/task\.}" ; tui-list -1 $@ ; }
+	task.reset() { $XR --output eDP1 --mode 1920x1080;$XR --output VGA1 --mode 1680x1050 ; }
+	job.reset.all() { for d in $(list.screens.connected);do $XR --output $d --off --noprimary;done;}
+	# Show repeated stuff
+	show.config.current() { C=0;while [ -n "${AR_SCRN[$C]}" ] ;do tui-print -E "${AR_SCRN[$C]}" "${AR_RES[$C]}";((C++));done;tui-print -E "$MSG_CONFIG_UNUSED_DISPLAYS" "$(list.screens.unused)";}
+	# Testings
+	test.modes(){ for s in $(list.screens);do tui-title $s;list.modes $s;done;}
+	test.todo() {
+		cvt 1366 768 60
+		echo xrandr --newmode "1368x768_60.00" 85.25 1368 1440 1576 1784 768 771 781 798 -hsync +vsync
+		echo xrandr --addmode default "1368x768_60.00"
+		echo xrandr --output default --mode "1368x768_60.00"
+	}
+#
+#	Action & preparations
+#
+	data.get
+	declare -a AR_SCRN=($(screen.name)) 
+	declare -a AR_RES=($(screen.size))
+	#screen=$(screen.name)
+	#screens_all=$(list.screens)
+	#screens_connected=$(list.screens.connected)
+	#screens_unused=$(list.screens.unused)
+	
+#
+#	Display
+#
+	while :;do ! $first && tui-wait 3 || first=false ; clear
+		tui-print -H "xrandr TUI" "Brought to you by (sea)"
+		tui-print -T "Current setup"
+		show.config.current
+		
+		tui-print -T "$MSG_MENU_TITLE"
+		tui-print -E "$MSG_MENU_INTRO"
+		
+		action=$(tui-select quit $(list.menu))
+		if [ "$action" = "quit" ]
+		then	task.$action
+		elif [ -z "$ORDER" ]
+		then	case "$action" in
+			linear|multiline)
+				item=""
+				while 	[ ! done = "$item" ]
+				do
+					ORDER+=" $item"
+					$first_order && \
+						tui-print -E "$MSG_ORDER_FIRST" && \
+						first=false || \
+						tui-print -E "$MSG_ORDER_OTHER"
+					item=$(tui-select done $(list.screens))
+				done
+				;;
+			mirror)
+				tui-print -E "$MSG_ORDER_SOURCE"
+				SOURCE=$(tui-select $(list.screens.connected))
+				
+				this=""
+				while 	tui-print -E "$MSG_ORDER_TARGET"
+					this=$(tui-select done $(list.screens.connected))
+					[ ! done = $this ]
+				do
+					TARGET+=" $this";this=""
+				done
+				[ -z "$TARGET" ] && tui-print -S 1 "$MSG_MIRROR_NOTARGET" && exit 1
+				ORDER="$SOURCE $TARGET"
+				;;
+			switch)	[ 2 -ne $(list.screens|wc -w) ] && \
+					tui-print -S 1 "$MSG_SWITCH_INVALID_COUNT" && \
+					exit 1
+				;;
+			esac
+		fi
+		
+		task.$action $ORDER
+		ORDER=""
+		SOURCE=""
+		TARGET=""
+	done
+#
+#	Clean up
+#
+	set +x

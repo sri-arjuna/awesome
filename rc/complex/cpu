@@ -2,8 +2,13 @@
 	cputext = wibox.widget.textbox()				-- Increases average load usage by +10-20%, with peeks of up to 90% 		
 	vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	
 	-- above is deprecated
+	
 	cpuwidget = awful.widget.graph()
 	cpuwidget:set_width(50)
 	cpuwidget:set_background_color("#494B4F")
 	cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96" }}})
 	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")
+	
+	cpuwidget:buttons(awful.util.table.join(
+		awful.button({ }, 1 , function() os.execute("tui-terminal htop")end)
+	))

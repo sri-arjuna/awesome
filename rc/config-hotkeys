@@ -49,9 +49,11 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86MonBrightnessDown", 	function() os.execute( DIR_SCRIPTS .. "/brightness.sh down") end), 	-- F2 / XF86MonBrightnessDown
 	awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end), 	-- F3 / XF86MonBrightnessUp
 
-	-- HDMI toggle?
+	-- Display Connector toggle?
+	awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/xdisplay") end),
 	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
-	awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/hdmi") end),
+	--awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/hdmi") end),
+	--awful.key({"Control"}, "F4", 		function() os.execute("tui-terminal xdisplay") end),
 
 	-- Toggle laptop touchpad
 	awful.key({"Control"}, "F5", 		function() os.execute(DIR_SCRIPTS .. "/tpad") end),
@@ -61,7 +63,8 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "F12", 			function() os.execute(term_cmd ..  " connect") end),
 
 	-- Screenshot
-	awful.key({modkey}, "s",		function() os.execute("cd " .. DIR_SCREENSHOTS .. ";import -window root Screenshot-$(date +'%F_%T').jpg") end),
+	awful.key({modkey}, "s",		function() os.execute("import -window root " .. DIR_SCREENSHOTS .. "/Screenshot-$(date +'%F_%T').jpg") end),
+	awful.key({modkey, "Control" }, "s",	function() os.execute("import -delay 1 " .. DIR_SCREENSHOTS .. "/Screenshot-$(date +'%F_%T').jpg") end),
 
 	-- Default stuff, didnt touch
 	awful.key({ modkey,           }, "j",

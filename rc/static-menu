@@ -60,7 +60,7 @@
 	--    { "Users", 		"system-config-users" },
 	    { "Screensaver", 	"xscreensaver-demo" },
 	 --   { "services-config", 	"system-config-services" },
-	    { "Task Manager", 	"lxtask" },
+	    { "Task Manager", 	term_cmd .. " htop" },
 	    --{ "Wireless", 	"wicd-curses" },
 	    { "Networks", 	"nm-connection-editor" },
 	    { "Yum Extender", 	"yumex" }

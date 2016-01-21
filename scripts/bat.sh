@@ -22,10 +22,11 @@
 	OUT=$(echo "$DATA_RAW" | awk -v IFS="," '{print $4}' | tr -d ',')
 	if [ "$1" = "percent" ]
 	then	if [ ${OUT/\%} -lt 10 ]
-		then	tmp="$HOME/.cache/warning.sh"
-			echo "tui-print; printf '\r\';tui-typewriter -d 0.08 'Connect your power cable, you got only ${OUT}% power left!';tui-wait 5m" > "$tmp"
-			chmod +x "$tmp"
-			tui-bol-gui && { tui-terminal "$tmp"  || bash "$tmp" ; }
+		then	#tmp="$HOME/.cache/warning.sh"
+			#echo "tui-print; printf '\r\';tui-typewriter -d 0.08 'Connect your power cable, you got only ${OUT}% power left!';tui-wait 5m" > "$tmp"
+			#chmod +x "$tmp"
+			#tui-bol-gui && { tui-terminal "$tmp"  || bash "$tmp" ; }
+			echo "msgbox(\"Connect Power Cord!\")" | awesome-client
 		fi
 		echo "${prefix/-}$OUT"
 		exit 0

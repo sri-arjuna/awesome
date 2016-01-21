@@ -74,6 +74,8 @@
 						{ "-----------", },
 						{ "Play / Pause", function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end, },
 						{ "Stop", function() os.execute("mpc stop") end, },
+						{ "Next", function() os.execute("mpc next") end, },
+						{ "Previous", function() os.execute("mpc prev") end, },
 						{ "Shuffle (toggle)", function() os.execute("mpc shuffle") end, }
 					--	{ "Start service", function() os.execute("sudo systemctl start mpd") end, },
 		                        }
@@ -96,7 +98,7 @@
 --	mpdwidget:connect_signal('mouse::enter', 
 --		function() 
 --			usage = naughty.notify({
---				text =  get_bash_string( "$(which mpc)","playlist"),
+--				text =  get_bash_string("$(which mpc","status"),
 --				timeout = 0,
 --				hover_timeout = 0.5,
 --				screen = capi.mouse.screen
