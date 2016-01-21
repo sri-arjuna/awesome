@@ -1,5 +1,5 @@
 -- ********************************************************************************
--- *** This Awesome 3.5 RC file was written in Jan2016 by Simon Arjuna Erat	***
+-- *** This Awesome 3.5 RC file was written in Jan 2016 by Simon Arjuna Erat	***
 -- *** This configuration-structure is licensed as Create-Commons-by-SA 	***
 -- *** For the latest version, check http://github.com/sri-arjuna/awesome	***
 -- ********************************************************************************
@@ -28,8 +28,8 @@
 --
 	-- User dirs
 	DIR_HOME        = os.getenv("HOME")
-	DIR_PICTURES    = os.getenv("XDG_PICTURES_DIR")
-	DIR_MUSIC       = os.getenv("XDG_MUSIC_DIR")
+	DIR_PICTURES    = DIR_HOME .. "/mm/pics" -- os.getenv("XDG_PICTURES_DIR")
+	DIR_MUSIC       = DIR_HOME .. "/mm/snds" -- os.getenv("XDG_MUSIC_DIR")
 	DIR_BASE 	= awful.util.getdir("config")
 	DIR_SHARED      = "/usr/share/awesome"
 	-- Calculated dirs
@@ -85,7 +85,7 @@
 	then
 		awful.util.spawn_with_shell( "ps -x |grep -q [x]screensaver || xscreensaver &" )
 		awful.util.spawn_with_shell( term_cmd .. "sleep;0.02 iotd")
-		awful.util.spawn_with_shell( "sleep 3; mpd ; sleep 1 ;mpc play")
+		--awful.util.spawn_with_shell( "sleep 3; mpd ; sleep 1 ;mpc play")
 	end
 	-- Load 'basic workflow'
 	if false		-- set false while testing
