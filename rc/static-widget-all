@@ -101,7 +101,10 @@ for s = 1, screen.count() do
 	net_down_icon  = wibox.widget.imagebox()
 	net_down_icon:set_image(beautiful.widget_down)
 	net_down_widget = wibox.widget.textbox()
+	--net_down_widget:set_width(50)
 	vicious.register(net_down_widget,vicious.widgets.net,"down: ${wlp3s0 down_kb}kb / up: ${wlp3s0 up_kb}kb",2.5)
+	-- 
+	
 	-- Up
 	net_up_icon  = wibox.widget.imagebox()
 	net_up_icon:set_image(beautiful.widget_up)

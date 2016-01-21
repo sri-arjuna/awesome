@@ -106,8 +106,8 @@
 	   { "config dev-scripts", term_cmd .. " ds setup" },
 	   { "config tui", term_cmd .. " tuirc config" },
 	   { "-----------",},
-	   { "BG: NASA iotd", term_cmd .. awful.util.getdir("config") .. "/scripts/nasaBackground.sh",  },
-	   { "BG: Change", term_cmd .. awful.util.getdir("config") .. "/scripts/changebg.sh",  },
+	   { "BG: NASA iotd", term_cmd .. " iotd",  },
+	   { "BG: Change", term_cmd .. " changebg",  },
 	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
