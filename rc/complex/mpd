@@ -26,59 +26,86 @@
 		{ "All Compilations", function() mpd_play("AllCompilations") end, },
 		{ "Classic Rock Music", function() mpd_play("ClassicRockMusic") end, },
 		{ "Sounds of Happyness", function() mpd_play("SoundsOfHappiness") end, },
+		{ "Sting and The Police", function() mpd_play("StingAndThePolice") end, },
 		{ "US Top 100 2015", function() mpd_play("USTop1002015Nov") end, },
 		{ "Vocal Trance", function() mpd_play("VocalTrance2015") end, }
 		
 	}
+	mpd_menu_alternative = {
+		{ "Elektro Swing", function() mpd_play("ElektroSwing") end, },
+		{ "Empire of the Sun", function() mpd_play("EmpireOfTheSun") end, },
+		{ "Enya", function() mpd_play("Enya") end, },
+		{ "Highland", function() mpd_play("Highland") end, },
+		{ "Vangelis", function() mpd_play("Vangelis") end, }
+	}
+	mpd_menu_soundtracks = {
+		{ "TODO Soundtracks (all)", function() mpd_play("Soundtracks") end, },
+		{ "Star Wars", function() mpd_play("StarWars") end, },
+	}
 	mpd_menu_oldies = {
-		{ "Pink Floyd", function() mpd_play("PinkFloyd") end, },
-						
+		{ "Alphaville", function() mpd_play("Alphaville") end, },
+		{ "Andrea Bocelli", function() mpd_play("AndreaBocelli") end, },
+		{ "Beatles", function() mpd_play("Beatles") end, },
+		{ "Classic", function() mpd_play("Classic") end, },
+		{ "Bob Marley",function() mpd_play("BobMarley") end, },
+		{ "Pink Floyd", function() mpd_play("PinkFloyd") end, },	
+	}
+	mpd_menu_pop = {
+		{ "Alphaville", function() mpd_play("Alphaville") end, },
+		{ "Depeche Mode", function() mpd_play("DepecheMode") end, },
+		
+		{ "Joe Cocker", function() mpd_play("JoeCocker") end, },
+		{ "Michael Jackson", function() mpd_play("MichaelJackson") end, },
+		{ "Phil Collins", function() mpd_play("PhilCollins") end, },
+		{ "Queen", function() mpd_play("Queen") end, },
+		{ "Roxette", function() mpd_play("Roxette") end, },
+	}
+	mpd_menu_pop_modern = {
+		{ "David Guetta", function() mpd_play("DavidGuetta") end, },
+		{ "Ellie Grounding", function() mpd_play("EllieGrounding") end, },
+		{ "Maroon 5", function() mpd_play("Maroon5") end, },
+		{ "Pharell Williams", function() mpd_play("PharellWilliams") end, },
+		{ "Lana del Rey", function() mpd_play("LanaDelRey") end, },
+		{ "Lorde", function() mpd_play("Lorde") end, },
+		{ "Nas", function() mpd_play("Nas") end, },
+		{ "Rihanna", function() mpd_play("Rihanna") end, },			
 	}
 	mpd_menu_rock = {
+		{ "Arctic Monkeys", function() mpd_play("ArcticMonkeys") end, },
+		{ "Coldplay", function() mpd_play("Coldplay") end, },
 		{ "Duran Duran", function() mpd_play("DuranDuran") end, },
+		{ "Blind Guardians", function() mpd_play("BlindGuardian") end, },
 		{ "Evanesence", function() mpd_play("Evanesence") end, },
 		{ "Foo Fighters", function() mpd_play("FooFighters") end, },
 		{ "Iron Maiden", function() mpd_play("IronMaiden") end, },
 		{ "Linkin Park", function() mpd_play("LinkinPark") end, },
 		{ "Limp Bizkit", function() mpd_play("LimpBizkit") end, },
-		{ "Queen", function() mpd_play("Queen") end, },
-		{ "Roxette", function() mpd_play("Roxette") end, },
+		{ "Placebo", function() mpd_play("Placebo") end, },
+		{ "R.E.M.", function() mpd_play("REM") end, },
 		{ "Scorpions", function() mpd_play("Scorpions") end, },
-		
-	}
-	mpd_menu_mytime = {
-		{ "Alphaville", function() mpd_play("Alphaville") end, },
-		{ "Andrea Bocelli", function() mpd_play("AndreaBocelli") end, },
-		{ "Depeche Mode", function() mpd_play("DepecheMode") end, },
-		{ "Enya", function() mpd_play("Enya") end, },
-		{ "Highland", function() mpd_play("Highland") end, },
-		{ "Joe Cocker", function() mpd_play("JoeCocker") end, },
-		{ "Michael Jackson", function() mpd_play("MichaelJackson") end, },
-		{ "Phil Collins", function() mpd_play("PhilCollins") end, },
-		{ "Vangelis", function() mpd_play("Vangelis") end, }
+		{ "System Of A Down", function() mpd_play("SystemOfADown") end, },
 	}
 	mpd_menu = awful.menu({ items = { 	{ "Avici", function() mpd_play("Avici") end, },
-						{ "Bob Marley",function() mpd_play("BobMarley") end, },
+						{ "Coding Sounds", function() mpd_play("CodingSounds") end, },
 						{ "Gorillaz", function() mpd_play("Gorillaz") end, },
-						{ "Lana del Rey", function() mpd_play("LanaDelRey") end, },
-						{ "Lorde", function() mpd_play("Lorde") end, },
-						{ "Nas", function() mpd_play("Nas") end, },
-						{ "Rihanna", function() mpd_play("Rihanna") end, },
-						
-						
+						{ "Gaelic Storm", function() mpd_play("GaelicStorm") end, },
+						{ "Hoobastank", function() mpd_play("Hoobastank") end, },
 						{ "-----------", },
+						{ "Alternative", mpd_menu_alternative},
 						{ "Compilations", mpd_menu_compilations},
-						{ "My Time", mpd_menu_mytime},
-						{ "Rock", mpd_menu_rock},
 						{ "Oldies", mpd_menu_oldies},
+						{ "Pop (pre 2000)", mpd_menu_pop},
+						{ "Pop (modern)", mpd_menu_pop_modern},
+						--{ "Techno", mpd_menu_techno},
+						{ "Rock", mpd_menu_rock},
+						{ "Soundtracks", mpd_menu_soundtracks},
 						{ "-----------", },
 						{ "Play / Pause", function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end, },
 						{ "Stop", function() os.execute("mpc stop") end, },
 						{ "Next", function() os.execute("mpc next") end, },
 						{ "Previous", function() os.execute("mpc prev") end, },
 						{ "Shuffle (toggle)", function() os.execute("mpc shuffle") end, }
-					--	{ "Start service", function() os.execute("sudo systemctl start mpd") end, },
-		                        }
+					}
 		                })
 	
 	mpdwidget_pl = awful.widget.launcher({ 
@@ -98,7 +125,7 @@
 --	mpdwidget:connect_signal('mouse::enter', 
 --		function() 
 --			usage = naughty.notify({
---				text =  get_bash_string("$(which mpc","status"),
+--				text =  get_bash_string("$(which mpc)","status"),
 --				timeout = 0,
 --				hover_timeout = 0.5,
 --				screen = capi.mouse.screen

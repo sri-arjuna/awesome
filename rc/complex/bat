@@ -6,7 +6,7 @@
 	-- But for now, lets use these images...
 	bat_img = wibox.widget.imagebox()
 	bat_img:set_image( DIR_ICONS .. "/bat/battery_missing.png" )
-	
+	term_cmd = term_cmd
 	-- Timer
 	timer_bat = timer({ timeout = 7 })
 --
@@ -38,6 +38,12 @@
 				screen = capi.mouse.screen
 			})
 		end)
+--
+-- Mouse settings
+--
+	bat_img:buttons(awful.util.table.join(
+		awful.button({ }, 1 , function() os.execute("tui-terminal \"sudo powertop\"")end)
+	))
 --
 -- Action
 --

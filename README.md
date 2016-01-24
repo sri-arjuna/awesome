@@ -12,8 +12,12 @@ Requirements:
 
 * [Vicious](http://git.sysphere.org/vicious/)
 * [iotd](http://github.com/sri-arjuna/iotd) (NASA its 'Image of the Day' as wallpaper)
+* [xrandr-tui](http://github.com/sri-arjuna/xrandr-tui) For multi-monitor handlings (F4/CTRL+F4) (fn+f4 was not reckognized)
 * bash (required by 'iotd' and some other scripts)
 * feh (used by 'iotd' to set wallpaper)
+* htop (clicking go cpu usage graph)
+* powertop (clicking on bat icon)
+* mpd+mpc for music
 
 Images and Icons
 ----------------
