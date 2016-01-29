@@ -111,6 +111,49 @@
 	   { "-----------",},
 	   { "quit", awesome.quit },
 	}
+	-- Special menu games
+	mygames = awful.menu({ items = { 	{ "Die Gilde 2", 
+							function()
+								os.execute("env WINEPREFIX=/home/sea/.wine wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/sea/.wine/dosdevices/c:/users/sea/Start\\ Menu/Programs/JoWooD/Die\\ Gilde\\ Gold-Edition/Die\\ Gilde\\ Gold-Edition\\ TL.lnk")
+							end,
+							DIR_ICONS .. "/games/Die-Gilde-2.png"
+							},
+						{ "Guild Wars 2", 
+							function()
+								os.execute("env WINEPREFIX=/home/sea/.wine wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/sea/.wine/dosdevices/c:/users/Public/Start\\ Menu/Programs/Guild\\ Wars\\ 2/Guild\\ Wars\\ 2.lnk")
+							end,
+							DIR_ICONS .. "/games/gw2_1416_icon.png"
+							},
+						{ "Half Life 2", 
+							function()
+								os.execute("steam steam://rungameid/220")
+							end,
+							DIR_ICONS .. "/games/half_life_2_icon_by_jebusfist.png"
+							},
+						{ "Portal", 
+							function()
+								os.execute("steam steam://rungameid/400")
+							end,
+							DIR_ICONS .. "/games/portal___icon_by_blagoicons-d628irm.png"
+							},
+						{ "skype", 
+							function()
+								os.execute("skype")
+							end, 
+							"/usr/share/pixmaps/skype.png"
+							},
+						{ "steam", 
+							function()
+								os.execute("steam")
+							end, 
+							"/usr/share/icons/hicolor/16x16/apps/steam.png"
+							},
+					}
+				})
+	txt_games = wibox.widget.textbox()
+	txt_games:set_text('Play')
+	
+	-- Main menu
 	mymainmenu = awful.menu({ items = { 	{ "awesome", myawesomemenu, beautiful.icon_awesome },
 		                            	{ "system config", menusystem, beautiful.icon_os},
 						{ "Services", 	mnuServices, beautiful.icon_os},
@@ -145,6 +188,9 @@
 	mylauncher.mm = awful.widget.launcher({ 
 				image = beautiful.widget_mpd, 
 				menu = mnuMM })
+	mylauncher.games = awful.widget.launcher({ 
+				image = beautiful.widget_ac, 
+		                menu = mygames })
 	-- Menubar configuration
 	menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}

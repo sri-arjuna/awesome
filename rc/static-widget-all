@@ -180,6 +180,7 @@ for s = 1, screen.count() do
 	    bottom_left_layout:add(net_down_widget)
 	-- Widgets that are aligned at the bottm - center
 	    bottom_center_layout = wibox.layout.fixed.horizontal()
+	   -- bottom_center_layout:add(mylauncher.games)
 	    bottom_center_layout:add(mpdwidget_pl)
 	    bottom_center_layout:add(empty)
 	    bottom_center_layout:add(mpdwidget)
@@ -200,6 +201,8 @@ for s = 1, screen.count() do
 	    --bottom_right_layout:add(hddtempwidget)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(bat_img)
+	    bottom_right_layout:add(spacer)
+	    bottom_right_layout:add(mylauncher.games)
 	    bottom_right_layout:add(empty)
 	-- Now bring it all together
 	    layout_bottom = wibox.layout.align.horizontal()
