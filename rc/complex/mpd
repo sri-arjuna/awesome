@@ -134,7 +134,7 @@
 						{ "Techno", mpd_menu_techno},
 						{ "-----------", },
 						{ "Play / Pause", function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end, },
-						{ "Stop", function() os.execute("mpc stop") end, },
+						{ "Stop", function() os.execute("mpc stop;mpc clear") end, },
 						{ "Next", function() os.execute("mpc next") end, },
 						{ "Previous", function() os.execute("mpc prev") end, },
 						{ "Shuffle (toggle)", function() os.execute("mpc shuffle") end, }
