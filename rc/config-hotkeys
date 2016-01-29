@@ -50,8 +50,8 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end), 	-- F3 / XF86MonBrightnessUp
 
 	-- Display Connector toggle?
-	awful.key({}, "F4", 			function() os.execute(term_cmd .. " xrandr-tui") end),
-	awful.key({"Control"}, "F4", 		function() os.execute(" xrandr-tui --switch") end),
+	awful.key({"Control"}, "F4", 			function() os.execute(term_cmd .. " xrandr-tui") end),
+	awful.key({"Shift"}, "F4", 		function() os.execute(" xrandr-tui --switch") end),
 	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
 	--awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/hdmi") end),
 	--awful.key({"Control"}, "F4", 		function() os.execute("tui-terminal xdisplay") end),

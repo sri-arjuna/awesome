@@ -1,4 +1,5 @@
 -- cpu	usage
+	local term_cmd = "lxterminal -e "
 	cputext = wibox.widget.textbox()				-- Increases average load usage by +10-20%, with peeks of up to 90% 		
 	vicious.register(cputext, vicious.widgets.cpu, " $1%, $2%, $3%, $4%") 	
 	-- above is deprecated
@@ -10,5 +11,9 @@
 	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")
 	
 	cpuwidget:buttons(awful.util.table.join(
-		awful.button({ }, 1 , function() os.execute("tui-terminal htop")end)
+		awful.button({ }, 2 , function() os.execute("tui-terminal 'tui-asroot htop'" )end)
+	--	awful.button({ }, 2 , os.execute("tui-terminal \"tui-asroot htop\"" ))
+	))
+	cpuwidget:buttons(awful.util.table.join(
+		awful.button({ }, 1 , function() os.execute("tui-terminal \"htop -u $USER\"")end)
 	))

@@ -8,28 +8,36 @@
 # 
 #	Variables
 #
+	#set -x
 	BASE=/sys/class/backlight
 	ITEM=$(cd $BASE;ls)
 	DIR=$BASE/$ITEM
-	FILE=$DIR/backlight
-	MAX=$(<$DIR/max_backlight)
+	FILE=$DIR/brightness #backlight
+	MAX=$(<$DIR/max_brightness)
 	STEP_COUNT=20
 	STEP_VALUE=$(( $MAX / $STEP_COUNT ))
 	CUR=$(<$FILE)
+	DISPLAY=$(xrandr | grep -B5 '*'|awk '/ connected/ {print $1}')
+	#set +x
+	#echo $DISPLAY ; exit 5
 # 
 #	Action
 #
-	if which xbacklight 2>/dev/null >&2
+	if which xbacklight 2>/dev/null 1>&2
 	then	# xbacklight is installed
-		#cur=$(xbacklight)
-		#cur=${cur/\.*}
+		thisDisplay="-display $DISPLAY"
+		thisDisplay=""
 		case "${1,,}" in
 		"")	echo "Usage: brightness.sh up|down"
 			exit 1
 			;;
-		up)	xbacklight -inc 20
+		up)	#(set -x;
+			xbacklight $thisDisplay -inc 10 
+			# )
 			;;
-		down)	xbacklight -dec 20
+		down)	#(set -x;
+			xbacklight $thisDisplay -dec 10
+			# )
 			;;
 		esac
 	else	# Fallback, dont like the use of sudo in a background script

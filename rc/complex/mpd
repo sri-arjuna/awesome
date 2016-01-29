@@ -1,9 +1,9 @@
 -- mpd
 -- Basic display utility, takes volume actions
-	local capi = {
-		mouse = mouse,
-		screen = screen
-	}
+--	local capi = {
+--		mouse = mouse,
+--		screen = screen
+--	}
 	
 	mpdwidget = wibox.widget.textbox()
 	vicious.register(mpdwidget, vicious.widgets.mpd,
@@ -19,6 +19,7 @@
 		os.execute("mpc stop")
 		os.execute("mpc clear")
 		os.execute("mpc load " .. name)
+		os.execute("mpc shuffle")
 		os.execute("mpc play")
 	end
 	
@@ -35,33 +36,50 @@
 		{ "Elektro Swing", function() mpd_play("ElektroSwing") end, },
 		{ "Empire of the Sun", function() mpd_play("EmpireOfTheSun") end, },
 		{ "Enya", function() mpd_play("Enya") end, },
+		{ "Era", function() mpd_play("Era") end, },
 		{ "Highland", function() mpd_play("Highland") end, },
+		{ "Gorillaz", function() mpd_play("Gorillaz") end, },
+		{ "Gaelic Storm", function() mpd_play("GaelicStorm") end, },
+		{ "Kosheen", function() mpd_play("Kosheen") end, },
+		{ "Kachina", function() mpd_play("Kachina") end, },
+		{ "Tai Chi", function() mpd_play("TaiChi") end, },
 		{ "Vangelis", function() mpd_play("Vangelis") end, }
 	}
 	mpd_menu_soundtracks = {
-		{ "TODO Soundtracks (all)", function() mpd_play("Soundtracks") end, },
+		{ "Soundtracks (all)", function() mpd_play("AllSoundtracks") end, },
+		{ "Gladiator", function() mpd_play("Gladiator") end, },
+		{ "Hackers", function() mpd_play("Hackers") end, },
+		{ "Matrix", function() mpd_play("Matrix") end, },
 		{ "Star Wars", function() mpd_play("StarWars") end, },
+		{ "The Hunger Games - Catching Fire", function() mpd_play("HungerGamesAtlas") end, },
+		{ "Thomas Crown", function() mpd_play("ThomasCrown") end, },
+		{ "Top Gun", function() mpd_play("TopGun") end, },
+		{ "Tron Legacy", function() mpd_play("Tron") end, },
+		{ "X-Men - The last Stand", function() mpd_play("Tron") end, },
+		
 	}
 	mpd_menu_oldies = {
-		{ "Alphaville", function() mpd_play("Alphaville") end, },
 		{ "Andrea Bocelli", function() mpd_play("AndreaBocelli") end, },
 		{ "Beatles", function() mpd_play("Beatles") end, },
-		{ "Classic", function() mpd_play("Classic") end, },
 		{ "Bob Marley",function() mpd_play("BobMarley") end, },
-		{ "Pink Floyd", function() mpd_play("PinkFloyd") end, },	
+		{ "Classic", function() mpd_play("Classic") end, },
+		{ "Pink Floyd", function() mpd_play("PinkFloyd") end, },
+		{ "Rondo Veneziano",function() mpd_play("RondoVeneziano") end, },
+			
 	}
 	mpd_menu_pop = {
 		{ "Alphaville", function() mpd_play("Alphaville") end, },
 		{ "Depeche Mode", function() mpd_play("DepecheMode") end, },
-		
+		{ "East 17", function() mpd_play("East17") end, },
 		{ "Joe Cocker", function() mpd_play("JoeCocker") end, },
 		{ "Michael Jackson", function() mpd_play("MichaelJackson") end, },
 		{ "Phil Collins", function() mpd_play("PhilCollins") end, },
 		{ "Queen", function() mpd_play("Queen") end, },
 		{ "Roxette", function() mpd_play("Roxette") end, },
+		{ "West Coast Rap #3", function() mpd_play("WestCoastRap3") end, },
 	}
 	mpd_menu_pop_modern = {
-		{ "David Guetta", function() mpd_play("DavidGuetta") end, },
+		{ "Casper", function() mpd_play("Casper") end, },
 		{ "Ellie Grounding", function() mpd_play("EllieGrounding") end, },
 		{ "Maroon 5", function() mpd_play("Maroon5") end, },
 		{ "Pharell Williams", function() mpd_play("PharellWilliams") end, },
@@ -70,6 +88,18 @@
 		{ "Nas", function() mpd_play("Nas") end, },
 		{ "Rihanna", function() mpd_play("Rihanna") end, },			
 	}
+	mpd_menu_techno = {
+		{ "Avici", function() mpd_play("Avici") end, },
+		{ "David Guetta", function() mpd_play("DavidGuetta") end, },
+		{ "Paul Oakenfold", function() mpd_play("PaulOakenfold") end, },
+		{ "Energy Millenium", function() mpd_play("EnergyMillenium") end, },
+		{ "Logic Trance #5", function() mpd_play("LogicTrance5") end, },
+		{ "Mixed Old School", function() mpd_play("MixedOldSchool") end, },
+		{ "Street Parade 97", function() mpd_play("StreetParade97") end, },
+		{ "Trance Nation", function() mpd_play("TranceNation") end, },
+		{ "R.M.B.", function() mpd_play("RMB") end, },
+		{ "The Godfathers", function() mpd_play("TheGodfathers") end, },
+	}
 	mpd_menu_rock = {
 		{ "Arctic Monkeys", function() mpd_play("ArcticMonkeys") end, },
 		{ "Coldplay", function() mpd_play("Coldplay") end, },
@@ -77,6 +107,7 @@
 		{ "Blind Guardians", function() mpd_play("BlindGuardian") end, },
 		{ "Evanesence", function() mpd_play("Evanesence") end, },
 		{ "Foo Fighters", function() mpd_play("FooFighters") end, },
+		{ "Hoobastank", function() mpd_play("Hoobastank") end, },
 		{ "Iron Maiden", function() mpd_play("IronMaiden") end, },
 		{ "Linkin Park", function() mpd_play("LinkinPark") end, },
 		{ "Limp Bizkit", function() mpd_play("LimpBizkit") end, },
@@ -86,10 +117,11 @@
 		{ "System Of A Down", function() mpd_play("SystemOfADown") end, },
 	}
 	mpd_menu = awful.menu({ items = { 	{ "Avici", function() mpd_play("Avici") end, },
-						{ "Coding Sounds", function() mpd_play("CodingSounds") end, },
+						--{ "Coding Sounds", function() mpd_play("CodingSounds") end, },
 						{ "Gorillaz", function() mpd_play("Gorillaz") end, },
 						{ "Gaelic Storm", function() mpd_play("GaelicStorm") end, },
-						{ "Hoobastank", function() mpd_play("Hoobastank") end, },
+						{ "Paul Oakenfold", function() mpd_play("PaulOakenfold") end, },
+						{ "R.E.M.", function() mpd_play("REM") end, },
 						{ "-----------", },
 						{ "Alternative", mpd_menu_alternative},
 						{ "Compilations", mpd_menu_compilations},
@@ -99,6 +131,7 @@
 						--{ "Techno", mpd_menu_techno},
 						{ "Rock", mpd_menu_rock},
 						{ "Soundtracks", mpd_menu_soundtracks},
+						{ "Techno", mpd_menu_techno},
 						{ "-----------", },
 						{ "Play / Pause", function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end, },
 						{ "Stop", function() os.execute("mpc stop") end, },
@@ -120,16 +153,12 @@
 		awful.button({ },5,function() os.execute("mpc volume -5") end)
 	))
 	
--- Still shows the only one item
--- how to format this list to several columns?
---	mpdwidget:connect_signal('mouse::enter', 
---		function() 
---			usage = naughty.notify({
---				text =  get_bash_string("$(which mpc)","status"),
---				timeout = 0,
---				hover_timeout = 0.5,
---				screen = capi.mouse.screen
---			})
---		end)
-	
+	mpdwidget:connect_signal('mouse::enter', 
+		function()
+			txt = awful.util.pread("mpc playlist")
+			txt_disp = awful.util.escape(txt)
+			--msgbox(txt)
+			msgbox_hover(txt)
+		end
+	)
 	

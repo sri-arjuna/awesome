@@ -42,6 +42,11 @@
 	DIR_SCRIPTS 	= DIR_BASE .. "/scripts"
 	DIR_ICONS	= DIR_BASE .. "/img/icons"
 	DIR_WIDGETS 	= DIR_RC .. "/widgets"
+	-- Mouse coords
+	capi = {
+		mouse = mouse,
+		screen = screen
+	}
 --
 --	Functions
 --
