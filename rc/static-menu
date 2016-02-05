@@ -45,7 +45,7 @@
 		{ "efi-helper", terminal .. " -e sudo efi-helper" },
 		{ "Rebuild dracut", terminal .. " -e sudo dracut-rebuild" },
 		{ "mount partitions", terminal .. " -e sudo moalpa" },
-		{ "rebuild grub2 (efi)", terminal .. " -e sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg" },
+		{ "rebuild grub2 (efi, fedora)", terminal .. " -e sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg" },
 		
 	--	{ "", "" },
 	--	{ "", "" },
@@ -60,10 +60,10 @@
 	--    { "Users", 		"system-config-users" },
 	    { "Screensaver", 	"xscreensaver-demo" },
 	 --   { "services-config", 	"system-config-services" },
-	    { "Task Manager", 	term_cmd .. " htop" },
+	    { "Task Manager", 	"tui-terminal htop" },
 	    --{ "Wireless", 	"wicd-curses" },
-	    { "Networks", 	"nm-connection-editor" },
-	    { "Yum Extender", 	"yumex" }
+	    { "Networks", 	"connect setup" },
+	 --   { "Yum Extender", 	"yumex" }
 	}
 	menuscripttools = {
 	    { "Main Menu", terminal .. " -e st" },
@@ -112,17 +112,18 @@
 	   { "quit", awesome.quit },
 	}
 	-- Special menu games
-	mygames = awful.menu({ items = { 	{ "Die Gilde 2", 
-							function()
-								os.execute("env WINEPREFIX=/home/sea/.wine wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/sea/.wine/dosdevices/c:/users/sea/Start\\ Menu/Programs/JoWooD/Die\\ Gilde\\ Gold-Edition/Die\\ Gilde\\ Gold-Edition\\ TL.lnk")
-							end,
-							DIR_ICONS .. "/games/Die-Gilde-2.png"
-							},
-						{ "Guild Wars 2", 
+	--mygames = awful.menu({ items = { 	{ "Guild Wars 2", 
+	mygames = 			{ 	{ "Guild Wars 2", 
 							function()
 								os.execute("env WINEPREFIX=/home/sea/.wine wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/sea/.wine/dosdevices/c:/users/Public/Start\\ Menu/Programs/Guild\\ Wars\\ 2/Guild\\ Wars\\ 2.lnk")
 							end,
 							DIR_ICONS .. "/games/gw2_1416_icon.png"
+							},
+						{ "Gilde 2", 
+							function()
+								os.execute("env WINEPREFIX=/home/sea/.wine wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/sea/.wine/dosdevices/c:/users/sea/Start\\ Menu/Programs/JoWooD/Die\\ Gilde\\ Gold-Edition/Die\\ Gilde\\ Gold-Edition\\ TL.lnk")
+							end,
+							DIR_ICONS .. "/games/Die-Gilde-2.png"
 							},
 						{ "Half Life 2", 
 							function()
@@ -137,9 +138,7 @@
 							DIR_ICONS .. "/games/portal___icon_by_blagoicons-d628irm.png"
 							},
 						{ "skype", 
-							function()
-								os.execute("skype")
-							end, 
+							"skype", 
 							"/usr/share/pixmaps/skype.png"
 							},
 						{ "steam", 
@@ -149,7 +148,7 @@
 							"/usr/share/icons/hicolor/16x16/apps/steam.png"
 							},
 					}
-				})
+	--			})
 	txt_games = wibox.widget.textbox()
 	txt_games:set_text('Play')
 	
@@ -160,6 +159,7 @@
 	   					{ "-----------",},
 						{ "applications", mytools,},
 						{ "multimedia", mnuMM, },
+						{ "games", mygames,},
 						--    { "office", mnuOffice, },
 						{ "recovery", mnuRecovery, },
 						{ "power", mnuPower, },

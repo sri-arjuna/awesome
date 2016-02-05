@@ -19,6 +19,8 @@
 --	Configuration : Variables
 --
 	theme = "sea"
+	USER        = os.getenv("USER")
+	
 	-- Hardware
 	wifi = "wlp3s0"		-- The WIFI device to check
 	modkey = "Mod4"		-- That is the Button with the Logo

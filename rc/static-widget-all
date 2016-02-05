@@ -201,8 +201,8 @@ for s = 1, screen.count() do
 	    --bottom_right_layout:add(hddtempwidget)
 	    bottom_right_layout:add(spacer)
 	    bottom_right_layout:add(bat_img)
-	    bottom_right_layout:add(spacer)
-	    bottom_right_layout:add(mylauncher.games)
+	--    bottom_right_layout:add(spacer)
+	--    bottom_right_layout:add(mylauncher.games)
 	    bottom_right_layout:add(empty)
 	-- Now bring it all together
 	    layout_bottom = wibox.layout.align.horizontal()
