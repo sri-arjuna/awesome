@@ -147,6 +147,12 @@
 							end, 
 							"/usr/share/icons/hicolor/16x16/apps/steam.png"
 							},
+						{ "ts3", 
+							function()
+								os.execute("/opt/teamspeak3/ts3client_runscript.sh &")
+							end, 
+							DIR_ICONS .. "/games/Ts3_LOGO.png"
+							},
 					}
 	--			})
 	txt_games = wibox.widget.textbox()
