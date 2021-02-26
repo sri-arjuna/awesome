@@ -43,8 +43,8 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86AudioPrev", 		function() os.execute("mpc prev") end),	-- F6 / XF86AudioPrev
 	awful.key({}, "XF86AudioPlay", 		function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end), -- F7 / XF86AudioPlay
 	awful.key({}, "XF86AudioNext", 		function() os.execute("mpc next") end), -- F8 / XF86AudioNext
-	awful.key({modkey,"Control"}, "n", 		function() os.execute("mpc next") end), -- F8 / XF86AudioNext
-	awful.key({modkey,"Control"}, "p", 		function() os.execute("mpc next") end), -- F8 / XF86AudioNext
+	awful.key({modkey,"Control"}, "n", 	function() os.execute("mpc next") end), -- F8 / XF86AudioNext
+	awful.key({modkey,"Control"}, "p", 	function() os.execute("mpc next") end), -- F8 / XF86AudioNext
 	awful.key({"Control"}, "p", 		function() os.execute("LC_ALL=C mpc | grep playing && mpc pause || mpc play") end), -- F7 / XF86AudioPlay
 
 	-- Brightness
@@ -53,7 +53,7 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86MonBrightnessUp",  	function() os.execute( DIR_SCRIPTS .. "/brightness.sh up") end), 	-- F3 / XF86MonBrightnessUp
 
 	-- Display Connector toggle?
-	awful.key({"Control"}, "F4", 			function() os.execute(term_cmd .. " xrandr-tui") end),
+	awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. " xrandr-tui") end),
 	awful.key({"Shift"}, "F4", 		function() os.execute(" xrandr-tui --switch") end),
 	--awful.key({}, "Super_L", 		function() msgbox("bites with another one...") end),
 	--awful.key({"Control"}, "F4", 		function() os.execute(term_cmd .. DIR_SCRIPTS .. "/hdmi") end),

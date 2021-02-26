@@ -18,11 +18,11 @@
 --
 --	Configuration : Variables
 --
-	theme = "sea"
-	USER        = os.getenv("USER")
+	theme  = "sea"
+	USER   = os.getenv("USER")
 	
 	-- Hardware
-	wifi = "wlp3s0"		-- The WIFI device to check
+	wifi   = "wlp3s0"	-- The WIFI device to check
 	modkey = "Mod4"		-- That is the Button with the Logo
 -- 
 -- 	Variables
@@ -85,21 +85,31 @@
 -- 	Tasks on login
 --
 	-- Start these anyway
+	-- For absolute reset
+	awful.util.spawn_with_shell( "feh --bg-fill " .. DIR_WALLPAPER .. "/background.jpg &")
+	-- For optimized default
 	awful.util.spawn_with_shell( "feh --bg-fill " .. beautiful.wallpaper .. " &")
-	--awful.util.spawn_with_shell( term_cmd .. " sleep 5; exit" )
-	-- Set IOTD and screensaver by default
-	if true
+	-- Screensaver
+	awful.util.spawn_with_shell( "ps -x |grep -q [x]screensaver || xscreensaver &" )
+	-- MPD (if installed/configured)
+	awful.util.spawn_with_shell( "sleep 3; mpd ; sleep 1") -- ;mpc play")
+	
+	-- NASA's - Image of the day...
+	if false
 	then
-		awful.util.spawn_with_shell( "ps -x |grep -q [x]screensaver || xscreensaver &" )
-		awful.util.spawn_with_shell( term_cmd .. "sleep;0.02 iotd")
-		--awful.util.spawn_with_shell( "sleep 3; mpd ; sleep 1 ;mpc play")
+		awful.util.spawn_with_shell( term_cmd .. "sleep 0.02 ; iotd")
 	end
 	-- Load 'basic workflow'
-	if false		-- set false while testing
+	if true		-- set false while testing
 	then
 		awful.util.spawn_with_shell( files )
 		awful.util.spawn_with_shell( internet )
 		awful.util.spawn_with_shell( editor )
+		awful.util.spawn_with_shell( "sudo httpd" )
+	end
+	-- Load 'advanced workflow'
+	if false		-- set false while testing
+	then
 		awful.util.spawn_with_shell( email )
 		awful.util.spawn_with_shell( irc )
 		awful.util.spawn_with_shell( torrent )

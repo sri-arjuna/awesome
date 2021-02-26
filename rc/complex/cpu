@@ -10,8 +10,9 @@
 	cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, {1, "#AECF96" }}})
 	
 	cpuwidget:buttons(awful.util.table.join(
-		awful.button({ }, 3 , function() os.execute("tui-terminal 'tui-asroot htop'" ) end ),
-		awful.button({ }, 1 , function() os.execute("tui-terminal \"htop -u " .. USER .. "\"") end)
+		awful.button({ }, 3 , function() os.execute("lxterminal -e  \"sudo htop\"" ) end ),
+		-- awful.button({ }, 1 , function() os.execute("lxterminal -e  \"sleep 1;htop -u " .. USER .. "\"") end)
+		awful.button({ }, 1 , function() os.execute("lxterminal -e  \"sleep 1;htop\"") end)
 	))
 
 	vicious.register(cpuwidget, vicious.widgets.cpu, " $1") -- $2 $3")

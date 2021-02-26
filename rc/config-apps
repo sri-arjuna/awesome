@@ -1,12 +1,17 @@
 -- Common
 	terminal = "lxterminal"
 	files = "pcmanfm"
-	editor = os.getenv("EDITOR") or "gedit"
+	editor = os.getenv("EDITOR") or "atom"
+	
+-- Special wrappers
+	term_cmd = terminal .. " -e "
+	editor_cmd = terminal .. " -e " .. editor
 	
 -- Internet
-	irc = "xchat"
-	internet = "firefox"
-	--internet = "chromium-browser" -- Fedora
+	irc = term_cmd .. "BitchX"
+	--irc = "xchat"
+	--internet = "firefox"
+	internet = "chromium-browser" -- Fedora
 	--internet = "chromium"		-- Arch
 	torrent = "transmission-gtk"
 	ftp = "filezilla"
@@ -16,7 +21,5 @@
 	graphic = "gimp"
 	video = "vlc"
 	
--- Special wrappers
-	term_cmd = terminal .. " -e "
-	editor_cmd = terminal .. " -e " .. editor
+
 	
